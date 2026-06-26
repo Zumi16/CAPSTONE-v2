@@ -45,7 +45,6 @@ const STRATEGIC_GOALS = [
   },
 ] as const;
 
-/** Core values: the letters of "INSPIRED". */
 const CORE_VALUES = [
   ["I", "Integrity and Accountability"],
   ["N", "Nationalism"],
