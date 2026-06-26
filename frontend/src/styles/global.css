@@ -1,0 +1,46 @@
+/*
+ * Tiny base layer. The bulk of the styling lives in the original page/layout
+ * CSS files (reused as-is and imported by the components that need them). We
+ * only set a couple of sensible defaults here.
+ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ------------------------------------------------------------------ *
+ * Responsive safeguards (apply everywhere)
+ * These prevent the most common mobile problems regardless of page:
+ *  - images/videos/iframes never overflow their container
+ *  - no accidental horizontal scrollbar
+ * ------------------------------------------------------------------ */
+img,
+video,
+iframe {
+  max-width: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Tablet and below: ease the very large fixed font sizes a little. */
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+}

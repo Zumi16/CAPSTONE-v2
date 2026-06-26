@@ -1,0 +1,29 @@
+/*
+ * Home-page navbar overrides.
+ *
+ * The base look comes from "navbar.css" (solid maroon, sticky) and is shared
+ * by every page. On the homepage the navbar floats transparently over the hero
+ * image and only turns solid once you scroll. We add just those differences
+ * here, scoped to the ".navbar--home" modifier so inner pages are untouched.
+ */
+.navbar.navbar--home {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: transparent;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  z-index: 1000;
+}
+
+.navbar.navbar--home.scrolled {
+  background-color: rgb(111, 35, 35);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 1175px) {
+  /* On small screens the mobile menu needs a solid background to be readable. */
+  .navbar.navbar--home {
+    background-color: rgb(111, 35, 35);
+  }
+}

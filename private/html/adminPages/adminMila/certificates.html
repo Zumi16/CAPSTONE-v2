@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Digital Certificates Requests</title>
+    <link rel="icon" type="image" href="/public/assets/images/PUPLogo.webp">
+    <link rel="stylesheet" href="/private/css/pages/certificates.css">
+    <link rel="stylesheet" href="/private/css/layout/dashboardsidebar.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!--SIDEBAR-->
+    <section class="sidebar">
+        <div class="logo">
+            <img class="logoimage" src="/public/assets/images/PUPLogo.webp" alt="PUP Logo">
+            <div class="logotitlewrap">
+                <h2 class="logotitle logotitle1">PUP</h2>
+                <h2 class="logotitle">Parañaque</h2>
+            </div>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <nav class="sidebar-nav">
+            <div class="sidebar-scroll">
+                <div class="nav-section">
+                    <h3 class="nav-title">Main</h3>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/private/html/adminPages/adminMila/adminMila.html">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3 class="nav-title">Management</h3>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/private/html/adminPages/adminMila/scholarships.html">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                                <span>Scholarship Opportunities</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/private/html/adminPages/adminMila/careers.html">
+                                <i class="fa-solid fa-briefcase"></i>
+                                <span>Career & Job Placement</span>
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/private/html/adminPages/adminMila/certificates.html">
+                                <i class="fa-solid fa-certificate"></i>
+                                <span>Digital Certificates</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/private/html/adminPages/adminMila/alumni-employment.html">
+                                <i class="fa-solid fa-users"></i>
+                                <span>Alumni Employment Tracking</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name">AdminMila</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </section>
+
+    <main class="main">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1 class="page-title">Digital Certificate Requests</h1>
+            </div>
+            <div class="header-right">
+                <div class="notification-button">
+                    <a class="notif-link" href="#notifications">
+                        <i class="fa fa-bell" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <div class="profile-button">
+                    <a class="profile-link">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Statistics Cards -->
+
+            <!-- Add this section to certificates.html main content, before the stats-grid -->
+
+<div class="signature-management-section" style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 25px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3 style="font-size: 18px; font-weight: 700; color: #822020; margin: 0; display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-signature"></i> E-Signature Management
+        </h3>
+        <button id="toggleSignatureSection" class="btn btn-secondary btn-sm">
+            <i class="fa-solid fa-chevron-down"></i> Expand
+        </button>
+    </div>
+
+    <div id="signatureContent" style="display: none;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start;">
+            <!-- Left: Upload Section -->
+            <div>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border: 2px dashed #d1d5db;">
+                    <label style="display: block; font-weight: 600; font-size: 14px; color: #333; margin-bottom: 15px;">
+                        <i class="fa-solid fa-upload"></i> Upload Your E-Signature
+                    </label>
+                    
+                    <input 
+                        type="file" 
+                        id="signatureUploadInput" 
+                        accept="image/png,image/jpeg,image/jpg,image/gif,image/webp"
+                        style="display: none;"
+                    />
+                    
+                    <button 
+                        type="button" 
+                        id="selectSignatureBtn" 
+                        class="btn btn-primary" 
+                        style="width: 100%; margin-bottom: 15px;"
+                    >
+                        <i class="fa-solid fa-image"></i> Select Signature Image
+                    </button>
+
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 15px;">
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; color: #666; margin-bottom: 6px;">
+                                Signature Name
+                            </label>
+                            <input 
+                                type="text" 
+                                id="signatureName" 
+                                placeholder="e.g., MILA JOY J. MARTINEZ"
+                                value="MILA JOY J. MARTINEZ"
+                                style="width: 100%; padding: 10px 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 14px;"
+                            />
+                        </div>
+
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; color: #666; margin-bottom: 6px;">
+                                Signature Title
+                            </label>
+                            <input 
+                                type="text" 
+                                id="signatureTitle" 
+                                placeholder="e.g., Head, Student Affairs and Services"
+                                value="Head, Student Affairs and Services"
+                                style="width: 100%; padding: 10px 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 14px;"
+                            />
+                        </div>
+                    </div>
+
+                    <button 
+                        type="button" 
+                        id="uploadSignatureBtn" 
+                        class="btn btn-success" 
+                        style="width: 100%; margin-top: 15px;" 
+                        disabled
+                    >
+                        <i class="fa-solid fa-check"></i> Save Signature
+                    </button>
+
+                    <p style="font-size: 12px; color: #666; margin-top: 12px; margin-bottom: 0;">
+                        <i class="fa-solid fa-info-circle"></i> Recommended: PNG with transparent background. Max size: 2MB
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right: Preview Section -->
+            <div>
+                <label style="display: block; font-weight: 600; font-size: 14px; color: #333; margin-bottom: 15px;">
+                    <i class="fa-solid fa-eye"></i> Current Signature
+                </label>
+                
+                <div id="signaturePreviewContainer" style="background: white; padding: 30px; border-radius: 8px; border: 2px solid #e0e0e0; text-align: center; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <div id="noSignatureMessage" style="color: #999;">
+                        <i class="fa-solid fa-image" style="font-size: 40px; margin-bottom: 10px; display: block;"></i>
+                        <p style="margin: 0;">No signature uploaded yet</p>
+                    </div>
+                    <div id="signaturePreview" style="display: none; width: 100%;">
+                        <img id="signatureImage" src="" alt="Signature" style="max-width: 100%; max-height: 150px; margin-bottom: 10px;" />
+                        <p id="signatureNameDisplay" style="font-weight: bold; font-size: 14px; margin: 5px 0; color: #333;"></p>
+                        <p id="signatureTitleDisplay" style="font-size: 13px; color: #666; margin: 0;"></p>
+                        <button id="deleteSignatureBtn" class="btn btn-danger btn-sm" style="margin-top: 15px;">
+                            <i class="fa-solid fa-trash"></i> Delete Signature
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add corresponding JavaScript at the end of certificates.js -->
+<script>
+// E-Signature Management
+let selectedSignatureFile = null;
+
+document.getElementById('toggleSignatureSection')?.addEventListener('click', function() {
+    const content = document.getElementById('signatureContent');
+    const icon = this.querySelector('i');
+    
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        icon.classList.remove('fa-chevron-down');
+        icon.classList.add('fa-chevron-up');
+        this.innerHTML = '<i class="fa-solid fa-chevron-up"></i> Collapse';
+        loadCurrentSignature();
+    } else {
+        content.style.display = 'none';
+        icon.classList.remove('fa-chevron-up');
+        icon.classList.add('fa-chevron-down');
+        this.innerHTML = '<i class="fa-solid fa-chevron-down"></i> Expand';
+    }
+});
+
+document.getElementById('selectSignatureBtn')?.addEventListener('click', () => {
+    document.getElementById('signatureUploadInput').click();
+});
+
+document.getElementById('signatureUploadInput')?.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        selectedSignatureFile = file;
+        document.getElementById('uploadSignatureBtn').disabled = false;
+        showCustomAlert(`Selected: ${file.name}`, 'info');
+    }
+});
+
+document.getElementById('uploadSignatureBtn')?.addEventListener('click', uploadSignature);
+document.getElementById('deleteSignatureBtn')?.addEventListener('click', deleteSignature);
+
+async function loadCurrentSignature() {
+    const adminData = getAdminData();
+    
+    try {
+        const response = await fetch(`/api/certificate-requests/admin/signature/${adminData.id}`);
+        const data = await response.json();
+
+        if (data.success && data.signature) {
+            document.getElementById('noSignatureMessage').style.display = 'none';
+            document.getElementById('signaturePreview').style.display = 'block';
+            document.getElementById('signatureImage').src = data.signature.signature_image_path;
+            document.getElementById('signatureNameDisplay').textContent = data.signature.signature_name;
+            document.getElementById('signatureTitleDisplay').textContent = data.signature.signature_title;
+            document.getElementById('signatureName').value = data.signature.signature_name;
+            document.getElementById('signatureTitle').value = data.signature.signature_title;
+        } else {
+            document.getElementById('noSignatureMessage').style.display = 'block';
+            document.getElementById('signaturePreview').style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Error loading signature:', error);
+    }
+}
+
+async function uploadSignature() {
+    if (!selectedSignatureFile) {
+        showCustomAlert('Please select a signature image first', 'warning');
+        return;
+    }
+
+    const adminData = getAdminData();
+    const formData = new FormData();
+    formData.append('signature', selectedSignatureFile);
+    formData.append('adminId', adminData.id);
+    formData.append('signatureName', document.getElementById('signatureName').value);
+    formData.append('signatureTitle', document.getElementById('signatureTitle').value);
+
+    const uploadBtn = document.getElementById('uploadSignatureBtn');
+    uploadBtn.disabled = true;
+    uploadBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading...';
+
+    try {
+        const response = await fetch('/api/certificate-requests/admin/signature/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            showCustomAlert('Signature uploaded successfully!', 'success');
+            selectedSignatureFile = null;
+            document.getElementById('signatureUploadInput').value = '';
+            loadCurrentSignature();
+        } else {
+            showCustomAlert(data.message || 'Failed to upload signature', 'error');
+        }
+    } catch (error) {
+        console.error('Upload error:', error);
+        showCustomAlert('Failed to upload signature', 'error');
+    } finally {
+        uploadBtn.disabled = false;
+        uploadBtn.innerHTML = '<i class="fa-solid fa-check"></i> Save Signature';
+    }
+}
+
+async function deleteSignature() {
+    const confirmed = await showCustomConfirm(
+        'Are you sure you want to delete your e-signature? It will be removed from all future certificates.',
+        'Delete E-Signature'
+    );
+
+    if (!confirmed) return;
+
+    const adminData = getAdminData();
+
+    try {
+        const response = await fetch(`/api/certificate-requests/admin/signature/${adminData.id}`, {
+            method: 'DELETE'
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            showCustomAlert('Signature deleted successfully', 'success');
+            loadCurrentSignature();
+        } else {
+            showCustomAlert(data.message || 'Failed to delete signature', 'error');
+        }
+    } catch (error) {
+        console.error('Delete error:', error);
+        showCustomAlert('Failed to delete signature', 'error');
+    }
+}
+</script>
+            <div class="stats-grid">
+                <div class="stat-card pending">
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="pendingCount">0</h3>
+                        <p>Pending Requests</p>
+                    </div>
+                </div>
+
+                <div class="stat-card generated">
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-file-circle-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="generatedCount">0</h3>
+                        <p>Generated</p>
+                    </div>
+                </div>
+
+                <div class="stat-card printed">
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-print"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="printedCount">0</h3>
+                        <p>Printed</p>
+                    </div>
+                </div>
+
+                <div class="stat-card released">
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-check-double"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="releasedCount">0</h3>
+                        <p>Released</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filter-section">
+                <div class="filter-row">
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-status="all">
+                            <i class="fa-solid fa-list"></i> All
+                        </button>
+                        <button class="filter-tab" data-status="pending">
+                            <i class="fa-solid fa-clock"></i> Pending
+                        </button>
+                        <button class="filter-tab" data-status="generated">
+                            <i class="fa-solid fa-file-circle-check"></i> Generated
+                        </button>
+                        <button class="filter-tab" data-status="printed">
+                            <i class="fa-solid fa-print"></i> Printed
+                        </button>
+                        <button class="filter-tab" data-status="released">
+                            <i class="fa-solid fa-check-double"></i> Released
+                        </button>
+                    </div>
+
+                    <div class="filter-controls">
+                        <select id="certificateTypeFilter" class="filter-select">
+                            <option value="all">All Certificate Types</option>
+                            <option value="no_id">Certificate of No ID</option>
+                            <option value="clearance">Clearance from Admin</option>
+                            <option value="gres_form">GRES Form</option>
+                            <option value="no_pending_obligation">Certificate of No Pending Obligation</option>
+                        </select>
+
+                        <div class="search-box">
+                            <i class="fa-solid fa-search"></i>
+                            <input type="text" id="searchInput" placeholder="Search by name or student number..." />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Requests Table -->
+            <div class="requests-container">
+                <div class="requests-table-wrapper">
+                    <table class="requests-table" id="requestsTable">
+                        <thead>
+                            <tr>
+                                <th>Request #</th>
+                                <th>Student Name</th>
+                                <th>Student Number</th>
+                                <th>Certificate Type</th>
+                                <th>Course</th>
+                                <th>Date Submitted</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requestsTableBody">
+                            <tr class="no-data">
+                                <td colspan="8">
+                                    <div class="empty-state">
+                                        <i class="fa-solid fa-certificate"></i>
+                                        <p>No certificate requests found</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Request Details Modal -->
+    <div class="modal" id="requestModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Certificate Request Details</h2>
+                <button class="close-modal" id="closeModal">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body" id="modalBody">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Certificate Preview Modal -->
+    <div class="modal" id="certificatePreviewModal">
+        <div class="modal-content certificate-preview">
+            <div class="modal-header">
+                <h2>Certificate Preview</h2>
+                <button class="close-modal" id="closeCertificateModal">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div id="certificateContent" class="certificate-template">
+                    <!-- Certificate content loaded here -->
+                </div>
+                
+                <div class="certificate-actions">
+                    <button id="printCertificateBtn" class="btn btn-primary">
+                        <i class="fa-solid fa-print"></i> Print Certificate
+                    </button>
+                    <button id="markAsPrintedBtn" class="btn btn-success">
+                        <i class="fa-solid fa-check"></i> Mark as Printed
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Alert Modal -->
+    <div class="modal" id="customAlertModal">
+        <div class="modal-content" style="max-width: 450px; text-align: center;">
+            <div class="modal-body" style="padding: 40px 30px;">
+                <div id="alertIcon" style="font-size: 50px; margin-bottom: 20px;"></div>
+                <h3 id="alertTitle" style="font-size: 20px; font-weight: 700; margin-bottom: 15px; color: #333;"></h3>
+                <p id="alertMessage" style="font-size: 15px; color: #666; margin-bottom: 25px;"></p>
+                <button id="alertOkBtn" class="btn btn-primary" style="min-width: 120px;">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Prompt Modal -->
+    <div class="modal" id="customPromptModal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2 id="promptTitle">Input Required</h2>
+                <button class="close-modal" id="closePromptModal">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 25px 30px;">
+                <p id="promptMessage" style="font-size: 14px; color: #666; margin-bottom: 15px;"></p>
+                <textarea 
+                    id="promptInput" 
+                    class="form-control" 
+                    rows="3" 
+                    placeholder="Enter your remarks here..."
+                    style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 14px; font-family: 'Inter', sans-serif; resize: vertical;"
+                ></textarea>
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                    <button id="promptCancelBtn" class="btn btn-secondary">Cancel</button>
+                    <button id="promptSubmitBtn" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/private/js/admin/adminMila/certificates.js"></script>
+    <script src="/private/js/admin/profileFunction.js"></script>
+</body>
+</html>

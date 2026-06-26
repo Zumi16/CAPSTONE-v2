@@ -1,0 +1,20 @@
+/** Class names for the site Footer — matches the existing `footer.css`. */
+export const footerClasses = {
+  box: "footer-box",
+  footer: "footer",
+  container: "footer-container",
+  section: "footer-section",
+  logoWrapper: "logo-wrapper",
+  logoImg: "logo-img",
+  logoText: "logo-text",
+  logoName: "logo-name",
+  logoBranch: "logo-branch",
+  desc: "footer-desc",
+  socialLinks: "social-links",
+  links: "footer-links",
+  contactText: "contact-text",
+  contactLink: "contact-link",
+  contactInfo: "contact-info",
+  divider: "footer-divider",
+  copy: "footer-copy",
+} as const;
