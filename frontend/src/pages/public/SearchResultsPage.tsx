@@ -4,7 +4,9 @@ import { useSearchParams } from "react-router-dom";
 import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
 import { formatLongDate } from "@/lib/format";
+import "@/styles/pages/search-results.css";
 
+/** One result row from the search API. Fields vary by section. */
 type SearchItem = {
   title?: string;
   name?: string;
@@ -24,6 +26,7 @@ type SearchResponse = {
   message?: string;
 };
 
+/** The sections the API can return, in display order. */
 const SECTIONS = [
   { key: "pages", title: "Pages", icon: "fa-file" },
   { key: "news", title: "News & Updates", icon: "fa-newspaper" },
@@ -52,20 +55,15 @@ function ResultItem({ item, type }: { item: SearchItem; type: string }) {
   const url = item.url || "#";
 
   return (
-    <a
-      href={url}
-      className="block rounded-lg border border-gray-200 p-4 transition hover:border-maroon hover:shadow-sm"
-    >
-      <span className="inline-block rounded bg-rose-50 px-2 py-0.5 text-xs font-medium uppercase text-maroon">
-        {type}
-      </span>
-      <h3 className="mt-2 text-lg font-semibold text-gray-900">{title}</h3>
-      {meta && <p className="mt-0.5 text-xs text-gray-500">{meta}</p>}
-      {excerpt && <p className="mt-1 text-sm text-gray-600">{excerpt}</p>}
-      <span className="mt-2 inline-block text-sm font-medium text-maroon">
+    <div className="result-item" onClick={() => (window.location.href = url)}>
+      <span className={cx("result-type", type)}>{type}</span>
+      <h3 className="result-title">{title}</h3>
+      {meta && <p className="result-meta">{meta}</p>}
+      {excerpt && <p className="result-excerpt">{excerpt}</p>}
+      <a href={url} className="result-url" onClick={(e) => e.stopPropagation()}>
         View Details <i className="fa fa-arrow-right" />
-      </span>
-    </a>
+      </a>
+    </div>
   );
 }
 
@@ -76,15 +74,19 @@ export function SearchResultsPage() {
   const [input, setInput] = useState(query);
   const [results, setResults] = useState<SearchResults>({});
   const [total, setTotal] = useState(0);
-  const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">(
+    "idle",
+  );
   const [filter, setFilter] = useState<string>("all");
 
+  // Run a search whenever the URL query changes.
   useEffect(() => {
     setInput(query);
     if (!query) {
       setStatus("idle");
       return;
     }
+
     setStatus("loading");
     api
       .get<SearchResponse>(`/api/search?q=${encodeURIComponent(query)}`)
@@ -114,89 +116,87 @@ export function SearchResultsPage() {
   ).filter((section) => (results[section.key]?.length ?? 0) > 0);
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-10">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-maroon">Search Results</h1>
-        <form onSubmit={handleSubmit} className="mt-4 flex gap-2">
-          <input
-            type="text"
-            placeholder="Search for news, scholarships, announcements..."
-            autoComplete="off"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="flex-1 rounded-lg border border-gray-300 px-4 py-2.5 outline-none focus:border-maroon focus:ring-2 focus:ring-maroon/20"
-          />
-          <button
-            type="submit"
-            className="rounded-lg bg-maroon px-5 py-2.5 font-semibold text-white hover:bg-brand-light"
-          >
-            <i className="fa fa-search" /> Search
-          </button>
-        </form>
-        {query && (
-          <p className="mt-3 text-gray-600">
-            Searching for: <strong>"{query}"</strong>
+    <main className="main">
+      <div className="search-page-container">
+        <div className="search-header">
+          <h1>Search Results</h1>
+          <div className="search-input-container">
+            <form className="main-search-form" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                className="main-search-input"
+                placeholder="Search for news, scholarships, announcements..."
+                autoComplete="off"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+              />
+              <button type="submit" className="main-search-btn">
+                <i className="fa fa-search" /> Search
+              </button>
+            </form>
+          </div>
+          <p className="search-query">
+            {query && (
+              <span>
+                Searching for: <strong>"{query}"</strong>
+              </span>
+            )}
             {status === "ready" && <span> ({total} results found)</span>}
           </p>
-        )}
-      </div>
-
-      <div className="mb-6 flex flex-wrap gap-2">
-        {FILTER_TABS.map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => setFilter(tab.key)}
-            className={cx(
-              "flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium transition",
-              filter === tab.key
-                ? "bg-maroon text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-            )}
-          >
-            <i className={cx("fa", tab.icon)} /> {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {status === "loading" && (
-        <div className="py-12 text-center text-gray-500">
-          <i className="fa fa-spinner fa-spin text-3xl text-maroon" />
-          <p className="mt-3">Searching...</p>
         </div>
-      )}
 
-      {status === "error" && (
-        <div className="py-12 text-center text-gray-500">
-          <i className="fa fa-exclamation-circle mb-3 text-4xl text-red-500" />
-          <h2 className="text-lg font-semibold">Search Error</h2>
-          <p>Failed to connect to search service</p>
+        <div className="filter-tabs">
+          {FILTER_TABS.map((tab) => (
+            <button
+              key={tab.key}
+              className={cx("filter-tab", filter === tab.key && "active")}
+              onClick={() => setFilter(tab.key)}
+            >
+              <i className={cx("fa", tab.icon)} /> {tab.label}
+            </button>
+          ))}
         </div>
-      )}
 
-      {status === "ready" && (
-        <div className="space-y-8">
-          {visibleSections.map((section) => (
-            <div key={section.key}>
-              <h2 className="mb-3 flex items-center gap-2 text-xl font-bold text-gray-800">
-                <i className={cx("fa", section.icon, "text-maroon")} /> {section.title}
-              </h2>
-              <div className="space-y-3">
+        <div className="search-results">
+          {status === "ready" &&
+            visibleSections.map((section) => (
+              <div className="result-section" key={section.key}>
+                <h2 className="result-section-title">
+                  <i className={cx("fa", section.icon)} /> {section.title}
+                </h2>
                 {results[section.key].map((item, index) => (
                   <ResultItem key={index} item={item} type={section.key} />
                 ))}
               </div>
-            </div>
-          ))}
+            ))}
 
-          {visibleSections.length === 0 && (
-            <div className="py-12 text-center text-gray-500">
-              <i className="fa fa-search mb-3 text-4xl text-gray-300" />
-              <h2 className="text-lg font-semibold">No Results Found</h2>
-              <p>Try using different keywords or check your spelling</p>
+          {status === "error" && (
+            <div className="error-state" style={{ textAlign: "center", padding: "60px 20px" }}>
+              <i
+                className="fa fa-exclamation-circle"
+                style={{ fontSize: 64, color: "#d13438", marginBottom: 20 }}
+              />
+              <h2>Search Error</h2>
+              <p>Failed to connect to search service</p>
             </div>
           )}
         </div>
-      )}
+
+        {status === "loading" && (
+          <div className="loading-state" style={{ display: "block" }}>
+            <i className="fa fa-spinner fa-spin" />
+            <p>Searching...</p>
+          </div>
+        )}
+
+        {status === "ready" && visibleSections.length === 0 && (
+          <div className="empty-state" style={{ display: "block" }}>
+            <i className="fa fa-search" />
+            <h2>No Results Found</h2>
+            <p>Try using different keywords or check your spelling</p>
+          </div>
+        )}
+      </div>
     </main>
   );
 }

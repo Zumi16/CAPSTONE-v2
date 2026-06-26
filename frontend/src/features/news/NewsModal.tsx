@@ -1,7 +1,9 @@
+import { useEffect } from "react";
+
 import { assetUrl } from "@/lib/config";
 import { formatLongDate } from "@/lib/format";
-import { useEscapeToClose } from "@/lib/useEscapeToClose";
 import type { NewsArticle } from "./news.api";
+import { newsClasses as c } from "./news.classes";
 
 type NewsModalProps = {
   article: NewsArticle | null;
@@ -10,31 +12,41 @@ type NewsModalProps = {
 
 /** Full-article popup. Renders nothing when `article` is null. */
 export function NewsModal({ article, onClose }: NewsModalProps) {
-  useEscapeToClose(Boolean(article), onClose);
+  // Close on Escape, and lock background scrolling while open.
+  useEffect(() => {
+    if (!article) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "auto";
+    };
+  }, [article, onClose]);
 
   if (!article) return null;
 
   return (
     <div
-      className="fixed inset-0 z-[1000] overflow-y-auto bg-black/60 p-4 backdrop-blur-sm sm:p-8"
+      className={c.modal}
+      style={{ display: "block" }}
       onClick={(e) => {
+        // Click on the dark backdrop (not the content) closes the modal.
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="mx-auto max-w-3xl rounded-2xl bg-white shadow-2xl">
-        <div className="relative p-6 sm:p-8">
-          <button
-            onClick={onClose}
-            aria-label="Close"
-            className="absolute right-4 top-4 text-3xl leading-none text-gray-400 hover:text-gray-700"
-          >
-            &times;
-          </button>
+      <div className={c.modalContent}>
+        <span className={c.close} onClick={onClose}>
+          &times;
+        </span>
 
-          <h1 className="pr-8 text-2xl font-bold text-gray-900 sm:text-3xl">
-            {article.title}
-          </h1>
-          <div className="mt-2 flex flex-wrap gap-4 text-sm text-gray-500">
+        <div className={c.fullHeader}>
+          <h1 className={c.fullTitle}>{article.title}</h1>
+          <div className={c.fullMeta}>
             <span>
               <i className="fa fa-calendar" /> {formatLongDate(article.created_at)}
             </span>
@@ -42,20 +54,19 @@ export function NewsModal({ article, onClose }: NewsModalProps) {
               <i className="fa fa-building" /> PUP Parañaque
             </span>
           </div>
-
-          {article.thumbnail_path && (
-            <img
-              src={assetUrl(article.thumbnail_path)}
-              alt={article.title}
-              className="mt-5 w-full rounded-lg object-cover"
-            />
-          )}
-
-          <div
-            className="prose mt-5 max-w-none text-gray-700"
-            dangerouslySetInnerHTML={{ __html: article.content }}
-          />
         </div>
+
+        {article.thumbnail_path && (
+          <div className={c.fullImage}>
+            <img src={assetUrl(article.thumbnail_path)} alt={article.title} />
+          </div>
+        )}
+
+        {/* Article body is trusted HTML coming from the admin CMS. */}
+        <div
+          className={c.fullBody}
+          dangerouslySetInnerHTML={{ __html: article.content }}
+        />
       </div>
     </div>
   );

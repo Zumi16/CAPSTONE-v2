@@ -11,8 +11,13 @@ import {
 } from "./announcements.api";
 
 type AnnouncementFeedProps = {
+  /** Backend endpoint, e.g. "/api/nstp/posts". */
   endpoint: string;
+  /** Office name shown as the author, e.g. "NSTP Office". */
   officeName: string;
+  /** Post CSS class from the page's stylesheet, e.g. "nstp-public-post". */
+  postClassName: string;
+  /** Friendly text for the empty state. */
   emptyText: string;
 };
 
@@ -22,63 +27,78 @@ function FileAttachment({ file }: { file: PostFile }) {
 
   if (isImageFile(file.file_type)) {
     return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noreferrer"
-        download={file.file_name}
-        className="group relative block overflow-hidden rounded-lg border border-gray-200"
-      >
-        <img src={href} alt={file.file_name} loading="lazy" className="w-full object-cover" />
-        <div className="absolute inset-x-0 bottom-0 bg-black/60 px-3 py-2 text-xs text-white opacity-0 transition group-hover:opacity-100">
-          {file.file_name} · {formatFileSize(file.file_size)}
+      <div className="post-file-item image">
+        <img src={href} alt={file.file_name} loading="lazy" />
+        <div className="download-icon">
+          <i className="fa fa-download" />
         </div>
-      </a>
+        <div className="image-overlay">
+          <a href={href} target="_blank" rel="noreferrer" download={file.file_name}>
+            {file.file_name}
+          </a>
+          <span className="file-size">{formatFileSize(file.file_size)}</span>
+        </div>
+      </div>
     );
   }
 
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      download={file.file_name}
-      className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 transition hover:bg-gray-50"
-    >
-      <i className={cx("fa", getFileIcon(file.file_type), "text-2xl text-maroon")} />
-      <div className="min-w-0">
-        <div className="truncate text-sm font-medium text-gray-800">{file.file_name}</div>
-        <div className="text-xs text-gray-500">{formatFileSize(file.file_size)}</div>
+    <div className="post-file-item document">
+      <i className={cx("fa", getFileIcon(file.file_type), "file-icon")} />
+      <div className="file-details">
+        <a href={href} target="_blank" rel="noreferrer" download={file.file_name}>
+          {file.file_name}
+        </a>
+        <span className="file-size">{formatFileSize(file.file_size)}</span>
       </div>
-    </a>
+    </div>
   );
 }
 
 /**
- * The shared feed used by the NSTP and OJT announcement pages. Loads posts and
- * renders them as a responsive list of cards.
+ * The shared feed used by the NSTP and OJT announcement pages. It loads posts
+ * from the given endpoint and renders them as a list of cards, matching the
+ * old `nstp-public.js` / `ojt-public.js` markup.
  */
-export function AnnouncementFeed({ endpoint, officeName, emptyText }: AnnouncementFeedProps) {
+export function AnnouncementFeed({
+  endpoint,
+  officeName,
+  postClassName,
+  emptyText,
+}: AnnouncementFeedProps) {
   const { posts, status, reload } = useAnnouncements(endpoint);
 
   if (status === "loading") {
     return (
-      <div className="py-16 text-center text-gray-500">
-        <i className="fas fa-spinner fa-spin text-5xl text-maroon" />
-        <p className="mt-4">Loading announcements...</p>
+      <div className="loading-container" style={{ textAlign: "center", padding: "60px 20px", color: "#605e5c" }}>
+        <i className="fas fa-spinner fa-spin" style={{ fontSize: 48, color: "#822020", marginBottom: 20 }} />
+        <p style={{ fontSize: 16 }}>Loading announcements...</p>
       </div>
     );
   }
 
   if (status === "error") {
     return (
-      <div className="py-16 text-center text-gray-600">
-        <i className="fas fa-exclamation-circle text-5xl text-red-500" />
-        <h2 className="mt-4 text-xl font-semibold">Unable to Load Announcements</h2>
-        <p className="mt-2">Please check your connection and try again.</p>
+      <div className="error-state" style={{ textAlign: "center", padding: "60px 20px" }}>
+        <i className="fas fa-exclamation-circle" style={{ fontSize: 64, color: "#d13438", marginBottom: 20 }} />
+        <h2 style={{ fontSize: 24, marginBottom: 12, color: "#323130" }}>
+          Unable to Load Announcements
+        </h2>
+        <p style={{ fontSize: 16, color: "#605e5c", marginBottom: 20 }}>
+          Please check your connection and try again.
+        </p>
         <button
           onClick={reload}
-          className="mt-4 rounded bg-maroon px-6 py-2.5 font-semibold text-white hover:bg-brand-light"
+          style={{
+            padding: "10px 24px",
+            background: "#822020",
+            color: "white",
+            border: "none",
+            borderRadius: 4,
+            fontSize: 14,
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
         >
           <i className="fas fa-redo" /> Retry
         </button>
@@ -88,36 +108,40 @@ export function AnnouncementFeed({ endpoint, officeName, emptyText }: Announceme
 
   if (posts.length === 0) {
     return (
-      <div className="py-16 text-center text-gray-500">
-        <i className="fas fa-inbox text-5xl text-gray-300" />
-        <h2 className="mt-4 text-xl font-semibold text-gray-700">No Announcements Yet</h2>
-        <p className="mx-auto mt-2 max-w-md">{emptyText}</p>
+      <div className="empty-state" style={{ textAlign: "center", padding: "80px 20px", color: "#605e5c" }}>
+        <i className="fas fa-inbox" style={{ fontSize: 64, color: "#d2d0ce", marginBottom: 20 }} />
+        <h2 style={{ fontSize: 24, marginBottom: 12, color: "#323130" }}>
+          No Announcements Yet
+        </h2>
+        <p style={{ fontSize: 16, maxWidth: 500, margin: "0 auto" }}>{emptyText}</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <>
       {posts.map((post) => (
-        <article key={post.id} className="overflow-hidden rounded-xl bg-white shadow-sm">
-          <div className="flex items-center gap-3 border-b border-gray-100 p-4">
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-maroon text-white">
-              <i className="fas fa-university" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900">{officeName}</h3>
-              <p className="text-xs text-gray-500">{formatPostDate(post.created_at)}</p>
+        <article className={postClassName} key={post.id}>
+          <div className="post-header">
+            <div className="post-author-info">
+              <div className="author-avatar">
+                <i className="fas fa-university" />
+              </div>
+              <div className="author-details">
+                <h3 className="author-name">{officeName}</h3>
+                <p className="post-timestamp">{formatPostDate(post.created_at)}</p>
+              </div>
             </div>
           </div>
 
-          <div className="p-4 sm:p-6">
-            <h2 className="text-xl font-bold text-gray-900">{post.title || "Untitled Post"}</h2>
+          <div className="post-body">
+            <h2 className="post-title">{post.title || "Untitled Post"}</h2>
             <div
-              className="prose mt-3 max-w-none text-gray-700"
+              className="post-content"
               dangerouslySetInnerHTML={{ __html: post.content || "" }}
             />
             {post.files && post.files.length > 0 && (
-              <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="post-files">
                 {sortFilesByType(post.files).map((file) => (
                   <FileAttachment key={file.file_path} file={file} />
                 ))}
@@ -125,19 +149,38 @@ export function AnnouncementFeed({ endpoint, officeName, emptyText }: Announceme
             )}
           </div>
 
-          <div className="flex items-center gap-4 border-t border-gray-100 p-4 text-sm text-gray-400">
-            <span>
-              <i className="far fa-thumbs-up" /> Like
-            </span>
-            <span>
-              <i className="far fa-comment" /> Comment
-            </span>
-            <span className="ml-auto text-xs">
-              <i className="fas fa-info-circle" /> Interaction features coming soon
-            </span>
+          <div className="post-footer">
+            <div className="post-interactions">
+              <button className="interaction-btn like-btn" disabled>
+                <i className="far fa-thumbs-up" />
+                <span>Like</span>
+              </button>
+              <button className="interaction-btn comment-btn" disabled>
+                <i className="far fa-comment" />
+                <span>Comment</span>
+              </button>
+            </div>
+
+            <div className="comment-section">
+              <div className="comment-input-wrapper">
+                <div className="comment-avatar">
+                  <i className="fas fa-user-circle" />
+                </div>
+                <input
+                  type="text"
+                  className="comment-input"
+                  placeholder="Comments are currently disabled"
+                  disabled
+                />
+              </div>
+              <p className="comment-notice">
+                <i className="fas fa-info-circle" /> Interaction features coming
+                soon
+              </p>
+            </div>
           </div>
         </article>
       ))}
-    </div>
+    </>
   );
 }

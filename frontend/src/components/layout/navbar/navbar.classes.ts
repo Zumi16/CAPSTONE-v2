@@ -26,6 +26,10 @@ export const navbarClasses = {
   dropdownContent: "dropdown-content",
   arrow: "arrow",
 
+  // Search shown at the top of the mobile hamburger menu (above "Home").
+  navSearch: "nav-search", // the <li> wrapper — hidden on desktop, shown on mobile
+  navSearchForm: "nav-search-form", // the <form> (in normal flow, not absolutely positioned)
+
   searchHamburger: "search-hamburger",
   hamburger: "hamburger",
   bar: "bar",

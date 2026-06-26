@@ -1,7 +1,5 @@
 import { useState, type FormEvent } from "react";
-
-const inputClass =
-  "w-full rounded-md border border-gray-300 px-3 py-2 text-base text-gray-900 outline-none focus:border-maroon focus:ring-2 focus:ring-maroon/20";
+import "@/styles/pages/quickhelp&chatbot.css";
 
 /**
  * Contact & Support page. The chatbot itself lives in the shared layout, so
@@ -28,32 +26,25 @@ export function ContactPage() {
   };
 
   return (
-    <main className="mx-auto max-w-6xl px-6 py-10">
-      <h2 className="mb-8 text-2xl font-extrabold text-maroon-dark">
-        Contact &amp; Support
-      </h2>
-
-      <div className="flex flex-col gap-8 lg:flex-row">
-        {/* Left: contact details */}
-        <div className="w-full lg:w-1/2">
-          <h3 className="mb-4 text-xl font-semibold text-gray-900">Get in Touch</h3>
-
-          <div className="space-y-6 text-gray-700">
+    <main>
+      <div className="contact-support-wrapper">
+        <h2>Contact &amp; Support</h2>
+        <div className="contact-grid">
+          {/* Left: contact details */}
+          <div className="contact-left">
+            <h3>Get in Touch</h3>
             <div>
-              <h4 className="mb-2 text-lg font-semibold text-gray-900">
-                Campus Address
-              </h4>
+              <h4>Campus Address</h4>
               <p>
                 PUP Parañaque Campus Col. E. De Leon
                 <br /> St. Wawa, Brgy. Sto. Niño Parañaque City, <br />
-                Philippines 1700, <br />
+                Philippines 1700,
+                <br />
                 Metro Manila
               </p>
             </div>
             <div>
-              <h4 className="mb-2 text-lg font-semibold text-gray-900">
-                Contact Numbers
-              </h4>
+              <h4>Contact Numbers</h4>
               <p>
                 <strong>Main Office:</strong> (02) 8839-0432
                 <br />
@@ -63,10 +54,8 @@ export function ContactPage() {
               </p>
             </div>
             <div>
-              <h4 className="mb-2 text-lg font-semibold text-gray-900">
-                Email Addresses
-              </h4>
-              <p className="break-words">
+              <h4>Email Addresses</h4>
+              <p>
                 <strong>Registrar Office:</strong> paranaque.registrar@pup.edu.ph
                 <br />
                 <strong>Student Services:</strong>{" "}
@@ -78,9 +67,7 @@ export function ContactPage() {
               </p>
             </div>
             <div>
-              <h4 className="mb-2 text-lg font-semibold text-gray-900">
-                Office Hours
-              </h4>
+              <h4>Office Hours</h4>
               <p>
                 Monday to Friday: 8:00 AM - 5:00 PM
                 <br />
@@ -90,73 +77,64 @@ export function ContactPage() {
               </p>
             </div>
           </div>
-        </div>
 
-        {/* Right: message form */}
-        <div className="w-full lg:w-1/2">
-          <h3 className="mb-4 text-xl font-semibold text-gray-900">
-            Send Us a Message
-          </h3>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label htmlFor="fullname" className="mb-1 block text-gray-700">
-                Full Name
-              </label>
-              <input
-                id="fullname"
-                type="text"
-                placeholder="Juan dela Cruz"
-                className={inputClass}
-                value={form.fullname}
-                onChange={(e) => update("fullname", e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="mb-1 block text-gray-700">
-                Email Address
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder="juandelacruz@example.com"
-                className={inputClass}
-                value={form.email}
-                onChange={(e) => update("email", e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="subject" className="mb-1 block text-gray-700">
-                Subject
-              </label>
-              <input
-                id="subject"
-                type="text"
-                placeholder="Inquiry about Admissions"
-                className={inputClass}
-                value={form.subject}
-                onChange={(e) => update("subject", e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="message" className="mb-1 block text-gray-700">
-                Message
-              </label>
-              <textarea
-                id="message"
-                rows={6}
-                placeholder="Your message here..."
-                className={inputClass}
-                value={form.message}
-                onChange={(e) => update("message", e.target.value)}
-              />
-            </div>
-            <button
-              type="submit"
-              className="rounded-md bg-maroon-dark px-6 py-2.5 font-semibold text-white transition hover:bg-maroon"
-            >
-              Send Message
-            </button>
-          </form>
+          {/* Right: message form */}
+          <div className="contact-right">
+            <h3>Send Us a Message</h3>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <label htmlFor="fullname">Full Name</label>
+                <br />
+                <input
+                  id="fullname"
+                  type="text"
+                  placeholder="Juan dela Cruz"
+                  className="form-input"
+                  value={form.fullname}
+                  onChange={(e) => update("fullname", e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="email">Email Address</label>
+                <br />
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="juandelacruz@example.com"
+                  className="form-input"
+                  value={form.email}
+                  onChange={(e) => update("email", e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="subject">Subject</label>
+                <br />
+                <input
+                  id="subject"
+                  type="text"
+                  placeholder="Inquiry about Admissions"
+                  className="form-input"
+                  value={form.subject}
+                  onChange={(e) => update("subject", e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="message">Message</label>
+                <br />
+                <textarea
+                  id="message"
+                  rows={6}
+                  placeholder="Your message here..."
+                  className="form-input"
+                  value={form.message}
+                  onChange={(e) => update("message", e.target.value)}
+                />
+              </div>
+              <button type="submit" className="submit-btn">
+                Send Message
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </main>

@@ -3,6 +3,7 @@ import { useState, type FormEvent } from "react";
 import { api, ApiError } from "@/lib/api";
 import { cx } from "@/lib/cx";
 import { formatLongDate } from "@/lib/format";
+import "@/styles/pages/certificate-request.css";
 
 const COURSES = [
   ["BSIT", "BS Information Technology"],
@@ -10,7 +11,9 @@ const COURSES = [
   ["BSOA", "BS Office Administration"],
   ["BSHM", "BS Hospitality Management"],
 ];
+
 const YEAR_LEVELS = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
+
 const CERTIFICATE_TYPES = [
   ["no_id", "Certificate of No ID"],
   ["clearance", "Clearance from Admin"],
@@ -30,20 +33,39 @@ const EMPTY_FORM = {
   contactNumber: "",
 };
 
-const labelClass = "mb-1 block text-sm font-medium text-gray-700";
-const inputClass =
-  "w-full rounded-md border border-gray-300 px-3 py-2 outline-none focus:border-maroon focus:ring-2 focus:ring-maroon/20";
-
 function certificateTypeLabel(type: string): string {
   return CERTIFICATE_TYPES.find(([value]) => value === type)?.[1] ?? type;
 }
 
-const STATUS_MESSAGES: Record<string, string> = {
-  pending: "Your request is being processed. Please check back later.",
-  generated: "Your certificate has been generated and is ready for printing.",
-  printed: "Your certificate has been printed and is being prepared for release.",
-  released: "Your certificate is ready for pickup. Please visit the office.",
-};
+function statusMessage(status: string) {
+  const messages: Record<string, JSX.Element> = {
+    pending: (
+      <p style={{ color: "#856404" }}>
+        <i className="fa-solid fa-clock" /> Your request is being processed.
+        Please check back later.
+      </p>
+    ),
+    generated: (
+      <p style={{ color: "#0c5460" }}>
+        <i className="fa-solid fa-file-circle-check" /> Your certificate has been
+        generated and is ready for printing.
+      </p>
+    ),
+    printed: (
+      <p style={{ color: "#004085" }}>
+        <i className="fa-solid fa-print" /> Your certificate has been printed and
+        is being prepared for release.
+      </p>
+    ),
+    released: (
+      <p style={{ color: "#155724" }}>
+        <i className="fa-solid fa-check-double" /> Your certificate is ready for
+        pickup. Please visit the office.
+      </p>
+    ),
+  };
+  return messages[status] ?? null;
+}
 
 type RequestRecord = {
   request_number: string;
@@ -92,6 +114,7 @@ export function CertificateRequestPage() {
       window.alert("Please fill in all required fields");
       return;
     }
+
     setSubmitting(true);
     try {
       const data = await api.post<{ success: boolean; requestNumber: string }>(
@@ -101,7 +124,9 @@ export function CertificateRequestPage() {
       setSuccessNumber(data.requestNumber);
       setForm({ ...EMPTY_FORM });
     } catch (error) {
-      window.alert(error instanceof ApiError ? error.message : "Failed to submit request");
+      const message =
+        error instanceof ApiError ? error.message : "Failed to submit request";
+      window.alert(message);
     } finally {
       setSubmitting(false);
     }
@@ -130,223 +155,329 @@ export function CertificateRequestPage() {
       }>(`/api/certificate-requests/status/${trackNumber.trim()}`);
       setResult({ request: data.request, activityLogs: data.activityLogs });
     } catch (error) {
-      window.alert(error instanceof ApiError ? error.message : "Request not found");
+      const message =
+        error instanceof ApiError ? error.message : "Request not found";
+      window.alert(message);
     } finally {
       setTracking(false);
     }
   };
 
+  const reasonLength = form.reason.length;
+
   return (
-    <main className="bg-gray-50">
-      <div className="bg-gradient-to-r from-red-900 to-red-700 px-4 py-10 text-white">
-        <div className="mx-auto flex max-w-4xl items-center gap-4">
-          <img src="/assets/images/PUPLogo.webp" alt="PUP Logo" className="h-14 w-14" />
-          <div>
-            <h1 className="text-2xl font-bold sm:text-3xl">Digital Certificate Request</h1>
-            <p className="text-sm text-white/90">
-              Polytechnic University of the Philippines - Parañaque Campus
-            </p>
+    <main className="request-page">
+      <div className="page-header">
+        <div className="header-content">
+          <img
+            src="/assets/images/PUPLogo.webp"
+            alt="PUP Logo"
+            className="pup-logo"
+          />
+          <div className="header-text">
+            <h1>Digital Certificate Request</h1>
+            <p>Polytechnic University of the Philippines - Parañaque Campus</p>
           </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-4xl px-4 py-8">
-        {/* Tabs */}
-        <div className="mb-6 flex gap-2 border-b border-gray-200">
-          {(["request", "track"] as const).map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={cx(
-                "flex items-center gap-2 border-b-2 px-4 py-2.5 font-medium transition",
-                tab === t
-                  ? "border-maroon text-maroon"
-                  : "border-transparent text-gray-500 hover:text-gray-700",
-              )}
-            >
-              <i className={t === "request" ? "fa-solid fa-file-circle-plus" : "fa-solid fa-magnifying-glass"} />
-              {t === "request" ? "Submit Request" : "Track Status"}
-            </button>
-          ))}
+      <div className="container">
+        <div className="tab-container">
+          <button
+            className={cx("tab-btn", tab === "request" && "active")}
+            onClick={() => setTab("request")}
+          >
+            <i className="fa-solid fa-file-circle-plus" /> Submit Request
+          </button>
+          <button
+            className={cx("tab-btn", tab === "track" && "active")}
+            onClick={() => setTab("track")}
+          >
+            <i className="fa-solid fa-magnifying-glass" /> Track Status
+          </button>
         </div>
 
-        {tab === "request" ? (
-          <form onSubmit={handleSubmit} className="space-y-6 rounded-xl bg-white p-6 shadow-sm">
-            <div className="flex items-start gap-2 rounded-lg bg-blue-50 p-3 text-sm text-gray-700">
-              <i className="fa-solid fa-circle-info mt-0.5 text-blue-500" />
-              <div>
-                <strong>Important:</strong> Complete all required fields accurately.
-                Your request will be processed within 2-3 business days.
+        {/* Submit Request tab */}
+        <div className={cx("tab-content", tab === "request" && "active")}>
+          <div className="info-box">
+            <i className="fa-solid fa-circle-info" />
+            <div>
+              <strong>Important:</strong> Complete all required fields
+              accurately. Your request will be processed within 2-3 business
+              days.
+            </div>
+          </div>
+
+          <form className="request-form" onSubmit={handleSubmit}>
+            <div className="form-section">
+              <h2>
+                <i className="fa-solid fa-user" /> Student Information
+              </h2>
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="fullName">Full Name *</label>
+                  <input
+                    id="fullName"
+                    type="text"
+                    placeholder="e.g., Juan Dela Cruz"
+                    value={form.fullName}
+                    onChange={(e) => update("fullName", e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="studentNumber">Student Number *</label>
+                  <input
+                    id="studentNumber"
+                    type="text"
+                    placeholder="e.g., 2021-12345-PR-0"
+                    value={form.studentNumber}
+                    onChange={(e) => update("studentNumber", e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="course">Course/Program *</label>
+                  <select
+                    id="course"
+                    value={form.course}
+                    onChange={(e) => update("course", e.target.value)}
+                  >
+                    <option value="">Select Course</option>
+                    {COURSES.map(([value, label]) => (
+                      <option value={value} key={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="yearLevel">Year Level *</label>
+                  <select
+                    id="yearLevel"
+                    value={form.yearLevel}
+                    onChange={(e) => update("yearLevel", e.target.value)}
+                  >
+                    <option value="">Select Year</option>
+                    {YEAR_LEVELS.map((year) => (
+                      <option value={year} key={year}>
+                        {year}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="section">Section</label>
+                  <input
+                    id="section"
+                    type="text"
+                    placeholder="e.g., A, B, 1"
+                    value={form.section}
+                    onChange={(e) => update("section", e.target.value)}
+                  />
+                </div>
               </div>
             </div>
 
-            <fieldset>
-              <legend className="mb-3 text-lg font-semibold text-gray-800">
-                <i className="fa-solid fa-user text-maroon" /> Student Information
-              </legend>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                  <label className={labelClass}>Full Name *</label>
-                  <input className={inputClass} value={form.fullName} onChange={(e) => update("fullName", e.target.value)} placeholder="e.g., Juan Dela Cruz" />
-                </div>
-                <div>
-                  <label className={labelClass}>Student Number *</label>
-                  <input className={inputClass} value={form.studentNumber} onChange={(e) => update("studentNumber", e.target.value)} placeholder="e.g., 2021-12345-PR-0" />
-                </div>
-              </div>
-              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <div>
-                  <label className={labelClass}>Course/Program *</label>
-                  <select className={inputClass} value={form.course} onChange={(e) => update("course", e.target.value)}>
-                    <option value="">Select Course</option>
-                    {COURSES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className={labelClass}>Year Level *</label>
-                  <select className={inputClass} value={form.yearLevel} onChange={(e) => update("yearLevel", e.target.value)}>
-                    <option value="">Select Year</option>
-                    {YEAR_LEVELS.map((y) => <option key={y} value={y}>{y}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className={labelClass}>Section</label>
-                  <input className={inputClass} value={form.section} onChange={(e) => update("section", e.target.value)} placeholder="e.g., A, B, 1" />
-                </div>
-              </div>
-            </fieldset>
-
-            <fieldset>
-              <legend className="mb-3 text-lg font-semibold text-gray-800">
-                <i className="fa-solid fa-certificate text-maroon" /> Certificate Details
-              </legend>
-              <div>
-                <label className={labelClass}>Certificate Type *</label>
-                <select className={inputClass} value={form.certificateType} onChange={(e) => update("certificateType", e.target.value)}>
+            <div className="form-section">
+              <h2>
+                <i className="fa-solid fa-certificate" /> Certificate Details
+              </h2>
+              <div className="form-group">
+                <label htmlFor="certificateType">Certificate Type *</label>
+                <select
+                  id="certificateType"
+                  value={form.certificateType}
+                  onChange={(e) => update("certificateType", e.target.value)}
+                >
                   <option value="">Select Certificate Type</option>
-                  {CERTIFICATE_TYPES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+                  {CERTIFICATE_TYPES.map(([value, label]) => (
+                    <option value={value} key={value}>
+                      {label}
+                    </option>
+                  ))}
                 </select>
               </div>
-              <div className="mt-4">
-                <label className={labelClass}>Reason for Request *</label>
-                <textarea className={inputClass} rows={4} maxLength={500} value={form.reason} onChange={(e) => update("reason", e.target.value)} placeholder="Please explain why you need this certificate..." />
-                <span className="text-xs text-gray-400">{form.reason.length}/500</span>
+              <div className="form-group">
+                <label htmlFor="reason">Reason for Request *</label>
+                <textarea
+                  id="reason"
+                  rows={4}
+                  maxLength={500}
+                  placeholder="Please explain why you need this certificate..."
+                  value={form.reason}
+                  onChange={(e) => update("reason", e.target.value)}
+                />
+                <span className="char-count">{reasonLength}/500</span>
               </div>
-            </fieldset>
+            </div>
 
-            <fieldset>
-              <legend className="mb-3 text-lg font-semibold text-gray-800">
-                <i className="fa-solid fa-address-book text-maroon" /> Contact Information
-              </legend>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                  <label className={labelClass}>Email Address</label>
-                  <input type="email" className={inputClass} value={form.contactEmail} onChange={(e) => update("contactEmail", e.target.value)} placeholder="your.email@example.com" />
+            <div className="form-section">
+              <h2>
+                <i className="fa-solid fa-address-book" /> Contact Information
+              </h2>
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="contactEmail">Email Address</label>
+                  <input
+                    id="contactEmail"
+                    type="email"
+                    placeholder="your.email@example.com"
+                    value={form.contactEmail}
+                    onChange={(e) => update("contactEmail", e.target.value)}
+                  />
                 </div>
-                <div>
-                  <label className={labelClass}>Contact Number</label>
-                  <input type="tel" className={inputClass} value={form.contactNumber} onChange={(e) => update("contactNumber", e.target.value)} placeholder="09XXXXXXXXX" />
+                <div className="form-group">
+                  <label htmlFor="contactNumber">Contact Number</label>
+                  <input
+                    id="contactNumber"
+                    type="tel"
+                    placeholder="09XXXXXXXXX"
+                    value={form.contactNumber}
+                    onChange={(e) => update("contactNumber", e.target.value)}
+                  />
                 </div>
               </div>
-            </fieldset>
+            </div>
 
-            <div className="flex flex-col justify-end gap-3 sm:flex-row">
-              <button type="reset" onClick={() => setForm({ ...EMPTY_FORM })} className="rounded-md border border-gray-300 px-6 py-2.5 font-semibold text-gray-700 hover:bg-gray-50">
+            <div className="form-actions">
+              <button
+                type="reset"
+                className="btn btn-secondary"
+                onClick={() => setForm({ ...EMPTY_FORM })}
+              >
                 <i className="fa-solid fa-rotate-left" /> Clear Form
               </button>
-              <button type="submit" disabled={submitting} className="rounded-md bg-maroon px-6 py-2.5 font-semibold text-white hover:bg-brand-light disabled:opacity-60">
-                <i className="fa-solid fa-paper-plane" /> {submitting ? "Submitting..." : "Submit Request"}
+              <button type="submit" className="btn btn-primary" disabled={submitting}>
+                <i className="fa-solid fa-paper-plane" />{" "}
+                {submitting ? "Submitting..." : "Submit Request"}
               </button>
             </div>
           </form>
-        ) : (
-          <div className="space-y-6">
-            <div className="flex items-start gap-2 rounded-lg bg-blue-50 p-3 text-sm text-gray-700">
-              <i className="fa-solid fa-circle-info mt-0.5 text-blue-500" />
-              <div>
-                <strong>How to track:</strong> Enter your request number (e.g.,
-                CERT-20250115-0001) to check the status of your request.
-              </div>
-            </div>
+        </div>
 
-            <form onSubmit={handleTrack} className="flex flex-col gap-2 sm:flex-row">
-              <input
-                className={inputClass}
-                value={trackNumber}
-                onChange={(e) => setTrackNumber(e.target.value)}
-                placeholder="Enter Request Number (e.g., CERT-20250115-0001)"
-              />
-              <button type="submit" disabled={tracking} className="rounded-md bg-maroon px-6 py-2.5 font-semibold text-white hover:bg-brand-light disabled:opacity-60">
-                <i className="fa-solid fa-search" /> {tracking ? "Searching..." : "Track Status"}
-              </button>
+        {/* Track Status tab */}
+        <div className={cx("tab-content", tab === "track" && "active")}>
+          <div className="info-box">
+            <i className="fa-solid fa-circle-info" />
+            <div>
+              <strong>How to track:</strong> Enter your request number (e.g.,
+              CERT-20250115-0001) to check the status of your certificate
+              request.
+            </div>
+          </div>
+
+          <div className="track-form-container">
+            <form className="track-form" onSubmit={handleTrack}>
+              <div className="form-group-inline">
+                <input
+                  type="text"
+                  placeholder="Enter Request Number (e.g., CERT-20250115-0001)"
+                  value={trackNumber}
+                  onChange={(e) => setTrackNumber(e.target.value)}
+                />
+                <button type="submit" className="btn btn-primary" disabled={tracking}>
+                  <i className="fa-solid fa-search" />{" "}
+                  {tracking ? "Searching..." : "Track Status"}
+                </button>
+              </div>
             </form>
 
             {result && (
-              <div className="rounded-xl bg-white p-6 shadow-sm">
-                <div className="mb-4 flex items-center justify-between">
-                  <h3 className="text-lg font-bold">Request Details</h3>
-                  <span className="rounded-full bg-rose-100 px-3 py-1 text-sm font-medium capitalize text-maroon">
+              <div className="status-result" style={{ display: "block" }}>
+                <div className="status-header">
+                  <h3>Request Details</h3>
+                  <span className={cx("status-badge", `status-${result.request.status}`)}>
                     {result.request.status}
                   </span>
                 </div>
-                <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  <Detail label="Request Number" value={result.request.request_number} bold />
-                  <Detail label="Date Submitted" value={formatLongDate(result.request.created_at)} />
-                  <Detail label="Student Name" value={result.request.full_name} />
-                  <Detail label="Student Number" value={result.request.student_number} />
-                  <Detail label="Certificate Type" value={certificateTypeLabel(result.request.certificate_type)} />
-                  <Detail label="Current Status" value={result.request.status} />
-                  <div className="sm:col-span-2">
-                    <dt className="text-sm text-gray-500">Reason for Request</dt>
-                    <dd className="text-gray-800">{result.request.reason}</dd>
+
+                <div className="status-detail-grid">
+                  <Detail label="Request Number">
+                    <strong>{result.request.request_number}</strong>
+                  </Detail>
+                  <Detail label="Date Submitted">
+                    {formatLongDate(result.request.created_at)}
+                  </Detail>
+                  <Detail label="Student Name">{result.request.full_name}</Detail>
+                  <Detail label="Student Number">
+                    {result.request.student_number}
+                  </Detail>
+                  <Detail label="Certificate Type">
+                    {certificateTypeLabel(result.request.certificate_type)}
+                  </Detail>
+                  <Detail label="Current Status">{result.request.status}</Detail>
+                  <div className="status-detail-item status-detail-full">
+                    <span className="status-label">Reason for Request</span>
+                    <span className="status-value reason">
+                      {result.request.reason}
+                    </span>
                   </div>
                   {result.request.admin_remarks && (
-                    <div className="sm:col-span-2">
-                      <dt className="text-sm text-gray-500">Admin Remarks</dt>
-                      <dd className="text-gray-800">{result.request.admin_remarks}</dd>
+                    <div className="status-detail-item status-detail-full">
+                      <span className="status-label">Admin Remarks</span>
+                      <span className="status-value">
+                        {result.request.admin_remarks}
+                      </span>
                     </div>
                   )}
-                </dl>
+                </div>
 
                 {result.activityLogs.length > 0 && (
-                  <div className="mt-6">
-                    <h4 className="mb-3 font-semibold">Activity Timeline</h4>
-                    <ol className="space-y-3 border-l-2 border-gray-200 pl-4">
-                      {result.activityLogs.map((log, i) => (
-                        <li key={i}>
-                          <div className="font-medium uppercase text-maroon">{log.action}</div>
-                          <div className="text-sm text-gray-600">
+                  <div className="status-timeline">
+                    <h4>Activity Timeline</h4>
+                    {result.activityLogs.map((log, index) => (
+                      <div className="timeline-item" key={index}>
+                        <div className="timeline-dot" />
+                        <div className="timeline-content">
+                          <div className="timeline-action">
+                            {log.action.toUpperCase()}
+                          </div>
+                          <div className="timeline-details">
                             {log.performed_by}
                             {log.remarks ? ` - ${log.remarks}` : ""}
                           </div>
-                          <div className="text-xs text-gray-400">{formatLongDate(log.created_at)}</div>
-                        </li>
-                      ))}
-                    </ol>
+                          <div className="timeline-time">
+                            {formatLongDate(log.created_at)}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 )}
 
-                <p className="mt-6 border-t pt-4 text-center text-sm text-gray-600">
-                  {STATUS_MESSAGES[result.request.status]}
-                </p>
+                <div
+                  style={{
+                    marginTop: 25,
+                    paddingTop: 20,
+                    borderTop: "2px solid #f0f0f0",
+                    textAlign: "center",
+                  }}
+                >
+                  {statusMessage(result.request.status)}
+                </div>
               </div>
             )}
           </div>
-        )}
+        </div>
       </div>
 
       {/* Success modal */}
       {successNumber && (
-        <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 p-4">
-          <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-2xl">
-            <i className="fa-solid fa-circle-check text-5xl text-green-600" />
-            <h2 className="mt-4 text-2xl font-bold">Request Submitted!</h2>
-            <p className="mt-2 text-gray-600">Your request number is:</p>
-            <p className="my-2 text-xl font-bold text-maroon">{successNumber}</p>
-            <p className="text-sm text-gray-600">
-              Please save this number to track your request status.
+        <div className="modal show" id="successModal">
+          <div className="modal-content">
+            <i
+              className="fa-solid fa-circle-check"
+              style={{ fontSize: 56, color: "#155724" }}
+            />
+            <h2>Request Submitted!</h2>
+            <p>Your request number is:</p>
+            <p className="request-number-display">
+              <strong>{successNumber}</strong>
             </p>
-            <button onClick={closeSuccess} className="mt-6 rounded-md bg-maroon px-6 py-2.5 font-semibold text-white hover:bg-brand-light">
+            <p>Please save this number to track your request status.</p>
+            <button className="btn btn-primary" onClick={closeSuccess}>
               Track My Request
             </button>
           </div>
@@ -356,11 +487,11 @@ export function CertificateRequestPage() {
   );
 }
 
-function Detail({ label, value, bold }: { label: string; value: string; bold?: boolean }) {
+function Detail({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div>
-      <dt className="text-sm text-gray-500">{label}</dt>
-      <dd className={cx("text-gray-800", bold && "font-bold")}>{value}</dd>
+    <div className="status-detail-item">
+      <span className="status-label">{label}</span>
+      <span className="status-value">{children}</span>
     </div>
   );
 }
