@@ -6,6 +6,9 @@ import { NewsModal } from "@/features/news/NewsModal";
 import { extractTextPreview } from "@/lib/format";
 import { cx } from "@/lib/cx";
 
+import "@/styles/layout/news.css";
+import "@/styles/pages/all-news.css";
+
 const ITEMS_PER_PAGE = 9;
 
 const FILTERS = [
@@ -20,6 +23,7 @@ type FilterKey = (typeof FILTERS)[number]["key"];
 /** Apply the active category filter, mirroring the old all-news.js logic. */
 function applyFilter(articles: NewsArticle[], filter: FilterKey): NewsArticle[] {
   const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
   switch (filter) {
     case "recent":
       return articles.filter((a) => new Date(a.created_at) >= oneWeekAgo);
@@ -47,6 +51,7 @@ export function AllNewsPage() {
   const [filter, setFilter] = useState<FilterKey>("all");
   const [page, setPage] = useState(1);
 
+  // Filter + search, recomputed only when inputs change.
   const filtered = useMemo(() => {
     let result = applyFilter(articles, filter);
     const term = search.toLowerCase().trim();
@@ -74,111 +79,103 @@ export function AllNewsPage() {
   };
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10">
-      <div className="mb-8 text-center">
-        <h1 className="text-3xl font-bold text-maroon sm:text-4xl">News &amp; Updates</h1>
-        <p className="mt-2 text-gray-600">
-          Stay informed with the latest news and announcements from PUP Parañaque
-          Campus
-        </p>
-      </div>
-
-      {/* Controls */}
-      <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <div className="relative w-full lg:max-w-sm">
-          <i className="fa fa-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search news articles..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
-            className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-3 outline-none focus:border-maroon focus:ring-2 focus:ring-maroon/20"
-          />
+    <main>
+      <div className="all-news-container">
+        <div className="page-header">
+          <h1>News &amp; Updates</h1>
+          <p>
+            Stay informed with the latest news and announcements from PUP
+            Parañaque Campus
+          </p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          {FILTERS.map((f) => (
-            <button
-              key={f.key}
-              onClick={() => {
-                setFilter(f.key);
+
+        <div className="news-controls">
+          <div className="search-box">
+            <i className="fa fa-search" />
+            <input
+              type="text"
+              placeholder="Search news articles..."
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
                 setPage(1);
               }}
-              className={cx(
-                "rounded-full px-4 py-1.5 text-sm font-medium transition",
-                filter === f.key
-                  ? "bg-maroon text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-              )}
-            >
-              {f.label}
-            </button>
-          ))}
+            />
+          </div>
+          <div className="filter-buttons">
+            {FILTERS.map((f) => (
+              <button
+                key={f.key}
+                className={cx("filter-btn", filter === f.key && "active")}
+                onClick={() => {
+                  setFilter(f.key);
+                  setPage(1);
+                }}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {status === "loading" && (
-          <div className="col-span-full py-12 text-center text-gray-500">
-            <i className="fa fa-spinner fa-spin text-3xl text-maroon" />
-            <p className="mt-3">Loading news articles...</p>
-          </div>
-        )}
-        {status === "error" && (
-          <div className="col-span-full py-12 text-center text-gray-500">
-            <i className="fa fa-exclamation-triangle mb-3 text-4xl text-red-500" />
-            <h3 className="text-lg font-semibold">Error Loading News</h3>
-          </div>
-        )}
-        {status === "ready" && pageItems.length === 0 && (
-          <div className="col-span-full py-12 text-center text-gray-500">
-            <i className="fa fa-newspaper mb-3 text-4xl text-gray-300" />
-            <h3 className="text-lg font-semibold">No News Found</h3>
-            <p>Try adjusting your search or filter criteria.</p>
-          </div>
-        )}
-        {status === "ready" &&
-          pageItems.map((article) => (
-            <NewsCard key={article.id} article={article} onOpen={setSelected} />
-          ))}
-      </div>
+        <div className="all-news-grid">
+          {status === "loading" && (
+            <div className="news-loading">
+              <i className="fa fa-spinner fa-spin" />
+              <p>Loading news articles...</p>
+            </div>
+          )}
 
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
-          <button
-            onClick={() => goToPage(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="rounded border border-gray-300 px-3 py-1.5 disabled:opacity-40"
-          >
-            <i className="fa fa-chevron-left" />
-          </button>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
+          {status === "error" && (
+            <div className="news-error">
+              <i className="fa fa-exclamation-triangle" />
+              <h3>Error Loading News</h3>
+              <p>Please refresh the page and try again.</p>
+            </div>
+          )}
+
+          {status === "ready" && pageItems.length === 0 && (
+            <div className="news-empty">
+              <i className="fa fa-newspaper" />
+              <h3>No News Found</h3>
+              <p>Try adjusting your search or filter criteria.</p>
+            </div>
+          )}
+
+          {status === "ready" &&
+            pageItems.map((article) => (
+              <NewsCard key={article.id} article={article} onOpen={setSelected} />
+            ))}
+        </div>
+
+        {totalPages > 1 && (
+          <div className="pagination">
             <button
-              key={num}
-              onClick={() => goToPage(num)}
-              className={cx(
-                "rounded border px-3 py-1.5",
-                num === currentPage
-                  ? "border-maroon bg-maroon text-white"
-                  : "border-gray-300 hover:bg-gray-100",
-              )}
+              onClick={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 1}
             >
-              {num}
+              <i className="fa fa-chevron-left" />
             </button>
-          ))}
-          <button
-            onClick={() => goToPage(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="rounded border border-gray-300 px-3 py-1.5 disabled:opacity-40"
-          >
-            <i className="fa fa-chevron-right" />
-          </button>
-        </div>
-      )}
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
+              <button
+                key={num}
+                className={cx(num === currentPage && "active")}
+                onClick={() => goToPage(num)}
+              >
+                {num}
+              </button>
+            ))}
+
+            <button
+              onClick={() => goToPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              <i className="fa fa-chevron-right" />
+            </button>
+          </div>
+        )}
+      </div>
 
       <NewsModal article={selected} onClose={() => setSelected(null)} />
     </main>

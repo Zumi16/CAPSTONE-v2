@@ -1,39 +1,36 @@
-import { useState } from "react";
-import { cx } from "@/lib/cx";
-
+/**
+ * A 5-star rating built the same way as the old site: radio inputs in 5→1
+ * order so the existing CSS (`:checked ~ label`) can fill the stars. The
+ * component is controlled — pass the current `value` and an `onChange`.
+ */
 type StarRatingProps = {
+  name: string;
   value: number | null;
   onChange: (value: number) => void;
-  /** "large" for the overall rating, "small" for the criteria rows. */
+  /** "star-rating" (big) or "star-rating-small" (criteria rows). */
   size?: "large" | "small";
 };
 
-/**
- * A 5-star rating. Stars fill up to the hovered or selected value. Pure React
- * state drives the fill (no CSS tricks needed), so it works anywhere.
- */
-export function StarRating({ value, onChange, size = "large" }: StarRatingProps) {
-  const [hover, setHover] = useState<number | null>(null);
-  const active = hover ?? value ?? 0;
-  const starSize = size === "large" ? "text-3xl" : "text-xl";
+export function StarRating({ name, value, onChange, size = "large" }: StarRatingProps) {
+  const wrapperClass = size === "large" ? "star-rating" : "star-rating-small";
+  const starClass = size === "large" ? "star" : "star-small";
 
   return (
-    <div className="flex gap-1" onMouseLeave={() => setHover(null)}>
-      {[1, 2, 3, 4, 5].map((star) => (
-        <button
-          type="button"
-          key={star}
-          aria-label={`${star} star${star > 1 ? "s" : ""}`}
-          onMouseEnter={() => setHover(star)}
-          onClick={() => onChange(star)}
-          className={cx(
-            starSize,
-            "leading-none transition-colors",
-            star <= active ? "text-amber-400" : "text-gray-300",
-          )}
-        >
-          ★
-        </button>
+    <div className={wrapperClass}>
+      {[5, 4, 3, 2, 1].map((star) => (
+        <span key={star} style={{ display: "contents" }}>
+          <input
+            type="radio"
+            name={name}
+            id={`${name}_${star}`}
+            value={star}
+            checked={value === star}
+            onChange={() => onChange(star)}
+          />
+          <label htmlFor={`${name}_${star}`} className={starClass}>
+            ★
+          </label>
+        </span>
       ))}
     </div>
   );

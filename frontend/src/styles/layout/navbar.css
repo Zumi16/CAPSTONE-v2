@@ -45,6 +45,19 @@
 .fa-search {
     color: rgb(255, 255, 255);
 }
+
+/* Search inside the mobile hamburger menu (above "Home").
+   Hidden on desktop; shown inside the slide-in menu on small screens.
+   Unlike ".search", this stays in normal flow so it sits at the top of the menu. */
+.nav-search {
+    display: none;
+}
+.nav-search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
 /* Scrolled state */
 .navbar.scrolled {
   background-color: rgb(111, 35, 35);
@@ -168,7 +181,6 @@ li {
 
 /* Responsive */
 @media (max-width: 1175px) {
-
   .navbar {
     position: relative;
     top: 0;
@@ -205,15 +217,10 @@ li {
     height: 40px;
   }
 
+  /* Hide the desktop (right-side) search on mobile — the hamburger menu
+     has its own ".nav-search" search at the top instead. */
   .search {
-    display: flex;
-    justify-content: right;
-    padding: auto;
-    width: 280px;
-    gap: 5px;
-    right: 10px;
-    position: relative;
-    top: 10px;
+    display: none;
   }
 
   .hamburger {
@@ -249,5 +256,13 @@ li {
   }
   .nav-menu.active{
     left: 0;
+  }
+
+  /* Show the search at the very top of the open hamburger menu. */
+  .nav-search {
+    display: flex;
+    justify-content: center;
+    margin: 16px;
+    order: -1; /* keep it first even if markup order ever changes */
   }
 }

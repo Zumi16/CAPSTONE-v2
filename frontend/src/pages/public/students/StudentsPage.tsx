@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { NewsGrid } from "@/features/news/NewsGrid";
 import { PATHS, EXTERNAL_LINKS } from "@/routes/paths";
+import "@/styles/pages/students.css";
 
 const MAIN_IMAGE = "/assets/images/PUPBg1.webp";
 
@@ -67,55 +68,50 @@ export function StudentsPage() {
   };
 
   return (
-    <main className="bg-white">
-      <div className="w-full">
-        <img src={MAIN_IMAGE} alt="PUP campus" className="h-48 w-full object-cover sm:h-72 lg:h-96" />
+    <main className="main">
+      <div className="main-image">
+        <img src={MAIN_IMAGE} alt="PUP campus" className="main-img" />
       </div>
+      <hr className="hr-main" />
 
-      <div className="mx-auto max-w-6xl px-4 py-10">
-        {/* Service cards */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="main-container">
+        <div className="main-content">
           {SERVICE_CARDS.map((card) => (
-            <button
+            <div
               key={card.title}
-              type="button"
+              className="content-box"
               onClick={() => openCard(card)}
-              className="group relative flex min-h-56 flex-col justify-end overflow-hidden rounded-xl bg-cover bg-center p-5 text-left text-white shadow-md transition hover:scale-[1.02]"
               style={{ backgroundImage: `url('${card.image}')` }}
             >
-              <span className="absolute inset-0 bg-black/50 transition group-hover:bg-black/60" />
-              <span className="relative">
-                <span className="block text-xl font-bold">{card.title}</span>
-                <span className="mt-1 block text-sm text-white/90">{card.text}</span>
-              </span>
-            </button>
+              <h2 className="content-title">{card.title}</h2>
+              <p className="content-text">{card.text}</p>
+            </div>
           ))}
         </div>
 
-        {/* Socials */}
-        <ul className="my-10 flex items-center justify-center gap-8">
+        <ul className="social-links1">
           {SOCIAL_LINKS.map((link) => (
             <li key={link.label}>
-              <a
-                href={link.href}
-                aria-label={link.label}
-                target="_blank"
-                rel="noreferrer"
-                className="text-3xl text-gray-700 transition hover:scale-110 hover:text-maroon"
-              >
+              <a href={link.href} aria-label={link.label} target="_blank" rel="noreferrer">
                 <i className={link.icon} />
               </a>
             </li>
           ))}
         </ul>
 
-        {/* News */}
-        <section>
-          <h2 className="text-center text-2xl font-bold text-brand sm:text-3xl">
-            News and Updates
-          </h2>
-          <hr className="mx-auto mt-2.5 mb-10 h-1 w-20 rounded border-0 bg-maroon" />
-          <NewsGrid limit={3} />
+        <section className="news-section">
+          <div className="container">
+            <h2 className="section-title">News and Updates</h2>
+            <hr
+              style={{
+                width: "90px",
+                border: "2px solid black",
+                margin: "auto",
+                marginBottom: "50px",
+              }}
+            />
+            <NewsGrid limit={3} />
+          </div>
         </section>
       </div>
     </main>

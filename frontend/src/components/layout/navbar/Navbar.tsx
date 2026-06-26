@@ -4,52 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { cx } from "@/lib/cx";
 import { PATHS, EXTERNAL_LINKS } from "@/routes/paths";
 
+import "@/styles/layout/navbar.css";
+import "./navbar-home.css";
+import { navbarClasses as c } from "./navbar.classes";
+
 const LOGO_SRC = "/assets/images/PUPLogo.webp";
-const MAROON = "#6f2323";
-
-type SubLink =
-  | { label: string; to: string }
-  | { label: string; href: string };
-
-type NavEntry = {
-  label: string;
-  to?: string;
-  children?: SubLink[];
-};
-
-/** The whole menu described as data, so desktop + mobile render from one source. */
-const NAV: NavEntry[] = [
-  { label: "Home", to: PATHS.home },
-  {
-    label: "About",
-    children: [
-      { label: "History", to: PATHS.about.history },
-      { label: "Research & Extension", to: PATHS.about.researchExtension },
-      { label: "Administrative Officials", to: PATHS.about.administrativeOfficials },
-      { label: "Vicinity Map", to: PATHS.about.vicinityMap },
-    ],
-  },
-  { label: "Admission", to: PATHS.admission },
-  {
-    label: "Students",
-    to: PATHS.students.index,
-    children: [
-      { label: "NSTP Announcements", to: PATHS.students.nstp },
-      { label: "OJT Announcements", to: PATHS.students.ojt },
-      { label: "Service Feedback", to: PATHS.students.feedback },
-      { label: "Scholarship Opportunities", to: PATHS.students.scholarships },
-      { label: "Career & Job Placement", to: PATHS.students.careers },
-      { label: "Digital Certificate Request", to: PATHS.students.certificateRequest },
-      { label: "PUP Sinta", href: EXTERNAL_LINKS.pupSinta },
-      { label: "PUP Student Portal", href: EXTERNAL_LINKS.studentPortal },
-    ],
-  },
-  { label: "Campus Life", to: PATHS.campusLife },
-  { label: "Alumni & Services", to: PATHS.alumni },
-  { label: "Contact/Support", to: PATHS.contact },
-];
-
-const linkClass = "font-serif text-white transition-colors hover:text-[#ffc66b]";
 
 type NavbarProps = {
   /** "home" = transparent overlay that turns solid on scroll. "default" = solid. */
@@ -58,9 +17,13 @@ type NavbarProps = {
 
 export function Navbar({ variant = "default" }: NavbarProps) {
   const navigate = useNavigate();
+
+  // Is the mobile (hamburger) menu open?
   const [menuOpen, setMenuOpen] = useState(false);
+  // Has the user scrolled down? (only used by the homepage variant)
   const [scrolled, setScrolled] = useState(false);
 
+  // Add the "scrolled" class after scrolling past the hero, like the old site.
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
     onScroll();
@@ -84,174 +47,173 @@ export function Navbar({ variant = "default" }: NavbarProps) {
     closeMenu();
   };
 
-  // The bar is transparent only on the homepage hero, before scrolling.
-  const transparent = variant === "home" && !scrolled && !menuOpen;
-
   return (
-    <header
-      className={cx(
-        "top-0 left-0 z-50 w-full transition-colors duration-300",
-        variant === "home" ? "fixed" : "sticky",
-        transparent ? "bg-transparent" : "shadow-md",
-      )}
-      style={transparent ? undefined : { backgroundColor: MAROON }}
-    >
-      <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-y-3 px-4 py-3 lg:flex-nowrap">
-        {/* Logo */}
-        <Link to={PATHS.home} className="flex items-center gap-2.5" onClick={closeMenu}>
-          <img src={LOGO_SRC} alt="PUP logo" className="h-12 w-12" />
-          <span className="text-white">
-            <span className="block text-sm font-bold leading-tight sm:text-base">
+    <header className={c.header}>
+      <nav
+        className={cx(
+          c.nav,
+          variant === "home" && c.navHome,
+          variant === "home" && scrolled && c.scrolled,
+          menuOpen && c.active,
+        )}
+      >
+        {/* Logo + title */}
+        <div className={c.logo}>
+          <img className={c.logoImage} src={LOGO_SRC} alt="PUP logo" />
+          <div className={c.logoTitleWrap}>
+            <h1 className={c.logoTitle}>
               Polytechnic University of the Philippines
-            </span>
-            <span className="block text-xs leading-tight">PARAÑAQUE CITY CAMPUS</span>
-          </span>
-        </Link>
-
-        {/* Desktop menu */}
-        <ul className="hidden items-center gap-6 lg:flex xl:gap-8">
-          {NAV.map((entry) =>
-            entry.children ? (
-              <li key={entry.label} className="group relative">
-                {entry.to ? (
-                  <Link to={entry.to} className={linkClass}>
-                    {entry.label} <span className="text-xs">▾</span>
-                  </Link>
-                ) : (
-                  <span className={cx(linkClass, "cursor-pointer")}>
-                    {entry.label} <span className="text-xs">▾</span>
-                  </span>
-                )}
-                {/* Dropdown */}
-                <div className="invisible absolute left-0 top-full z-10 min-w-[230px] translate-y-2 rounded-md border border-[#6f2323] bg-white/95 opacity-0 shadow-lg transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
-                  {entry.children.map((child) =>
-                    "to" in child ? (
-                      <Link
-                        key={child.label}
-                        to={child.to}
-                        className="block px-4 py-2.5 text-[13px] text-gray-600 hover:rounded hover:bg-rose-50 hover:text-[#6f2323] hover:underline"
-                      >
-                        {child.label}
-                      </Link>
-                    ) : (
-                      <a
-                        key={child.label}
-                        href={child.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="block px-4 py-2.5 text-[13px] text-gray-600 hover:rounded hover:bg-rose-50 hover:text-[#6f2323] hover:underline"
-                      >
-                        {child.label}
-                      </a>
-                    ),
-                  )}
-                </div>
-              </li>
-            ) : (
-              <li key={entry.label}>
-                <Link to={entry.to!} className={linkClass}>
-                  {entry.label}
-                </Link>
-              </li>
-            ),
-          )}
-        </ul>
-
-        {/* Right side: search (desktop) + hamburger (mobile) */}
-        <div className="flex items-center gap-3">
-          <form onSubmit={handleSearch} className="hidden items-center gap-2 lg:flex">
-            <input
-              type="text"
-              name="search"
-              placeholder="Search"
-              className="h-9 w-44 rounded-lg border border-white/70 bg-transparent px-4 text-white outline-none placeholder:text-white/80"
-            />
-            <button
-              type="submit"
-              aria-label="Search"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white text-white"
-            >
-              <i className="fa fa-search" />
-            </button>
-          </form>
-
-          <button
-            type="button"
-            aria-label="Toggle menu"
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((o) => !o)}
-            className="flex h-10 w-10 items-center justify-center text-2xl text-white lg:hidden"
-          >
-            <i className={menuOpen ? "fas fa-times" : "fas fa-bars"} />
-          </button>
+            </h1>
+            <h2 className={c.logoTitle2}>PARAÑAQUE CITY CAMPUS</h2>
+          </div>
         </div>
 
-        {/* Mobile menu */}
-        {menuOpen && (
-          <div className="w-full lg:hidden" style={{ backgroundColor: MAROON }}>
-            <ul className="flex flex-col gap-1 py-3">
-              {NAV.map((entry) => (
-                <li key={entry.label}>
-                  {entry.to ? (
-                    <Link
-                      to={entry.to}
-                      onClick={closeMenu}
-                      className="block py-2 font-serif text-white hover:text-[#ffc66b]"
-                    >
-                      {entry.label}
-                    </Link>
-                  ) : (
-                    <span className="block py-2 font-serif font-semibold text-white">
-                      {entry.label}
-                    </span>
-                  )}
-                  {entry.children && (
-                    <ul className="ml-4 border-l border-white/20 pl-3">
-                      {entry.children.map((child) => (
-                        <li key={child.label}>
-                          {"to" in child ? (
-                            <Link
-                              to={child.to}
-                              onClick={closeMenu}
-                              className="block py-1.5 text-sm text-white/90 hover:text-[#ffc66b]"
-                            >
-                              {child.label}
-                            </Link>
-                          ) : (
-                            <a
-                              href={child.href}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="block py-1.5 text-sm text-white/90 hover:text-[#ffc66b]"
-                            >
-                              {child.label}
-                            </a>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
+        <hr className={c.divider} />
 
-            <form onSubmit={handleSearch} className="flex items-center gap-2 pb-4">
+        {/* Nav items */}
+        <ul className={cx(c.navMenu, menuOpen && c.active)}>
+          {/* Search — appears at the top of the mobile menu, above "Home" */}
+          <li className={c.navSearch}>
+            <form className={c.navSearchForm} onSubmit={handleSearch}>
               <input
                 type="text"
-                name="search"
                 placeholder="Search"
-                className="h-9 flex-1 rounded-lg border border-white/70 bg-transparent px-4 text-white outline-none placeholder:text-white/80"
+                name="search"
+                className={c.searchBox}
               />
-              <button
-                type="submit"
-                aria-label="Search"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white text-white"
+              <button type="submit" className={c.searchButton}>
+                <i className="fa fa-search" />
+              </button>
+            </form>
+          </li>
+
+          <li className={c.navItem}>
+            <Link to={PATHS.home} onClick={closeMenu}>
+              Home
+            </Link>
+          </li>
+
+          <li className={cx(c.navItem, c.dropdownButton)}>
+            <a href="#about">
+              About <span className={c.arrow}>&#11206;</span>
+            </a>
+            <div className={c.dropdownContent}>
+              <Link to={PATHS.about.history} onClick={closeMenu}>
+                History
+              </Link>
+              <Link to={PATHS.about.researchExtension} onClick={closeMenu}>
+                Research &amp; Extension
+              </Link>
+              <Link
+                to={PATHS.about.administrativeOfficials}
+                onClick={closeMenu}
               >
+                Administrative Officials
+              </Link>
+              <Link to={PATHS.about.vicinityMap} onClick={closeMenu}>
+                Vicinity Map
+              </Link>
+            </div>
+          </li>
+
+          <li className={c.navItem}>
+            <Link to={PATHS.admission} onClick={closeMenu}>
+              Admission
+            </Link>
+          </li>
+
+          <li className={cx(c.navItem, c.dropdownButton)}>
+            <Link to={PATHS.students.index} onClick={closeMenu}>
+              Students <span className={c.arrow}>&#11206;</span>
+            </Link>
+            <div className={c.dropdownContent}>
+              <Link to={PATHS.students.nstp} onClick={closeMenu}>
+                NSTP Announcements
+              </Link>
+              <Link to={PATHS.students.ojt} onClick={closeMenu}>
+                OJT Announcements
+              </Link>
+              <Link to={PATHS.students.feedback} onClick={closeMenu}>
+                Service Feedback
+              </Link>
+              <Link to={PATHS.students.scholarships} onClick={closeMenu}>
+                Scholarship Opportunities
+              </Link>
+              <Link to={PATHS.students.careers} onClick={closeMenu}>
+                Career &amp; Job Placement
+              </Link>
+              <Link to={PATHS.students.certificateRequest} onClick={closeMenu}>
+                Digital Certificate Request
+              </Link>
+              <a href={EXTERNAL_LINKS.pupSinta} target="_blank" rel="noreferrer">
+                PUP Sinta
+              </a>
+              <a
+                href={EXTERNAL_LINKS.studentPortal}
+                target="_blank"
+                rel="noreferrer"
+              >
+                PUP Student Portal
+              </a>
+            </div>
+          </li>
+
+          <li className={c.navItem}>
+            <Link to={PATHS.campusLife} onClick={closeMenu}>
+              Campus Life
+            </Link>
+          </li>
+
+          <li className={c.navItem}>
+            <Link to={PATHS.alumni} onClick={closeMenu}>
+              Alumni &amp; Services
+            </Link>
+          </li>
+
+          <li className={c.navItem}>
+            <Link to={PATHS.contact} onClick={closeMenu}>
+              Contact/Support
+            </Link>
+          </li>
+        </ul>
+
+        {/* Hamburger (mobile only) — opens the menu that holds the search above Home */}
+        <div className={c.searchHamburger}>
+          <div
+            className={cx(c.hamburger, menuOpen && c.active)}
+            role="button"
+            tabIndex={0}
+            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((open) => !open)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setMenuOpen((open) => !open);
+              }
+            }}
+          >
+            <span className={c.bar} />
+            <span className={c.bar} />
+            <span className={c.bar} />
+          </div>
+
+          {/* Desktop search (right side of the bar; hidden on mobile, which
+              uses the search inside the hamburger menu instead). */}
+          <div className={c.searchBar}>
+            <form className={c.searchForm} onSubmit={handleSearch}>
+              <input
+                type="text"
+                placeholder="Search"
+                name="search"
+                className={c.searchBox}
+              />
+              <button type="submit" className={c.searchButton}>
                 <i className="fa fa-search" />
               </button>
             </form>
           </div>
-        )}
+        </div>
       </nav>
     </header>
   );

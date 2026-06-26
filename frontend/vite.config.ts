@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
 import path from "node:path";
 
 // The Express backend runs on http://localhost:3000.
@@ -14,7 +13,7 @@ import path from "node:path";
 const BACKEND = "http://localhost:3000";
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

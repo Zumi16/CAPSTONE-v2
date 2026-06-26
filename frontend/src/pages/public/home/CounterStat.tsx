@@ -13,11 +13,11 @@ export function CounterStat({ target, label }: CounterStatProps) {
   const { ref, value } = useCountUp(target);
 
   return (
-    <div className="min-w-[140px] px-5 py-2 sm:border-l sm:border-white/20">
-      <div ref={ref} className="text-5xl font-bold text-gold sm:text-6xl lg:text-7xl">
+    <div className="stat-box">
+      <div className="counter" ref={ref}>
         {value.toLocaleString()}
       </div>
-      <p className="mt-2 text-sm sm:text-base">{label}</p>
+      <p>{label}</p>
     </div>
   );
 }
