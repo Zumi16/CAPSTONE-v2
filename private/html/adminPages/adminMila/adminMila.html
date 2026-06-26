@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdminMila - Dashboard</title>
+    <link rel="icon" type="image" href="/public/assets/images/PUPLogo.webp">
+            <!-- alert-->
+    <link rel="stylesheet" href="/private/css/layout/alert-system.css">
+    <link rel="stylesheet" href="/private/css/pages/adminMila.css">
+    <link rel="stylesheet" href="/private/css/layout/dashboardsidebar.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!--SIDEBAR-->
+    <section class="sidebar">
+        <div class="logo">
+            <img class="logoimage" src="/public/assets/images/PUPLogo.webp" alt="PUP Logo">
+            <div class="logotitlewrap">
+                <h2 class="logotitle logotitle1">PUP</h2>
+                <h2 class="logotitle">Parañaque</h2>
+            </div>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <nav class="sidebar-nav">
+            <div class="sidebar-scroll">
+                <div class="nav-section">
+                    <h3 class="nav-title">Main</h3>
+                    <ul class="nav-list">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/private/html/adminPages/adminMila/adminMila.html">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3 class="nav-title">Management</h3>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/private/html/adminPages/adminMila/scholarships.html">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                                <span>Scholarship Opportunities</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/private/html/adminPages/adminMila/careers.html">
+                                <i class="fa-solid fa-briefcase"></i>
+                                <span>Career & Job Placement</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/private/html/adminPages/adminMila/certificates.html">
+                                <i class="fa-solid fa-certificate"></i>
+                                <span>Digital Certificates</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/private/html/adminPages/adminMila/alumni-employment.html">
+                                <i class="fa-solid fa-users"></i>
+                                <span>Alumni Employment Tracking</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name">AdminMila</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </section>
+    
+    <!--MAIN CONTENT-->
+    <main class="main">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1 class="page-title">Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <div class="notification-button">
+                    <a class="notif-link" href="#notifications" data-page="overview">
+                        <i class="fa fa-bell" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <div class="profile-button">
+                    <a class="profile-link" data-page="profile">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <div class="welcome-content">
+                    <h1 class="welcome-title">Welcome back, <span>AdminMila</span>!</h1>
+                    <p class="welcome-subtitle">Manage scholarship and career opportunities for PUP Parañaque students</p>
+                    <div class="datetime-display">
+                        <i class="far fa-clock"></i>
+                        <span id="currentDateTime">Loading...</span>
+                    </div>
+                </div>
+                <div class="system-status">
+                    <div class="status-indicator">
+                        <div class="status-dot operational"></div>
+                        <div class="status-text">
+                            <span class="status-label">System Status</span>
+                            <span class="status-value">Operational</span>
+                        </div>
+                    </div>
+                    <div class="last-sync">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Last sync: <span id="lastSync">Just now</span></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #48bb78, #38a169);">
+                        <i class="fa-solid fa-graduation-cap" style="color: white;"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalScholarships">0</h3>
+                        <p>Total Scholarships</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #38a169, #2f855a);">
+                        <i class="fa-solid fa-door-open" style="color: white;"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="openScholarships">0</h3>
+                        <p>Open Scholarships</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                        <i class="fa-solid fa-building" style="color: white;"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="activeOrganizations">0</h3>
+                        <p>Career Partners</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #ed8936, #dd6b20);">
+                        <i class="fa-solid fa-certificate" style="color: white;"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="pendingCertificates">0</h3>
+                        <p>Pending Certificates</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insights Section -->
+            <section class="insights-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-lightbulb"></i>
+                        Insights & Alerts
+                    </h2>
+                </div>
+                <div class="insights-container">
+                    <div id="dashboardInsights">
+                        <div class="skeleton-loader"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-bolt"></i>
+                        Quick Actions
+                    </h2>
+                </div>
+                <div class="quick-actions-grid">
+                    <a href="./scholarships.html" class="quick-action-card scholarships">
+                        <div class="quick-action-icon">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <h4>Manage Scholarships</h4>
+                        <p>Create and update opportunities</p>
+                    </a>
+                    <a href="./careers.html" class="quick-action-card careers">
+                        <div class="quick-action-icon">
+                            <i class="fa-solid fa-briefcase"></i>
+                        </div>
+                        <h4>Career Directory</h4>
+                        <p>Manage partner organizations</p>
+                    </a>
+                    <a href="./certificates.html" class="quick-action-card certificates">
+                        <div class="quick-action-icon">
+                            <i class="fa-solid fa-certificate"></i>
+                        </div>
+                        <h4>Process Certificates</h4>
+                        <p>Handle student requests</p>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Detailed Statistics -->
+            <section class="insights-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-chart-bar"></i>
+                        Detailed Statistics
+                    </h2>
+                </div>
+                
+                <div class="detailed-stats-container">
+                    <!-- Scholarships Breakdown -->
+                    <div class="detailed-stats-section">
+                        <h3>
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            Scholarships Breakdown
+                        </h3>
+                        <div class="detailed-stats">
+                            <div class="detail-stat-card">
+                                <div class="detail-stat-value" id="upcomingScholarships">0</div>
+                                <div class="detail-stat-label">Upcoming</div>
+                            </div>
+                            <div class="detail-stat-card">
+                                <div class="detail-stat-value" id="closedScholarships">0</div>
+                                <div class="detail-stat-label">Closed</div>
+                            </div>
+                            <div class="detail-stat-card">
+                                <div class="detail-stat-value" id="recentScholarshipsCount">0</div>
+                                <div class="detail-stat-label">Added (30 days)</div>
+                            </div>
+                            <div class="detail-stat-card">
+                                <div class="detail-stat-value" id="upcomingDeadlinesCount">0</div>
+                                <div class="detail-stat-label">Deadlines (7 days)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Career Partners Breakdown -->
+                    <div class="detailed-stats-section">
+                        <h3>
+                            <i class="fa-solid fa-briefcase"></i>
+                            Career Partners Breakdown
+                        </h3>
+                        <div class="detailed-stats">
+                            <div class="detail-stat-card">
+                                <div class="detail-stat-value" id="governmentOrgs">0</div>
+                                <div class="detail-stat-label">Government</div>
+                            </div>
+                            <div class="detail-stat-card">
+                                <div class="detail-stat-value" id="universityOrgs">0</div>
+                                <div class="detail-stat-label">University Units</div>
+                            </div>
+                            <div class="detail-stat-card">
+                                <div class="detail-stat-value" id="privateOrgs">0</div>
+                                <div class="detail-stat-label">Private Companies</div>
+                            </div>
+                            <div class="detail-stat-card">
+                                <div class="detail-stat-value" id="totalOrganizations">0</div>
+                                <div class="detail-stat-label">Total Partners</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Certificate Requests Status -->
+                    <div class="detailed-stats-section">
+                        <h3>
+                            <i class="fa-solid fa-certificate"></i>
+                            Certificate Requests Status
+                        </h3>
+                        <div class="detailed-stats">
+                            <div class="detail-stat-card">
+                                <div class="detail-stat-value" id="generatedCertificates">0</div>
+                                <div class="detail-stat-label">Generated</div>
+                            </div>
+                            <div class="detail-stat-card">
+                                <div class="detail-stat-value" id="printedCertificates">0</div>
+                                <div class="detail-stat-label">Printed</div>
+                            </div>
+                            <div class="detail-stat-card">
+                                <div class="detail-stat-value" id="releasedCertificates">0</div>
+                                <div class="detail-stat-label">Released</div>
+                            </div>
+                            <div class="detail-stat-card">
+                                <div class="detail-stat-value" id="totalCertificateRequests">0</div>
+                                <div class="detail-stat-label">Total Requests</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Activity Feed -->
+            <section class="recent-activity-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-history"></i>
+                        Recent Activity
+                    </h2>
+                    <button class="view-all-btn" onclick="openAuditTrailModal()">
+                        <i class="fas fa-list"></i>
+                        View All
+                    </button>
+                </div>
+                <div class="activity-feed" id="activityFeed">
+                    <div class="skeleton-loader"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Audit Trail Modal -->
+    <div class="audit-modal" id="auditTrailModal">
+        <div class="audit-modal-overlay" onclick="closeAuditTrailModal()"></div>
+        <div class="audit-modal-content">
+            <div class="audit-modal-header">
+                <h2>
+                    <i class="fas fa-clipboard-list"></i>
+                    Activity Audit Trail
+                </h2>
+                <button class="audit-modal-close" onclick="closeAuditTrailModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="audit-modal-body" id="auditTrailBody">
+                <div class="skeleton-loader"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="/private/js/alert-system.js"></script>
+    <script src="/private/js/admin/adminMila/adminMila.js"></script> 
+    <script src="/private/js/admin/profileFunction.js"></script>
+</body>
+</html>
