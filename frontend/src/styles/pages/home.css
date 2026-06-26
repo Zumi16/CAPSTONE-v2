@@ -355,7 +355,7 @@ html {
     padding: 0 30px;
   }
   .overlay-text {
-    margin-top: 200px;
+    margin-top: 50px;
     font-size: 20px;
   }
   /* About: stack the text and the video instead of side by side. */
@@ -379,10 +379,15 @@ html {
   .inspire-title {
     font-size: 32px;
   }
+  .goals-container,
+  .values-container {
+    width: 100%;
+    padding: 20px;
+  }
 }
 
 /* Phones */
-@media (max-width: 600px) {
+@media (max-width: 769px) {
   .hero-section {
     min-height: 70vh;
   }
@@ -406,15 +411,21 @@ html {
   .about-text p {
     font-size: 1.1rem;
   }
+  .goal-header, .values-header {
+    margin: -30px -20px 15px -20px;
+  }
+
   .goals-values-section {
     padding: 20px;
     gap: 20px;
   }
+
   .goals-container,
   .values-container {
     width: 100%;
     padding: 20px;
   }
+
   .goal-category h3 {
     font-size: 20px;
   }

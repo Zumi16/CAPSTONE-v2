@@ -1,6 +1,7 @@
 import { useEffect, useState, type CSSProperties } from "react";
 
 import { cx } from "@/lib/cx";
+import { Hero } from "@/components/Hero";
 import "@/styles/pages/administrativeofficials.css";
 
 type Official = {
@@ -90,24 +91,11 @@ export function AdministrativeOfficialsPage() {
 
   return (
     <main className="main">
-      <section className="hero-section">
-        <div className="hero-content">
-          <div className="hero-title-design">
-            <div className="vl1" />
-            <div className="hero-title&desc" data-aos="fade">
-              <h1 className="hero-title">Administrative Officials</h1>
-              <p className="hero-text">
-                Get to know the dedicated officials behind the academic
-                excellence of PUP Parañaque. Explore our directory to learn about
-                their professional backgrounds, academic achievements, research
-                contributions, and roles within the university. These are the
-                individuals who guide, support, and inspire the next generation
-                of PUP scholars.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Hero
+        title="Administrative Officials"
+        text="Get to know the dedicated officials behind the academic excellence of PUP Parañaque. Explore our directory to learn about their professional backgrounds, academic achievements, research contributions, and roles within the university. These are the individuals who guide, support, and inspire the next generation of PUP scholars."
+        background="/assets/images/PUPBg13.jpg"
+      />
 
       <section className="carousel-section">
         <h2 className="carousel-title" data-aos="fade-up">

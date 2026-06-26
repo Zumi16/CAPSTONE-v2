@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-
 import { NewsGrid } from "@/features/news/NewsGrid";
 import { PATHS } from "@/routes/paths";
 import "@/styles/pages/home.css";

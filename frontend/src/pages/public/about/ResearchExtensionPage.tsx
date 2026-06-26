@@ -4,9 +4,8 @@ import { useNews, type NewsArticle } from "@/features/news/news.api";
 import { assetUrl } from "@/lib/config";
 import { extractTextPreview, formatLongDate, formatShortDate } from "@/lib/format";
 import { useEscapeToClose } from "@/lib/useEscapeToClose";
+import { Hero } from "@/components/Hero";
 import "@/styles/pages/research&extension-public.css";
-
-const HERO_BG = "/assets/images/PUPBg4.jpg";
 
 const DESCRIPTION_PARAGRAPHS = [
   "PUP Parañaque Campus researchers comprising dedicated faculty members, scholars, students, and extension partners work collaboratively to produce research that deepens academic understanding and responds to real societal needs. Drawing from diverse disciplines and local contexts, their work explores educational innovation, technology development, social issues, and community-based solutions that contribute to national and local development.",
@@ -68,27 +67,11 @@ export function ResearchExtensionPage() {
 
   return (
     <main className="main">
-      <section
-        className="hero-section"
-        style={{ backgroundImage: `url('${HERO_BG}')` }}
-      >
-        <div className="hero-content">
-          <div className="hero-title-design">
-            <div className="vl1" />
-            <div className="hero-title&desc" data-aos="fade">
-              <h1 className="hero-title">Research and Extension</h1>
-              <p className="hero-text">
-                Through faculty-led research and community extension programs,
-                PUP Parañaque Campus generates knowledge-driven solutions that
-                address real-world challenges. Our initiatives span education,
-                technology, innovation, and public service—strengthening
-                communities today while shaping a sustainable and inclusive
-                future.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Hero
+        title="Research and Extension"
+        text="Through faculty-led research and community extension programs, PUP Parañaque Campus generates knowledge-driven solutions that address real-world challenges. Our initiatives span education, technology, innovation, and public service—strengthening communities today while shaping a sustainable and inclusive future."
+        background="/assets/images/PUPBg3.jpg"
+      />
 
       <section className="posts-section">
         <div className="posts-container" data-aos="fade-up">

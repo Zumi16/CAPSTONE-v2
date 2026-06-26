@@ -1,6 +1,5 @@
+import { Hero } from "@/components/Hero";
 import "@/styles/pages/history.css";
-
-const HERO_BG = "/assets/images/PUPBg4.jpg";
 
 /** Academic programs listed on the History page. */
 const PROGRAMS = [
@@ -13,26 +12,11 @@ const PROGRAMS = [
 export function HistoryPage() {
   return (
     <main className="main">
-      <section
-        className="hero-section"
-        style={{ backgroundImage: `url('${HERO_BG}')` }}
-      >
-        <div className="hero-content">
-          <div className="hero-title-design">
-            <div className="vl1" />
-            <div className="hero-title&desc" data-aos="fade">
-              <h1 className="hero-title">History</h1>
-              <p className="hero-text">
-                Explore the rich history of PUP Parañaque, from its humble
-                beginnings to its growth as a center of learning and innovation.
-                This page highlights the key milestones, achievements, and
-                transformations that have shaped the campus into what it is
-                today.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Hero
+        title="History"
+        text="Explore the rich history of PUP Parañaque, from its humble beginnings to its growth as a center of learning and innovation. This page highlights the key milestones, achievements, and transformations that have shaped the campus into what it is today."
+        background="/assets/images/PUPBg4.jpg"
+      />
 
       <section className="history-section">
         <div className="img-container">

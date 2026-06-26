@@ -1,3 +1,4 @@
+import { Hero } from "@/components/Hero";
 import "@/styles/pages/campus-life.css";
 
 const HERO_BG = "/assets/images/PUPBg2.jpg";
@@ -30,24 +31,16 @@ const SPOTLIGHTS = [
 export function CampusLifePage() {
   return (
     <main className="main">
-      <section
-        className="hero-section"
-        style={{ backgroundImage: `url('${HERO_BG}')` }}
-      >
-        <div className="hero-content">
-          <h1 className="hero-title" data-aos="fade-in">
-            Campus Life
-          </h1>
-          <p className="hero-text" data-aos="fade-in">
-            Welcome to PUP Parañaque Campus Life where learning goes beyond the
+        <Hero
+        title="Campus Life"
+        text="Welcome to PUP Parañaque Campus Life where learning goes beyond the
             classroom. Discover a vibrant academic environment filled with
             student organizations, events, cultural activities, and
             opportunities for leadership and personal growth. Here, we nurture
             not just scholars, but well-rounded individuals who contribute to a
-            dynamic and inclusive university community.
-          </p>
-        </div>
-      </section>
+            dynamic and inclusive university community.."
+        background="/assets/images/PUPBg2.jpg"
+      />
 
       <div className="main-container">
         <section className="campus-facilities">
