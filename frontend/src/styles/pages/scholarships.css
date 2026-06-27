@@ -11,41 +11,68 @@ body {
     color: #333;
 }
 
+main.main {
+    display: block;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    height: auto;
+    background-color: #ffffff;
+    align-items: stretch;
+    font-family: 'Georgia', serif;
+}
+
 .main {
     background-color: #ffffff;
 }
 
-/* Hero Banner */
-.hero-banner {
+main.main > * {
     width: 100%;
-    height: 250px;
+}
+
+main.main .hero-banner {
+    width: 100%;
+    min-height: 250px;
     background: linear-gradient(135deg, #800000 0%, #5a0000 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
     overflow: hidden;
 }
 
-.hero-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+main.main .hero-banner::before {
+    content: none;
+}
+
+main.main .hero-overlay {
+    position: relative;
     text-align: center;
     color: white;
     width: 100%;
-    padding: 0 20px;
+    padding: 40px 20px;
+    z-index: 2;
 }
 
-.hero-title {
+main.main .hero-overlay .hero-title {
     font-size: 3rem;
     font-weight: bold;
     margin-bottom: 10px;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    color: white;
+    padding: 0;
+    letter-spacing: normal;
+    line-height: normal;
+    transform: none;
+    transition: none;
 }
 
-.hero-subtitle {
+main.main .hero-subtitle {
     font-size: 1.3rem;
     font-weight: 300;
     opacity: 0.95;
+    color: white;
 }
 
 /* Container */
@@ -55,20 +82,26 @@ body {
     padding: 0 20px;
 }
 
-/* Page Header */
-.page-header {
+
+main.main .page-header {
     padding: 60px 20px 40px;
     text-align: center;
+    background: white;
+    color: #1b1b1b;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
-.section-title {
+main.main .section-title {
     font-size: 2.2rem;
     color: #1b1b1b;
     margin-bottom: 15px;
     font-weight: 600;
+    text-align: center;
+    text-transform: none;
+    letter-spacing: normal;
 }
 
-.section-description {
+main.main .section-description {
     font-size: 1.1rem;
     color: #555;
     max-width: 800px;
@@ -76,12 +109,12 @@ body {
     line-height: 1.6;
 }
 
-/* Notice Banner */
-.notice-banner {
+main.main .notice-banner {
     background: linear-gradient(135deg, #fff9e6 0%, #fff4d4 100%);
     border-left: 5px solid #ffa500;
     padding: 25px 20px;
-    margin: 0 0 40px 0;
+    margin: 0;
+    width: 100%;
 }
 
 .notice-content {
@@ -104,11 +137,13 @@ body {
     line-height: 1.6;
 }
 
-/* Filter Section */
-.filter-section {
+
+main.main .filter-section {
     background-color: #f5f5f5;
-    padding: 30px 20px;
+    padding: 40px 20px;
+    border-top: 1px solid #e0e0e0;
     border-bottom: 1px solid #e0e0e0;
+    width: 100%;
 }
 
 .filter-container {
@@ -189,9 +224,11 @@ body {
 }
 
 /* Scholarship Section */
-.scholarship-section {
+main.main .scholarship-section {
     padding: 60px 20px;
     min-height: 400px;
+    width: 100%;
+    background-color: #ffffff;
 }
 
 .scholarship-grid {
