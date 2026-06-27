@@ -1,14 +1,10 @@
-/* All News Page Styles */
-
-.all-news-container {
+.all-news-page .all-news-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 40px 20px;
   min-height: 70vh;
 }
-
-/* Page Header */
-.page-header {
+.all-news-page .page-header {
   text-align: center;
   margin-bottom: 50px;
   padding: 60px 20px 40px;
@@ -17,24 +13,20 @@
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
-
-.page-header h1 {
+.all-news-page .page-header h1 {
   font-size: 3rem;
   font-weight: 700;
   margin-bottom: 15px;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
-
-.page-header p {
+.all-news-page .page-header p {
   font-size: 1.2rem;
   opacity: 0.95;
   max-width: 700px;
   margin: 0 auto;
 }
-
-/* News Controls */
-.news-controls {
+.all-news-page .news-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -42,23 +34,20 @@
   margin-bottom: 40px;
   flex-wrap: wrap;
 }
-
-.search-box {
+.all-news-page .search-box {
   position: relative;
   flex: 1;
   min-width: 280px;
   max-width: 400px;
 }
-
-.search-box i {
+.all-news-page .search-box i {
   position: absolute;
   left: 15px;
   top: 50%;
   transform: translateY(-50%);
   color: #666;
 }
-
-.search-box input {
+.all-news-page .search-box input {
   width: 100%;
   padding: 12px 15px 12px 45px;
   border: 2px solid #ddd;
@@ -66,20 +55,17 @@
   font-size: 1rem;
   transition: all 0.3s ease;
 }
-
-.search-box input:focus {
+.all-news-page .search-box input:focus {
   outline: none;
   border-color: #8B0000;
   box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
 }
-
-.filter-buttons {
+.all-news-page .filter-buttons {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
 }
-
-.filter-btn {
+.all-news-page .filter-btn {
   padding: 10px 20px;
   border: 2px solid #8B0000;
   background: white;
@@ -90,89 +76,70 @@
   transition: all 0.3s ease;
   font-size: 0.95rem;
 }
-
-.filter-btn:hover {
+.all-news-page .filter-btn:hover {
   background: #8B0000;
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(139, 0, 0, 0.2);
 }
-
-.filter-btn.active {
+.all-news-page .filter-btn.active {
   background: #8B0000;
   color: white;
 }
-
-/* News Grid */
-.all-news-grid {
+.all-news-page .all-news-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 30px;
   margin-bottom: 50px;
 }
-
-/* Loading State */
-.news-loading {
+.all-news-page .news-loading {
   grid-column: 1 / -1;
   text-align: center;
   padding: 80px 20px;
   color: #666;
 }
-
-.news-loading i {
+.all-news-page .news-loading i {
   font-size: 3rem;
   margin-bottom: 20px;
   color: #8B0000;
 }
-
-.news-loading p {
+.all-news-page .news-loading p {
   font-size: 1.1rem;
 }
-
-/* Empty State */
-.news-empty {
+.all-news-page .news-empty {
   grid-column: 1 / -1;
   text-align: center;
   padding: 80px 20px;
   color: #666;
 }
-
-.news-empty i {
+.all-news-page .news-empty i {
   font-size: 4rem;
   margin-bottom: 20px;
   color: #ccc;
 }
-
-.news-empty h3 {
+.all-news-page .news-empty h3 {
   font-size: 1.8rem;
   margin-bottom: 10px;
   color: #333;
 }
-
-.news-empty p {
+.all-news-page .news-empty p {
   font-size: 1.1rem;
 }
-
-/* Error State */
-.news-error {
+.all-news-page .news-error {
   grid-column: 1 / -1;
   text-align: center;
   padding: 80px 20px;
   color: #d9534f;
 }
-
-.news-error i {
+.all-news-page .news-error i {
   font-size: 4rem;
   margin-bottom: 20px;
 }
-
-.news-error h3 {
+.all-news-page .news-error h3 {
   font-size: 1.8rem;
   margin-bottom: 10px;
 }
-
-/* Pagination */
-.pagination {
+.all-news-page .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -180,8 +147,7 @@
   margin-top: 40px;
   flex-wrap: wrap;
 }
-
-.pagination button {
+.all-news-page .pagination button {
   padding: 10px 18px;
   border: 2px solid #8B0000;
   background: white;
@@ -192,91 +158,70 @@
   transition: all 0.3s ease;
   min-width: 45px;
 }
-
-.pagination button:hover:not(:disabled) {
+.all-news-page .pagination button:hover:not(:disabled) {
   background: #8B0000;
   color: white;
   transform: translateY(-2px);
 }
-
-.pagination button.active {
+.all-news-page .pagination button.active {
   background: #8B0000;
   color: white;
 }
-
-.pagination button:disabled {
+.all-news-page .pagination button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
-
-.pagination .page-info {
+.all-news-page .pagination .page-info {
   padding: 0 15px;
   color: #666;
   font-weight: 500;
 }
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .all-news-grid {
+@media (max-width: 1024px) {.all-news-page .all-news-grid {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 25px;
   }
 }
-
-@media (max-width: 768px) {
-  .page-header h1 {
+@media (max-width: 768px) {.all-news-page .page-header h1 {
     font-size: 2.2rem;
   }
-
-  .page-header p {
+.all-news-page .page-header p {
     font-size: 1rem;
   }
-
-  .news-controls {
+.all-news-page .news-controls {
     flex-direction: column;
     align-items: stretch;
   }
-
-  .search-box {
+.all-news-page .search-box {
     max-width: 100%;
   }
-
-  .filter-buttons {
+.all-news-page .filter-buttons {
     justify-content: center;
   }
-
-  .all-news-grid {
+.all-news-page .all-news-grid {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-
-  .pagination {
+.all-news-page .pagination {
     gap: 5px;
   }
-
-  .pagination button {
+.all-news-page .pagination button {
     padding: 8px 12px;
     font-size: 0.9rem;
     min-width: 40px;
   }
 }
-
-@media (max-width: 480px) {
-  .page-header {
+@media (max-width: 480px) {.all-news-page .page-header {
     padding: 40px 15px 30px;
   }
-
-  .page-header h1 {
+.all-news-page .page-header h1 {
     font-size: 1.8rem;
     letter-spacing: 1px;
   }
-
-  .filter-btn {
+.all-news-page .filter-btn {
     padding: 8px 15px;
     font-size: 0.85rem;
   }
-
-  .all-news-container {
+.all-news-page .all-news-container {
     padding: 20px 15px;
   }
 }

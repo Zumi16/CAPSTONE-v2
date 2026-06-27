@@ -1,0 +1,344 @@
+/*
+ * Admin portal shell: fixed sidebar + main column with a sticky header.
+ *
+ * Migrated from the legacy "private/css/layout/dashboardsidebar.css". Two
+ * deliberate changes:
+ *   1. The old file set the grid on `body` — that would break every public
+ *      page. Here the grid lives on `.admin-shell`, a wrapper the AdminLayout
+ *      renders, so it can't leak.
+ *   2. Every rule is scoped under `.admin-shell` for the same reason the other
+ *      migrated sheets are scoped: all page CSS loads globally at once.
+ */
+.admin-shell {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  min-height: 100vh;
+  background: #f6f5f5;
+}
+
+.admin-shell .sidebar {
+  background-color: #ffffff;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #e0e0e0;
+}
+
+.admin-shell .admin-main {
+  background-color: #f6f5f5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Sidebar top / logo */
+.admin-shell .logo {
+  display: flex;
+  justify-content: left;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.admin-shell .logotitlewrap {
+  text-align: left;
+  gap: 0;
+  flex-direction: column;
+  padding-top: 30px;
+  padding-left: 10px;
+}
+
+.admin-shell .logoimage {
+  height: 50px;
+  width: 50px;
+  margin-top: 30px;
+  margin-left: 20px;
+  padding-top: 8px;
+}
+
+.admin-shell .logotitle {
+  margin: 0;
+}
+
+.admin-shell .logotitle1 {
+  font-size: 32px;
+}
+
+/* Navigation */
+.admin-shell .sidebar-nav {
+  padding: 0;
+  flex: 1;
+  max-width: 100%;
+  position: relative;
+}
+
+.admin-shell .nav-section {
+  margin-bottom: 2rem;
+}
+
+.admin-shell .nav-title {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #000000;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+  padding: 0 20px;
+}
+
+.admin-shell .nav-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.admin-shell .nav-item {
+  margin-bottom: 0.5rem;
+}
+
+.admin-shell .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px 30px;
+  color: #000000;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.admin-shell .nav-link i {
+  width: 20px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.admin-shell .nav-link span {
+  font-size: 1rem;
+}
+
+.admin-shell .nav-link:hover {
+  background-color: rgba(92, 90, 90, 0.1);
+  color: rgb(0, 0, 0);
+}
+
+.admin-shell .nav-item.active .nav-link {
+  background: linear-gradient(to right, #cc0000cc, transparent);
+  color: rgb(0, 0, 0);
+}
+
+.admin-shell .sidebar-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-top: 20px;
+  padding-bottom: 50px;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #686868 #cecece;
+}
+
+/* Sidebar footer (logged-in user) */
+.admin-shell .sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.admin-shell .user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-shell .user-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #a51c30;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 18px;
+}
+
+.admin-shell .user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-shell .user-name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* Header */
+.admin-shell .dashboard-header {
+  height: 80px;
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-shell .header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.admin-shell .page-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.admin-shell .header-right {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.admin-shell .dashboard-content {
+  padding: 0 30px 30px;
+}
+
+/* Header icon buttons */
+.admin-shell .fa-bell,
+.admin-shell .fa-user {
+  color: #822020;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.admin-shell .fa-bell:hover,
+.admin-shell .fa-user:hover {
+  color: #a91c1c;
+}
+
+.admin-shell .profile-button,
+.admin-shell .notification-button {
+  padding: 12px 15px;
+  border-radius: 100%;
+  position: relative;
+  cursor: pointer;
+}
+
+.admin-shell .profile-button:hover,
+.admin-shell .notification-button:hover {
+  background-color: #e5e5e5;
+}
+
+/* Profile dropdown */
+.admin-shell .profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 10px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 220px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.admin-shell .profile-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.admin-shell .dropdown-header {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.admin-shell .dropdown-header i {
+  font-size: 32px;
+  color: #822020;
+}
+
+.admin-shell .dropdown-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-shell .dropdown-username {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.admin-shell .dropdown-role {
+  font-size: 12px;
+  color: #666;
+}
+
+.admin-shell .dropdown-divider {
+  height: 1px;
+  background: #f0f0f0;
+  margin: 5px 0;
+}
+
+.admin-shell .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  color: #333;
+  text-decoration: none;
+  background: none;
+  border: none;
+  width: 100%;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.admin-shell .dropdown-item:hover {
+  background: #f8f9fa;
+}
+
+.admin-shell .dropdown-item i {
+  font-size: 16px;
+  width: 20px;
+  color: #666;
+}
+
+.admin-shell .dropdown-item.logout,
+.admin-shell .dropdown-item.logout i {
+  color: #dc3545;
+}
+
+.admin-shell .dropdown-item.logout:hover {
+  background: #fff5f5;
+}
+
+/* Small screens: collapse the grid to a single column. */
+@media (max-width: 768px) {
+  .admin-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-shell .sidebar {
+    display: none;
+  }
+}

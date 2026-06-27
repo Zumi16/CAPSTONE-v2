@@ -1,9 +1,5 @@
 /*
  * Shared hero styling for the <Hero> component.
- *
- * Every selector is scoped under ".page-hero" and uses unique class names, so
- * these rules apply ONLY to the shared hero — they will never affect, or be
- * affected by, any page's own ".hero-section"/".hero-title" CSS.
  */
 .page-hero {
   width: 100%;

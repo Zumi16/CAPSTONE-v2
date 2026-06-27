@@ -116,7 +116,7 @@ export function SearchResultsPage() {
   ).filter((section) => (results[section.key]?.length ?? 0) > 0);
 
   return (
-    <main className="main">
+    <main className="main search-page">
       <div className="search-page-container">
         <div className="search-header">
           <h1>Search Results</h1>

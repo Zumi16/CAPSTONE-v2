@@ -103,7 +103,7 @@ export function AlumniPage() {
   };
 
   return (
-    <main className="main">
+    <main className="main alumni-page">
       <section
         className="hero-section"
         style={{ backgroundImage: `url('${HERO_BG}')` }}

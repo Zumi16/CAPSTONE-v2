@@ -1,62 +1,22 @@
-* {
+:where(.history-page, .history-page *) {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
-.main {
+.history-page {
     background-color: white;
     flex-direction: column;
     align-items: center;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
 }
-
-.hero-section {
-    width: 100%;
-    height: 380px;
-    display: flex;
-    background-size: cover;
-    margin: none;
-}
-
-.hero-content {
-    width: 100%;
-    color: white;
-    text-align: left;
-    background-color: rgb(27, 27, 27, 0.98);
-    display: flex;
-    flex-direction: column;
-}
-.hero-title-design {
-    display: flex;
-    gap: 15px;
-    position: relative;
-    top: 120px;
-    margin-left: 100px;
-}
-
-.hero-title {
-    font-size: 3.5rem;
-    font-weight: bold;
-}
-
-.hero-text {
-    font-size: 1.2rem;
-    margin-top: 30px;
-    max-width: 70%;
-    text-align:  justify;
-}
-
-.vl1 {
+.history-page .vl1 {
     height: 50px;
     width: 2px;
     background-color:  rgb(237, 237, 237);
     border: none;
     margin-top: 5px;
 }
-
-@media (max-width: 1059px) {
-    .staff-container {
+@media (max-width: 1059px) {.history-page .staff-container {
     border: 1px solid #ccc;
     max-width: 550px;
     width: 60%; /* adjust width for 2 per row */
@@ -68,26 +28,21 @@
     border-radius: 10px;
 }
 }
-
-/* History Section  */
-.history-section {
+.history-page .history-section {
     padding: 3%;
 }
-
-.img-container {
+.history-page .img-container {
     margin: auto;
     max-height: 50%;
     max-width: 60%;
 }
-
-.img {
+.history-page .img {
     background-image: url(/assets/images/history-img.jpg);
     background-size: cover;
     height: 500px;           
     width: 100%;
 }
-
-.history-description {
+.history-page .history-description {
     padding: 30px 15px;
     margin: auto;
     max-width: 100%;
@@ -98,51 +53,27 @@
     flex-direction: column;
     gap: 25px;
 }
-
-.program-list {
+.history-page .program-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
     color: #2f2f2f;
 }
-
-.broken-line {
+.history-page .broken-line {
     border: 1px dashed #ccc ;
     max-width: 60%;
 }
-
-/* ------------------------------------------------------------------ *
- * Responsive — History
- * ------------------------------------------------------------------ */
-@media (max-width: 768px) {
-    .hero-section {
-        height: auto;
-        min-height: 320px;
-    }
-    .hero-title-design {
-        top: 0;
-        margin-left: 0;
-        padding: 80px 24px 40px;
-    }
-    .hero-title {
-        font-size: 2.2rem;
-    }
-    .hero-text {
-        max-width: 100%;
-        font-size: 1.05rem;
-    }
-    /* The history image + text should use the full width on small screens. */
-    .img-container {
+@media (max-width: 768px) {.history-page .img-container {
         max-width: 92%;
         max-height: none;
     }
-    .img {
+.history-page .img {
         height: 280px;
     }
-    .history-description {
+.history-page .history-description {
         font-size: 1rem;
     }
-    .broken-line {
+.history-page .broken-line {
         max-width: 100%;
     }
 }

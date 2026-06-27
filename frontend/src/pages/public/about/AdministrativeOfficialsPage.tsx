@@ -90,7 +90,7 @@ export function AdministrativeOfficialsPage() {
   }, [paused]);
 
   return (
-    <main className="main">
+    <main className="main admin-officials-page">
       <Hero
         title="Administrative Officials"
         text="Get to know the dedicated officials behind the academic excellence of PUP Parañaque. Explore our directory to learn about their professional backgrounds, academic achievements, research contributions, and roles within the university. These are the individuals who guide, support, and inspire the next generation of PUP scholars."

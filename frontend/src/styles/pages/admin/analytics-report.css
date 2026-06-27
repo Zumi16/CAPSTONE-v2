@@ -1,0 +1,338 @@
+/* adminEnierga · Analytics Report. Scoped under `.ar-page`. */
+.ar-page {
+  padding: 20px 0 40px;
+}
+
+.ar-page .summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.ar-page .summary-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.ar-page .summary-card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ar-page .summary-label {
+  margin: 0 0 6px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.ar-page .summary-value {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.ar-page .summary-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+}
+
+.ar-page .bg-blue { background: #2563eb; }
+.ar-page .bg-green { background: #16a34a; }
+.ar-page .bg-purple { background: #7c3aed; }
+.ar-page .bg-orange { background: #ea580c; }
+
+.ar-page .reports-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.ar-page .view-toggle {
+  display: flex;
+  gap: 8px;
+}
+
+.ar-page .view-toggle-btn {
+  border: 1px solid #d1d5db;
+  background: #fff;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.ar-page .view-toggle-btn.active {
+  background: #a91c1c;
+  color: #fff;
+  border-color: #a91c1c;
+}
+
+.ar-page .search-filter {
+  display: flex;
+  gap: 10px;
+}
+
+.ar-page .search-input,
+.ar-page .filter-select {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+.ar-page .export-btn,
+.ar-page .empty-trash-btn {
+  background: #a91c1c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ar-page .reports-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+.ar-page .report-card {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ar-page .report-card h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #1f2937;
+}
+
+.ar-page .report-card p {
+  margin: 2px 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.ar-page .chart-container {
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  min-height: 160px;
+}
+
+.ar-page .chart-preview-img {
+  max-width: 100%;
+  height: auto;
+}
+
+.ar-page .chart-selector,
+.ar-page .column-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.ar-page .chart-type-select,
+.ar-page .column-select-dropdown {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.ar-page .quick-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.ar-page .stat-mini {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+
+.ar-page .stat-mini .stat-label {
+  display: block;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.ar-page .stat-mini .stat-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.ar-page .report-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ar-page .report-actions button {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ar-page .view-btn {
+  background: #2563eb;
+  color: #fff;
+}
+
+.ar-page .generate-interpretation-btn {
+  background: #fff;
+  color: #7c3aed;
+  border: 1px solid #7c3aed !important;
+}
+
+.ar-page .restore-btn {
+  background: #16a34a;
+  color: #fff;
+}
+
+.ar-page .delete-permanent-btn,
+.ar-page .trash-btn {
+  background: #dc2626;
+  color: #fff;
+}
+
+.ar-page .interpretation-badge {
+  font-size: 11px;
+  color: #16a34a;
+}
+
+.ar-page .interpretation-badge.empty {
+  color: #9ca3af;
+}
+
+.ar-page .error-text {
+  color: #dc2626;
+}
+
+.ar-page .empty-msg {
+  text-align: center;
+  color: #6b7280;
+  padding: 50px 0;
+}
+
+/* Modal */
+.ar-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ar-modal-content {
+  background: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 900px;
+  max-height: 88vh;
+  overflow: auto;
+  padding: 24px;
+  position: relative;
+}
+
+.ar-modal-content .close-modal {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  color: #6b7280;
+}
+
+.ar-page .stats-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.ar-page .stat-card {
+  border-radius: 10px;
+  padding: 14px;
+  color: #fff;
+  text-align: center;
+}
+
+.ar-page .stat-card.blue { background: #2563eb; }
+.ar-page .stat-card.green { background: #16a34a; }
+.ar-page .stat-card.purple { background: #7c3aed; }
+.ar-page .stat-card.orange { background: #ea580c; }
+.ar-page .stat-card.red { background: #dc2626; }
+.ar-page .stat-card.teal { background: #0d9488; }
+.ar-page .stat-card.yellow { background: #ca8a04; }
+.ar-page .stat-card.pink { background: #db2777; }
+
+.ar-page .data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.ar-page .data-table th,
+.ar-page .data-table td {
+  border: 1px solid #e5e7eb;
+  padding: 6px 10px;
+  text-align: left;
+}
+
+.ar-page .export-options {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.ar-page .export-options button {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.ar-page .export-pdf-btn { background: #dc2626; }
+.ar-page .export-csv-btn { background: #16a34a; }

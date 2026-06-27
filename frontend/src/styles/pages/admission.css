@@ -1,230 +1,248 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
-}
-
-.hero-section {
-    width: 100%;
-    height: 450px;
-    display: flex;
+/*
+ * Admission page.
+ *
+ * Every rule is scoped under `.admission-page` (the page's <main>). These class
+ * names (.modal-content, .modal-header, .modal-body, .hero-section, …) are also
+ * used by other pages whose CSS loads globally (certificate-request.css,
+ * scholarships.css). Scoping keeps admission isolated both ways, and the old
+ * global `*` / `main` / `a` resets no longer leak to the rest of the app.
+ */
+:where(.admission-page, .admission-page *) {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.hero-content {
-    width: 100%;
-    color: white;
-    text-align: center;
-    padding: 80px 50px;
-    background-color: rgb(27, 27, 27, 0.96);
+.admission-page {
+  align-items: center;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Verdana, sans-serif;
+  margin: 0;
 }
 
-.hero-title {
-    font-size: 3.5rem;
-    font-weight: bold;
+.admission-page .hero-section {
+  width: 100%;
+  height: 450px;
+  display: flex;
 }
 
-.hero-divider {
-    width: 15%;
-    height: 1px;
-    border: none;
-    background-color: rgb(255, 255, 255);
-    margin: 10px auto;
+.admission-page .hero-content {
+  width: 100%;
+  color: white;
+  text-align: center;
+  padding: 80px 50px;
+  background-color: rgb(27, 27, 27, 0.96);
 }
 
-.hero-text {
-    font-size: 1.3rem;
-    margin: 50px auto;
-    max-width: 80%;
+.admission-page .hero-title {
+  font-size: 3.5rem;
+  font-weight: bold;
 }
 
-.hero-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 30px;
+.admission-page .hero-divider {
+  width: 15%;
+  height: 1px;
+  border: none;
+  background-color: rgb(255, 255, 255);
+  margin: 10px auto;
 }
 
-.hero-button {
-    text-decoration: none;
-    border: none;
-    background-color: transparent;
-    color: white;
+.admission-page .hero-text {
+  font-size: 1.3rem;
+  margin: 50px auto;
+  max-width: 80%;
 }
 
-.vl {
+.admission-page .hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.admission-page .hero-button {
+  text-decoration: none;
+  border: none;
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+.admission-page .vl {
   border-left: 1px solid white;
   height: 20px;
 }
-.vl1 {
-    border-left: 1px solid #bebebe54;
-    height: 100%;
-}
-/* Anchor Styling */
-a {
-    text-decoration: none;
-    color: inherit;
+
+.admission-page .vl1 {
+  border-left: 1px solid #bebebe54;
+  height: 100%;
 }
 
-main.main .main-container {
-    width: 100%;
-    max-width: none;
-    margin: 0;
-    padding: 0;
+/* Anchor styling */
+.admission-page a {
+  text-decoration: none;
+  color: inherit;
 }
-main.main .main-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex-wrap: wrap;
+
+.admission-page .main-content {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
 }
 
 /* Content Box */
-main.main .content-box {
-    display: flex;
-    height: 500px;
-    width: 100%;
-    position: static;
-    background-color: transparent;
-    border-radius: 0;
-    box-shadow: none;
-    overflow: visible;
-    cursor: default;
-    transform: none;
-    transition: none;
-}
-main.main .content-box:hover {
-    box-shadow: none;
-    transform: none;
+.admission-page .content-box {
+  display: flex;
+  height: 500px;
+  width: 100%;
+  position: static;
+  background-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  cursor: default;
+  transform: none;
+  transition: none;
 }
 
-main.main .content-box::before,
-main.main .content-box-dark::before {
-    content: none;
+.admission-page .content-box:hover {
+  box-shadow: none;
+  transform: none;
 }
 
-main.main .content-box > *,
-main.main .content-box-dark > * {
-    position: static;
-    z-index: auto;
+.admission-page .content-box::before,
+.admission-page .content-box-dark::before {
+  content: none;
 }
 
-main.main .content-box-dark {
-    display: flex;
-    height: 500px;
-    width: 100%;
-    background-color: rgb(36, 36, 36);
-    color: rgb(230, 230, 230);
+.admission-page .content-box > *,
+.admission-page .content-box-dark > * {
+  position: static;
+  z-index: auto;
 }
 
-main.main .image-container {
-    min-width: 50%;
-    max-width: 50%;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-    margin: auto;
+.admission-page .content-box-dark {
+  display: flex;
+  height: 500px;
+  width: 100%;
+  background-color: rgb(36, 36, 36);
+  color: rgb(230, 230, 230);
 }
-main.main .content-image {
-    width: 400px;
-    height: 300px;
-    border-radius: 20px;
+
+.admission-page .image-container {
+  min-width: 50%;
+  max-width: 50%;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  margin: auto;
 }
-main.main .content-title {
-    font-weight: bold;
-    font-size: 1.5rem;
-    text-align: center;
-    margin-top: 10px;
-    color: inherit;
-    padding: 0;
-    text-shadow: none;
-    letter-spacing: normal;
-    line-height: normal;
-    transition: none;
-    transform: none;
+
+.admission-page .content-image {
+  width: 400px;
+  height: 300px;
+  border-radius: 20px;
 }
-main.main .content-box:hover .content-title {
-    transform: none;
+
+.admission-page .content-title {
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: 10px;
+  color: inherit;
+  padding: 0;
+  text-shadow: none;
+  letter-spacing: normal;
+  line-height: normal;
+  transition: none;
+  transform: none;
 }
-main.main .text-container {
-    min-width: 50%;
-    max-width: 50%;
-    text-align: left;
-    margin: auto;
+
+.admission-page .content-box:hover .content-title {
+  transform: none;
 }
-main.main .text-button-wrap {
-    position: relative;
-    margin-left: 50px;
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
+
+.admission-page .text-container {
+  min-width: 50%;
+  max-width: 50%;
+  text-align: left;
+  margin: auto;
 }
-main.main .text-button-wrap1 {
-    position: relative;
-    left: 200px;
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
+
+.admission-page .text-button-wrap {
+  position: relative;
+  margin-left: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
 }
-main.main .content-text {
-    max-width: 450px;
-    font-size: 1.2rem;
-    position: static;
-    bottom: auto;
-    left: auto;
-    right: auto;
-    transform: none;
-    background: none;
-    color: inherit;
-    padding: 0;
-    backdrop-filter: none;
-    transition: none;
+
+.admission-page .text-button-wrap1 {
+  position: relative;
+  left: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
 }
-main.main .content-box:hover .content-text {
-    transform: none;
+
+.admission-page .content-text {
+  max-width: 450px;
+  font-size: 1.2rem;
+  position: static;
+  bottom: auto;
+  left: auto;
+  right: auto;
+  transform: none;
+  background: none;
+  color: inherit;
+  padding: 0;
+  backdrop-filter: none;
+  transition: none;
 }
-main.main .more-info {
-    width: 120px;
-    height: 40px;
-    border: none;
-    border-radius: 5px;
-    background-color: maroon;
-    color: white;
-    cursor: pointer;
+
+.admission-page .content-box:hover .content-text {
+  transform: none;
 }
-main.main .more-info:hover {
-    background-color: rgb(194, 38, 38);
-    transform: translateY(-2px);
-    transition: transform 0.3s, color 0.3s;
+
+.admission-page .more-info {
+  width: 120px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  background-color: maroon;
+  color: white;
+  cursor: pointer;
+}
+
+.admission-page .more-info:hover {
+  background-color: rgb(194, 38, 38);
+  transform: translateY(-2px);
+  transition: transform 0.3s, color 0.3s;
 }
 
 /* Social Links */
-.social-links1 {
-    height: 90px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    margin: 30px;
+.admission-page .social-links1 {
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin: 30px;
 }
 
-.social-links1 a {
-    color: #333;
-    font-size: 2.5em;
-    transition: transform 0.3s, color 0.3s;
+.admission-page .social-links1 a {
+  color: #333;
+  font-size: 2.5em;
+  transition: transform 0.3s, color 0.3s;
 }
 
-.social-links1 a:hover {
-    color: #800000;
-    transform: scale(1.1);
+.admission-page .social-links1 a:hover {
+  color: #800000;
+  transform: scale(1.1);
 }
+
 /* Modal Styles */
-.modal {
+.admission-page .modal {
   display: none;
   position: fixed;
   z-index: 9999;
@@ -235,21 +253,25 @@ main.main .more-info:hover {
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
-  animation: fadeIn 0.3s ease;
+  animation: admission-fadeIn 0.3s ease;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes admission-fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-.modal.active {
+.admission-page .modal.active {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.modal-content {
+.admission-page .modal-content {
   background-color: white;
   margin: auto;
   padding: 0;
@@ -258,13 +280,13 @@ main.main .more-info:hover {
   max-width: 800px;
   max-height: 85vh;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: slideUp 0.3s ease;
+  animation: admission-slideUp 0.3s ease;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-@keyframes slideUp {
+@keyframes admission-slideUp {
   from {
     transform: translateY(50px);
     opacity: 0;
@@ -275,7 +297,7 @@ main.main .more-info:hover {
   }
 }
 
-.modal-header {
+.admission-page .modal-header {
   background: linear-gradient(135deg, #800000 0%, #a00000 100%);
   color: white;
   padding: 25px 30px;
@@ -285,7 +307,7 @@ main.main .more-info:hover {
   border-radius: 16px 16px 0 0;
 }
 
-.modal-header h2 {
+.admission-page .modal-header h2 {
   margin: 0;
   font-size: 1.8rem;
   font-weight: 700;
@@ -294,11 +316,11 @@ main.main .more-info:hover {
   gap: 12px;
 }
 
-.modal-header h2 i {
+.admission-page .modal-header h2 i {
   font-size: 1.5rem;
 }
 
-.close-btn {
+.admission-page .close-btn {
   background: rgba(255, 255, 255, 0.2);
   border: none;
   color: white;
@@ -314,41 +336,41 @@ main.main .more-info:hover {
   line-height: 1;
 }
 
-.close-btn:hover {
+.admission-page .close-btn:hover {
   background: rgba(255, 255, 255, 0.3);
   transform: rotate(90deg);
 }
 
-.modal-body {
+.admission-page .modal-body {
   padding: 30px;
   overflow-y: auto;
   flex: 1;
 }
 
-.modal-body::-webkit-scrollbar {
+.admission-page .modal-body::-webkit-scrollbar {
   width: 8px;
 }
 
-.modal-body::-webkit-scrollbar-track {
+.admission-page .modal-body::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 4px;
 }
 
-.modal-body::-webkit-scrollbar-thumb {
+.admission-page .modal-body::-webkit-scrollbar-thumb {
   background: #800000;
   border-radius: 4px;
 }
 
-.modal-body::-webkit-scrollbar-thumb:hover {
+.admission-page .modal-body::-webkit-scrollbar-thumb:hover {
   background: #a00000;
 }
 
 /* Modal Content Styling */
-.modal-section {
+.admission-page .modal-section {
   margin-bottom: 25px;
 }
 
-.modal-section h3 {
+.admission-page .modal-section h3 {
   color: #800000;
   font-size: 1.3rem;
   margin-bottom: 15px;
@@ -358,19 +380,19 @@ main.main .more-info:hover {
   gap: 10px;
 }
 
-.modal-section h3 i {
+.admission-page .modal-section h3 i {
   font-size: 1.1rem;
 }
 
-.modal-section p {
+.admission-page .modal-section p {
   color: #333;
   line-height: 1.8;
   font-size: 1rem;
   margin-bottom: 15px;
 }
 
-.modal-section ol,
-.modal-section ul {
+.admission-page .modal-section ol,
+.admission-page .modal-section ul {
   color: #333;
   line-height: 1.8;
   font-size: 1rem;
@@ -378,15 +400,15 @@ main.main .more-info:hover {
   margin-bottom: 15px;
 }
 
-.modal-section li {
+.admission-page .modal-section li {
   margin-bottom: 10px;
 }
 
-.modal-section ul li {
+.admission-page .modal-section ul li {
   list-style-type: disc;
 }
 
-.highlight-box {
+.admission-page .highlight-box {
   background: #f7f7f7;
   border-left: 4px solid #800000;
   padding: 15px 20px;
@@ -394,23 +416,23 @@ main.main .more-info:hover {
   margin: 15px 0;
 }
 
-.highlight-box strong {
+.admission-page .highlight-box strong {
   color: #800000;
 }
 
-.info-link {
+.admission-page .info-link {
   color: #800000;
   font-weight: 600;
   text-decoration: underline;
   transition: color 0.3s ease;
 }
 
-.info-link:hover {
+.admission-page .info-link:hover {
   color: #a00000;
 }
 
 /* Courses Table */
-.courses-table {
+.admission-page .courses-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
@@ -419,63 +441,63 @@ main.main .more-info:hover {
   overflow: hidden;
 }
 
-.courses-table thead {
+.admission-page .courses-table thead {
   background: linear-gradient(135deg, #800000 0%, #a00000 100%);
   color: white;
 }
 
-.courses-table th {
+.admission-page .courses-table th {
   padding: 15px;
   text-align: left;
   font-weight: 600;
   font-size: 1.1rem;
 }
 
-.courses-table td {
+.admission-page .courses-table td {
   padding: 15px;
   border-bottom: 1px solid #e0e0e0;
   vertical-align: top;
 }
 
-.courses-table tbody tr:hover {
+.admission-page .courses-table tbody tr:hover {
   background-color: #f7f7f7;
 }
 
-.courses-table tbody tr:last-child td {
+.admission-page .courses-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.program-code {
+.admission-page .program-code {
   font-weight: 700;
   color: #800000;
   font-size: 1.1rem;
   margin-bottom: 5px;
 }
 
-.program-name {
+.admission-page .program-name {
   color: #333;
   font-size: 0.95rem;
   line-height: 1.4;
 }
 
-.program-description {
+.admission-page .program-description {
   color: #666;
   font-size: 0.9rem;
   line-height: 1.6;
   margin-top: 8px;
 }
 
-.program-description ul {
+.admission-page .program-description ul {
   margin-top: 8px;
   margin-left: 15px;
 }
 
-.program-description li {
+.admission-page .program-description li {
   margin-bottom: 5px;
 }
 
 /* Action Buttons */
-.modal-actions {
+.admission-page .modal-actions {
   padding: 20px 30px;
   border-top: 2px solid #e2e8f0;
   display: flex;
@@ -484,7 +506,7 @@ main.main .more-info:hover {
   background: #f7f7f7;
 }
 
-.modal-btn {
+.admission-page .modal-btn {
   padding: 12px 25px;
   border: none;
   border-radius: 8px;
@@ -494,65 +516,65 @@ main.main .more-info:hover {
   font-size: 1rem;
 }
 
-.modal-btn-primary {
+.admission-page .modal-btn-primary {
   background: linear-gradient(135deg, #800000 0%, #a00000 100%);
   color: white;
 }
 
-.modal-btn-primary:hover {
+.admission-page .modal-btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(128, 0, 0, 0.3);
 }
 
-.modal-btn-secondary {
+.admission-page .modal-btn-secondary {
   background: white;
   color: #800000;
   border: 2px solid #800000;
 }
 
-.modal-btn-secondary:hover {
+.admission-page .modal-btn-secondary:hover {
   background: #f7f7f7;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .modal-content {
+  .admission-page .modal-content {
     width: 95%;
     max-height: 90vh;
   }
 
-  .modal-header {
+  .admission-page .modal-header {
     padding: 20px;
   }
 
-  .modal-header h2 {
+  .admission-page .modal-header h2 {
     font-size: 1.4rem;
   }
 
-  .modal-body {
+  .admission-page .modal-body {
     padding: 20px;
   }
 
-  .modal-section h3 {
+  .admission-page .modal-section h3 {
     font-size: 1.1rem;
   }
 
-  .modal-section p,
-  .modal-section li {
+  .admission-page .modal-section p,
+  .admission-page .modal-section li {
     font-size: 0.9rem;
   }
 
-  .courses-table th,
-  .courses-table td {
+  .admission-page .courses-table th,
+  .admission-page .courses-table td {
     padding: 10px;
     font-size: 0.85rem;
   }
 
-  .modal-actions {
+  .admission-page .modal-actions {
     flex-direction: column;
   }
 
-  .modal-btn {
+  .admission-page .modal-btn {
     width: 100%;
   }
 }

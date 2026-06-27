@@ -265,7 +265,7 @@ export function FeedbackPage() {
   const today = new Date().toISOString().split("T")[0];
 
   return (
-    <main className="main">
+    <main className="main feedback-page">
       <section className="hero-section" style={{ backgroundImage: `url('${HERO_BG}')` }}>
         <div className="hero-content">
           <h1 className="hero-title">Service Feedback</h1>

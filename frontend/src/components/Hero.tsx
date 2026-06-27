@@ -3,18 +3,10 @@ import "./hero.css";
 type HeroProps = {
   title: string;
   text: string;
-  /** Background image for the hero, e.g. "/assets/images/PUPBg4.jpg". */
   background: string;
 };
 
-/**
- * Shared page hero used by the inner pages (History, Vicinity Map, NSTP, OJT,
- * Research & Extension, Administrative Officials). The look is identical
- * everywhere — each page just passes its own title, text, and background image.
- *
- * All styles live in `hero.css` and are scoped under ".page-hero", so this hero
- * can never clash with (or be changed by) any other page's CSS.
- */
+
 export function Hero({ title, text, background }: HeroProps) {
   return (
     <section

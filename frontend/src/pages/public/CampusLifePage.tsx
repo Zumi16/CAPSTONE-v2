@@ -30,7 +30,7 @@ const SPOTLIGHTS = [
 
 export function CampusLifePage() {
   return (
-    <main className="main">
+    <main className="main campus-life-page">
         <Hero
         title="Campus Life"
         text="Welcome to PUP Parañaque Campus Life where learning goes beyond the
@@ -57,7 +57,7 @@ export function CampusLifePage() {
                 <div className="facultycard-title" data-aos="fade-in">
                   {facility.title}
                 </div>
-                {index === 0 && <div className="vl1" />}
+                {index === 0}
               </div>
             ))}
           </div>
@@ -78,7 +78,7 @@ export function CampusLifePage() {
                   />
                   <div className="orgcard-title">{org.title}</div>
                 </div>
-                {index < ORGANIZATIONS.length - 1 && <div className="vl" />}
+                {index < ORGANIZATIONS.length - 1 }
               </div>
             ))}
           </div>

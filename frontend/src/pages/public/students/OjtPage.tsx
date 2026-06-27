@@ -4,7 +4,7 @@ import "@/styles/pages/ojt-public.css";
 
 export function OjtPage() {
   return (
-    <main className="main">
+    <main className="main ojt-page">
       <Hero
         title="OJT Announcements"
         text="Stay informed with official On-the-Job Training (OJT) announcements, including partner company postings, requirements, orientations, deployment schedules, and important reminders. All updates on this page are released by the campus administration."

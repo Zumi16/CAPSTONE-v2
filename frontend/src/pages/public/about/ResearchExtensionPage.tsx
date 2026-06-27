@@ -66,7 +66,7 @@ export function ResearchExtensionPage() {
   const [selected, setSelected] = useState<NewsArticle | null>(null);
 
   return (
-    <main className="main">
+    <main className="main research-ext-page">
       <Hero
         title="Research and Extension"
         text="Through faculty-led research and community extension programs, PUP Parañaque Campus generates knowledge-driven solutions that address real-world challenges. Our initiatives span education, technology, innovation, and public service—strengthening communities today while shaping a sustainable and inclusive future."

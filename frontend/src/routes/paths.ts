@@ -33,6 +33,40 @@ export const PATHS = {
   contact: "/contact",
   news: "/news",
   search: "/search",
+
+  /**
+   * The admin / accreditation portal (the old "/private/..." area).
+   *
+   * The legacy site redirected to role-specific HTML files after login; the
+   * React app uses clean URLs. Dashboards are being migrated one role at a
+   * time — until each is built, its route shows the "under migration"
+   * placeholder.
+   */
+  admin: {
+    login: "/login",
+    dashboards: {
+      superAdmin: "/admin/super",
+      secondarySuperAdmin: "/admin/secondary",
+      adminAve: "/admin/ave",
+      adminEnierga: "/admin/enierga",
+      adminMila: "/admin/mila",
+      adminLlave: "/admin/llave",
+      adminSerrano: "/admin/serrano",
+      adminCMO: "/admin/cmo",
+    },
+    accreditation: {
+      areaHead: "/accreditation/area-head",
+      accreditor: "/accreditation/accreditor",
+    },
+
+    /** adminEnierga portal: dashboard + data tools. */
+    enierga: {
+      dashboard: "/admin/enierga",
+      dataUploads: "/admin/enierga/data-uploads",
+      analyticsReport: "/admin/enierga/analytics-report",
+      fileRepository: "/admin/enierga/file-repository",
+    },
+  },
 } as const;
 
 /** External links that leave the site (kept as normal anchor tags). */

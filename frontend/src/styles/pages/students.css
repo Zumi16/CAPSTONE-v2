@@ -1,26 +1,21 @@
-body {
+/* Scoped under `.students-page` to prevent global CSS collisions across pages. */
+.students-page {
     background-color: #f9f9f9;
     color: #333;
 }
-
-main {
+.students-page {
     background-color: #ffffff;
 }
-
-/* Main Image Section */
-.main-image {
+.students-page .main-image {
     width: 100%;
     overflow: hidden;
 }
-
-.main-img {
+.students-page .main-img {
     width: 100%;
     display: block;
     transition: transform 0.3s ease-in-out;
 }
-
-/* Horizontal Rule Styling */
-.hr-main {
+.students-page .hr-main {
     margin: 40px auto;
     width: 60%;
     background-color: #1b1b1b;
@@ -29,15 +24,7 @@ main {
     border-radius: 50px;
 }
 
-/* Main Container */
-.main-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 20px 60px;
-}
-
-/* Main Content Layout */
-.main-content {
+.students-page .main-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 40px;
@@ -45,9 +32,7 @@ main {
     max-width: 1400px;
     margin: 0 auto;
 }
-
-/* Content Box */
-.content-box {
+.students-page .content-box {
     position: relative;
     height: 300px;
     background-color: #f7f7f7;
@@ -60,14 +45,11 @@ main {
     background-position: center;
     background-repeat: no-repeat;
 }
-
-.content-box:hover {
+.students-page .content-box:hover {
     box-shadow: 0 12px 28px rgba(128, 0, 0, 0.25);
     transform: translateY(-8px);
 }
-
-/* Image Overlay */
-.content-box::before {
+.students-page .content-box::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -79,23 +61,18 @@ main {
     z-index: 1;
     transition: background 0.4s ease;
 }
-
-.content-box:hover::before {
+.students-page .content-box:hover::before {
     background: linear-gradient(
         to bottom,
         rgba(128, 0, 0, 0.5) 0%,
         rgba(40, 0, 0, 0.85) 100%
     );
 }
-
-/* Content Wrapper */
-.content-box > * {
+.students-page .content-box > * {
     position: relative;
     z-index: 2;
 }
-
-/* Title */
-.content-title {
+.students-page .content-title {
     color: #fff;
     font-weight: bold;
     font-size: 2rem;
@@ -107,13 +84,10 @@ main {
         0 4px 12px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease;
 }
-
-.content-box:hover .content-title {
+.students-page .content-box:hover .content-title {
     transform: translateY(-4px);
 }
-
-/* Text Description */
-.content-text {
+.students-page .content-text {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -128,13 +102,10 @@ main {
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     backdrop-filter: blur(8px);
 }
-
-.content-box:hover .content-text {
+.students-page .content-box:hover .content-text {
     transform: translateY(0);
 }
-
-/* Social Links */
-.social-links1 {
+.students-page .social-links1 {
     height: 90px;
     display: flex;
     justify-content: center;
@@ -142,103 +113,79 @@ main {
     gap: 30px;
     margin: 30px;
 }
-
-.social-links1 a {
+.students-page .social-links1 a {
     color: #333;
     font-size: 2.5em;
     transition: transform 0.3s, color 0.3s;
 }
-
-.social-links1 a:hover {
+.students-page .social-links1 a:hover {
     color: #800000;
     transform: scale(1.1);
 }
-
-/* Responsive Design - Tablets */
-@media screen and (max-width: 992px) {
-    .main-content {
+@media screen and (max-width: 992px) {.students-page .main-content {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 25px;
     }
-
-    .content-box {
+.students-page .content-box {
         height: 320px;
     }
-
-    .content-title {
+.students-page .content-title {
         font-size: 1.5rem;
         padding: 25px 20px 12px;
     }
-
-    .content-text {
+.students-page .content-text {
         font-size: 0.9rem;
         padding: 18px 20px;
     }
-
-    .social-links1 {
+.students-page .social-links1 {
         gap: 30px;
         margin: 40px 0 30px;
     }
-
-    .social-links1 a {
+.students-page .social-links1 a {
         width: 45px;
         height: 45px;
         font-size: 1.3rem;
     }
 }
-
-/* Responsive Design - Mobile */
-@media screen and (max-width: 576px) {
-    .hr-main {
+@media screen and (max-width: 576px) {.students-page .hr-main {
         width: 80%;
         margin: 30px auto;
     }
-
-    .main-container {
+.students-page .main-container {
         padding: 0 15px 40px;
     }
-
-    .main-content {
+.students-page .main-content {
         grid-template-columns: 1fr;
         gap: 20px;
         padding: 15px 0;
     }
-
-    .content-box {
+.students-page .content-box {
         height: 280px;
     }
-
-    .content-title {
+.students-page .content-title {
         font-size: 1.4rem;
         padding: 20px 18px 10px;
     }
-
-    .content-text {
+.students-page .content-text {
         font-size: 0.875rem;
         padding: 16px 18px;
         line-height: 1.5;
     }
-
-    .social-links1 {
+.students-page .social-links1 {
         gap: 25px;
         margin: 30px 0 25px;
     }
-
-    .social-links1 a {
+.students-page .social-links1 a {
         width: 42px;
         height: 42px;
         font-size: 1.2rem;
     }
 }
-
-/* Extra small devices */
-@media screen and (max-width: 380px) {
-    .content-title {
+@media screen and (max-width: 380px) {.students-page .content-title {
         font-size: 1.25rem;
         padding: 18px 15px 8px;
     }
-
-    .content-text {
+.students-page .content-text {
         font-size: 0.8rem;
         padding: 14px 15px;
     }

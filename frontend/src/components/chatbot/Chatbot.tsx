@@ -4,7 +4,7 @@ import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
 import { formatClockTime } from "@/lib/format";
 
-import "@/styles/pages/quickhelp&chatbot.css";
+import "@/styles/layout/chatbot.css";
 import {
   chatbotClasses as c,
   chatbotIds as ids,

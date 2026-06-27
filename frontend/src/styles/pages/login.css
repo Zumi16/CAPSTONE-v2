@@ -1,0 +1,362 @@
+/*
+ * Admin / Accreditation login page.
+ *
+ * Migrated from the legacy "private/css/pages/login.css". Two important
+ * differences from the original:
+ *   1. The global reset (`* {}`, `body`, `a`, `ul`) is dropped — these page
+ *      sheets are imported globally and would leak across the whole app.
+ *   2. EVERY rule is scoped under `.login-main`. All page stylesheets load at
+ *      once, and generic names like `.tab-content` / `.welcome-container` are
+ *      also used by other pages (e.g. certificate-request.css sets
+ *      `.tab-content { display:none }`). Scoping keeps login isolated both ways.
+ */
+:root {
+  --maroon: #800000;
+  --maroon-dark: #721c24;
+  --maroon-light: #9a3334;
+  --gold: #c3a350;
+  --gold-light: #d4b86a;
+  --purple: #667eea;
+  --purple-dark: #764ba2;
+}
+
+/* Main content */
+.login-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.login-main .welcome-container {
+  height: auto;
+  max-width: none;
+  text-align: center;
+  margin: 0 0 2rem;
+  color: inherit;
+}
+
+.login-main .welcome-title {
+  color: var(--maroon);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.login-main .welcome-desc {
+  color: #666;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.login-main .hr2 {
+  border: none;
+  height: 1px;
+  background-color: #ddd;
+  margin: 2rem 0;
+}
+
+/* Login container */
+.login-main .login-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.login-main .login-tabs {
+  display: flex;
+  width: 100%;
+  max-width: 500px;
+  border-bottom: 2px solid #ddd;
+  gap: 0;
+}
+
+.login-main .tab-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 1rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: #666;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.login-main .tab-btn i {
+  font-size: 1.1rem;
+}
+
+.login-main .tab-btn.active {
+  color: var(--maroon);
+  background: rgba(128, 0, 0, 0.05);
+}
+
+.login-main .tab-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--maroon);
+}
+
+.login-main .tab-btn:hover:not(.active) {
+  color: var(--maroon-light);
+  background: rgba(128, 0, 0, 0.02);
+}
+
+.login-main .tab-content {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+}
+
+.login-main .tab-pane {
+  padding: 1.5rem 0;
+  animation: login-fadeIn 0.3s ease;
+}
+
+@keyframes login-fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-main .login-title {
+  font-size: 1.5rem;
+  color: var(--maroon);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.login-main .login-subtitle {
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Error message */
+.login-main .error-message {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-left: 4px solid #dc2626;
+}
+
+.login-main .error-message i {
+  font-size: 1.2rem;
+}
+
+/* Form */
+.login-main .login-form {
+  margin-top: 1.5rem;
+}
+
+.login-main .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.login-main .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.login-main .form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.login-main .form-group input:focus {
+  outline: none;
+  border-color: var(--maroon);
+  box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.1);
+}
+
+.login-main .password-field {
+  position: relative;
+}
+
+.login-main .password-field input {
+  padding-right: 2.75rem;
+}
+
+.login-main .toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #777;
+  padding: 8px;
+  transition: color 0.2s;
+}
+
+.login-main .toggle-password:hover {
+  color: var(--maroon);
+}
+
+.login-main .toggle-password i {
+  font-size: 1.1rem;
+}
+
+.login-main .remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.login-main .remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.login-main .remember-me input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+}
+
+.login-main .remember-me label {
+  margin: 0;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.login-main .forgot-password {
+  color: var(--maroon);
+  transition: text-decoration 0.2s;
+}
+
+.login-main .forgot-password:hover {
+  text-decoration: underline;
+}
+
+.login-main .login-btn {
+  width: 100%;
+  padding: 0.85rem;
+  background-color: var(--maroon);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.login-main .login-btn:hover:not(:disabled) {
+  background-color: var(--maroon-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(128, 0, 0, 0.3);
+}
+
+.login-main .login-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.login-main .login-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.login-main .login-btn .btn-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.login-main .login-btn i.fa-spinner {
+  animation: login-spin 1s linear infinite;
+}
+
+@keyframes login-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .login-main .welcome-title {
+    font-size: 1.5rem;
+  }
+
+  .login-main .welcome-desc {
+    font-size: 0.9rem;
+  }
+
+  .login-main .login-tabs,
+  .login-main .tab-content {
+    max-width: 100%;
+  }
+
+  .login-main .tab-btn {
+    font-size: 0.85rem;
+    padding: 0.75rem 0.5rem;
+  }
+
+  .login-main .tab-btn i {
+    font-size: 1rem;
+  }
+
+  .login-main .login-title {
+    font-size: 1.3rem;
+  }
+
+  .login-main .remember-forgot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-main {
+    padding: 1rem 0.5rem;
+  }
+
+  .login-main .tab-btn span {
+    display: none;
+  }
+
+  .login-main .tab-btn i {
+    font-size: 1.2rem;
+  }
+
+  .login-main .form-group input {
+    font-size: 0.95rem;
+  }
+
+  .login-main .login-btn {
+    font-size: 0.95rem;
+  }
+}
