@@ -71,11 +71,13 @@ a {
     color: inherit;
 }
 
-/* Main Content Layout */
-.main-container {
+main.main .main-container {
     width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
 }
-.main-content {
+main.main .main-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -83,23 +85,44 @@ a {
 }
 
 /* Content Box */
-.content-box {
+main.main .content-box {
     display: flex;
     height: 500px;
-    gap: none;
     width: 100%;
+    position: static;
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+    cursor: default;
+    transform: none;
+    transition: none;
+}
+main.main .content-box:hover {
+    box-shadow: none;
+    transform: none;
 }
 
-.content-box-dark {
+main.main .content-box::before,
+main.main .content-box-dark::before {
+    content: none;
+}
+
+main.main .content-box > *,
+main.main .content-box-dark > * {
+    position: static;
+    z-index: auto;
+}
+
+main.main .content-box-dark {
     display: flex;
     height: 500px;
-    gap: none;
     width: 100%;
     background-color: rgb(36, 36, 36);
     color: rgb(230, 230, 230);
 }
 
-.image-container {
+main.main .image-container {
     min-width: 50%;
     max-width: 50%;
     justify-content: center;
@@ -107,44 +130,65 @@ a {
     align-items: center;
     margin: auto;
 }
-.content-image {
+main.main .content-image {
     width: 400px;
     height: 300px;
     border-radius: 20px;
 }
-.content-title {
+main.main .content-title {
     font-weight: bold;
     font-size: 1.5rem;
-    align-items: center; 
-    justify-content: center; 
     text-align: center;
     margin-top: 10px;
+    color: inherit;
+    padding: 0;
+    text-shadow: none;
+    letter-spacing: normal;
+    line-height: normal;
+    transition: none;
+    transform: none;
 }
-.text-container {
+main.main .content-box:hover .content-title {
+    transform: none;
+}
+main.main .text-container {
     min-width: 50%;
     max-width: 50%;
     text-align: left;
     margin: auto;
 }
-.text-button-wrap {
+main.main .text-button-wrap {
     position: relative;
     margin-left: 50px;
     display: flex;
     flex-direction: column;
     gap: 50px;
 }
-.text-button-wrap1 {
+main.main .text-button-wrap1 {
     position: relative;
     left: 200px;
     display: flex;
     flex-direction: column;
     gap: 50px;
 }
-.content-text {
+main.main .content-text {
     max-width: 450px;
-    font-size: 1.2rem
+    font-size: 1.2rem;
+    position: static;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    transform: none;
+    background: none;
+    color: inherit;
+    padding: 0;
+    backdrop-filter: none;
+    transition: none;
 }
-.more-info {
+main.main .content-box:hover .content-text {
+    transform: none;
+}
+main.main .more-info {
     width: 120px;
     height: 40px;
     border: none;
@@ -153,7 +197,7 @@ a {
     color: white;
     cursor: pointer;
 }
-.more-info:hover {
+main.main .more-info:hover {
     background-color: rgb(194, 38, 38);
     transform: translateY(-2px);
     transition: transform 0.3s, color 0.3s;
@@ -510,62 +554,5 @@ a {
 
   .modal-btn {
     width: 100%;
-  }
-}
-
-/* ------------------------------------------------------------------ *
- * Responsive — Admission page content (hero + content boxes)
- * ------------------------------------------------------------------ */
-@media (max-width: 900px) {
-  .hero-section {
-    height: auto;
-  }
-  .hero-content {
-    padding: 60px 24px;
-  }
-  .hero-title {
-    font-size: 2.4rem;
-  }
-  .hero-text {
-    max-width: 100%;
-    font-size: 1.1rem;
-    margin: 30px auto;
-  }
-  .hero-buttons {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  /* Stack the image and text instead of forcing a 50/50 split at 500px tall. */
-  .content-box,
-  .content-box-dark {
-    flex-direction: column;
-    height: auto;
-    padding: 36px 20px;
-  }
-  .image-container,
-  .text-container {
-    min-width: 100%;
-    max-width: 100%;
-  }
-  .content-image {
-    width: 100%;
-    max-width: 360px;
-    height: auto;
-    margin: 0 auto;
-  }
-  /* Remove the desktop-only horizontal offsets that overflow on mobile. */
-  .text-button-wrap,
-  .text-button-wrap1 {
-    margin-left: 0;
-    left: 0;
-    gap: 24px;
-    margin-top: 24px;
-  }
-  .content-text {
-    max-width: 100%;
-  }
-  .vl1 {
-    display: none;
   }
 }
