@@ -11,7 +11,7 @@ const PROGRAMS = [
 
 export function HistoryPage() {
   return (
-    <main className="main">
+    <main className="main history-page">
       <Hero
         title="History"
         text="Explore the rich history of PUP Parañaque, from its humble beginnings to its growth as a center of learning and innovation. This page highlights the key milestones, achievements, and transformations that have shaped the campus into what it is today."

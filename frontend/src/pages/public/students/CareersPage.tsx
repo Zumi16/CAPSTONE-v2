@@ -138,7 +138,7 @@ export function CareersPage() {
   }, [organizations, category, search]);
 
   return (
-    <main className="main">
+    <main className="main careers-page">
       <div className="hero-banner">
         <div className="hero-overlay">
           <h1 className="hero-title">Career &amp; Job Placement Directory</h1>

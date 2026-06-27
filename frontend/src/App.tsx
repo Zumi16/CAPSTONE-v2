@@ -24,6 +24,18 @@ import { AllNewsPage } from "./pages/public/AllNewsPage";
 import { SearchResultsPage } from "./pages/public/SearchResultsPage";
 import { NotFoundPage } from "./pages/public/NotFoundPage";
 
+// Admin / accreditation portal (migration of the old "private/" area)
+import { LoginPage } from "./pages/admin/LoginPage";
+import { AdminPlaceholderPage } from "./pages/admin/AdminPlaceholderPage";
+import { EniergaLayout } from "./pages/admin/enierga/EniergaLayout";
+import { DashboardPage as EniergaDashboardPage } from "./pages/admin/enierga/DashboardPage";
+import { DataUploadsPage } from "./pages/admin/enierga/DataUploadsPage";
+import { FileRepositoryPage } from "./pages/admin/enierga/FileRepositoryPage";
+import { AnalyticsReportPage } from "./pages/admin/enierga/AnalyticsReportPage";
+
+const ADMIN_DASHBOARDS = PATHS.admin.dashboards;
+const ACCREDITATION = PATHS.admin.accreditation;
+
 export function App() {
   return (
     <Routes>
@@ -64,8 +76,56 @@ export function App() {
         <Route path={PATHS.news} element={<AllNewsPage />} />
         <Route path={PATHS.search} element={<SearchResultsPage />} />
 
+        {/* Admin login keeps the public navbar/footer, like the old page. */}
+        <Route path={PATHS.admin.login} element={<LoginPage />} />
+
         <Route path="*" element={<NotFoundPage />} />
       </Route>
+
+      {/* Admin dashboards (placeholders until each role's pages are migrated). */}
+      <Route
+        path={ADMIN_DASHBOARDS.superAdmin}
+        element={<AdminPlaceholderPage title="Super Administrator" />}
+      />
+      <Route
+        path={ADMIN_DASHBOARDS.secondarySuperAdmin}
+        element={<AdminPlaceholderPage title="Assistant Super Administrator" />}
+      />
+      <Route
+        path={ADMIN_DASHBOARDS.adminAve}
+        element={<AdminPlaceholderPage title="OJT / NSTP / Research & Extension" />}
+      />
+      {/* adminEnierga portal (migrated): dashboard + data tools. */}
+      <Route path={PATHS.admin.enierga.dashboard} element={<EniergaLayout />}>
+        <Route index element={<EniergaDashboardPage />} />
+        <Route path="data-uploads" element={<DataUploadsPage />} />
+        <Route path="analytics-report" element={<AnalyticsReportPage />} />
+        <Route path="file-repository" element={<FileRepositoryPage />} />
+      </Route>
+      <Route
+        path={ADMIN_DASHBOARDS.adminMila}
+        element={<AdminPlaceholderPage title="Scholarships / Careers / Alumni" />}
+      />
+      <Route
+        path={ADMIN_DASHBOARDS.adminLlave}
+        element={<AdminPlaceholderPage title="Management & Accreditation" />}
+      />
+      <Route
+        path={ADMIN_DASHBOARDS.adminSerrano}
+        element={<AdminPlaceholderPage title="Faculty Management" />}
+      />
+      <Route
+        path={ADMIN_DASHBOARDS.adminCMO}
+        element={<AdminPlaceholderPage title="News Management (CMO)" />}
+      />
+      <Route
+        path={ACCREDITATION.areaHead}
+        element={<AdminPlaceholderPage title="Accreditation — Area Head" />}
+      />
+      <Route
+        path={ACCREDITATION.accreditor}
+        element={<AdminPlaceholderPage title="Accreditation — Accreditor" />}
+      />
     </Routes>
   );
 }

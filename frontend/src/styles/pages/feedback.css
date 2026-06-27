@@ -1,29 +1,25 @@
-* {
+/* Scoped under `.feedback-page` to prevent global CSS collisions across pages. */
+:where(.feedback-page, .feedback-page *) {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
-body {
+.feedback-page {
     font-family: 'Georgia', serif;
     background-color: #f9f9f9;
     color: #333;
 }
-
-.main {
+.feedback-page {
     background-color: #ffffff;
 }
-
-/* Hero Banner */
-.hero-banner {
+.feedback-page .hero-banner {
     width: 100%;
     height: 250px;
     background: linear-gradient(135deg, #800000 0%, #5a0000 100%);
     position: relative;
     overflow: hidden;
 }
-
-.hero-overlay {
+.feedback-page .hero-overlay {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -33,34 +29,27 @@ body {
     width: 100%;
     padding: 0 20px;
 }
-
-.hero-title {
+.feedback-page .hero-title {
     font-size: 3rem;
     font-weight: bold;
     margin-bottom: 10px;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 }
-
-.hero-subtitle {
+.feedback-page .hero-subtitle {
     font-size: 1.3rem;
     font-weight: 300;
     opacity: 0.95;
 }
-
-/* Container */
-.container {
+.feedback-page .container {
     max-width: 900px;
     margin: 0 auto;
     padding: 0 20px;
 }
-
-/* Disclaimer Section */
-.disclaimer-section {
+.feedback-page .disclaimer-section {
     background: linear-gradient(135deg, #fff9e6 0%, #fff4d4 100%);
     padding: 40px 20px;
 }
-
-.disclaimer-box {
+.feedback-page .disclaimer-box {
     display: flex;
     align-items: flex-start;
     gap: 20px;
@@ -72,38 +61,31 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
-
-.disclaimer-icon {
+.feedback-page .disclaimer-icon {
     font-size: 2rem;
     color: #ff8c00;
     flex-shrink: 0;
     margin-top: 5px;
 }
-
-.disclaimer-content {
+.feedback-page .disclaimer-content {
     flex: 1;
 }
-
-.disclaimer-title {
+.feedback-page .disclaimer-title {
     font-size: 1.3rem;
     color: #5a3e00;
     margin-bottom: 10px;
     font-weight: 600;
 }
-
-.disclaimer-text {
+.feedback-page .disclaimer-text {
     font-size: 1rem;
     color: #5a3e00;
     line-height: 1.6;
 }
-
-/* Form Section */
-.form-section {
+.feedback-page .form-section {
     padding: 60px 20px;
     min-height: 600px;
 }
-
-.form-container {
+.feedback-page .form-container {
     max-width: 900px;
     margin: 0 auto;
     background: white;
@@ -111,82 +93,67 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     padding: 40px;
 }
-
-.form-header {
+.feedback-page .form-header {
     text-align: center;
     margin-bottom: 40px;
 }
-
-.form-icon {
+.feedback-page .form-icon {
     font-size: 3rem;
     color: #800000;
     margin-bottom: 15px;
 }
-
-.form-title {
+.feedback-page .form-title {
     font-size: 2rem;
     color: #1b1b1b;
     margin-bottom: 10px;
     font-weight: 600;
 }
-
-.form-subtitle {
+.feedback-page .form-subtitle {
     font-size: 1.1rem;
     color: #666;
 }
-
-/* Transaction Info Display */
-.transaction-info {
+.feedback-page .transaction-info {
     background: #f8f9fa;
     border-left: 4px solid #800000;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 30px;
 }
-
-.info-title {
+.feedback-page .info-title {
     font-size: 1.2rem;
     color: #800000;
     margin-bottom: 15px;
     font-weight: 600;
 }
-
-.info-grid {
+.feedback-page .info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
 }
-
-.info-item {
+.feedback-page .info-item {
     display: flex;
     flex-direction: column;
 }
-
-.info-label {
+.feedback-page .info-label {
     font-size: 0.85rem;
     color: #666;
     margin-bottom: 5px;
 }
-
-.info-value {
+.feedback-page .info-value {
     font-size: 1rem;
     color: #333;
     font-weight: 500;
 }
-
-/* Form Elements */
-.feedback-form {
+.feedback-page .feedback-form {
     display: flex;
     flex-direction: column;
     gap: 25px;
 }
-
-.form-group {
+.feedback-page .form-group {
     display: flex;
     flex-direction: column;
 }
-
-.form-label {
+.feedback-page .form-label {
     font-size: 1rem;
     color: #333;
     margin-bottom: 8px;
@@ -195,14 +162,10 @@ body {
     align-items: center;
     gap: 8px;
 }
-
-.form-label i {
+.feedback-page .form-label i {
     color: #800000;
 }
-
-.form-input,
-.form-select,
-.form-textarea {
+.feedback-page .form-input, .feedback-page .form-select, .feedback-page .form-textarea {
     padding: 12px 15px;
     border: 2px solid #ddd;
     border-radius: 8px;
@@ -210,36 +173,27 @@ body {
     font-family: 'Georgia', serif;
     transition: border-color 0.3s ease;
 }
-
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
+.feedback-page .form-input:focus, .feedback-page .form-select:focus, .feedback-page .form-textarea:focus {
     outline: none;
     border-color: #800000;
 }
-
-.form-select {
+.feedback-page .form-select {
     cursor: pointer;
     background-color: white;
 }
-
-.form-textarea {
+.feedback-page .form-textarea {
     resize: vertical;
     min-height: 120px;
 }
-
-.form-help {
+.feedback-page .form-help {
     font-size: 0.85rem;
     color: #888;
     margin-top: 5px;
 }
-
-/* Star Rating - Overall */
-.rating-label {
+.feedback-page .rating-label {
     margin-bottom: 15px !important;
 }
-
-.star-rating {
+.feedback-page .star-rating {
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
@@ -247,46 +201,36 @@ body {
     font-size: 3rem;
     margin-bottom: 10px;
 }
-
-.star-rating input[type="radio"] {
+.feedback-page .star-rating input[type="radio"] {
     display: none;
 }
-
-.star-rating .star {
+.feedback-page .star-rating .star {
     cursor: pointer;
     color: #ddd;
     transition: color 0.2s ease;
 }
-
-.star-rating .star:hover,
-.star-rating .star:hover ~ .star,
-.star-rating input[type="radio"]:checked ~ .star {
+.feedback-page .star-rating .star:hover, .feedback-page .star-rating .star:hover ~ .star, .feedback-page .star-rating input[type="radio"]:checked ~ .star {
     color: #ffd700;
 }
-
-.rating-text {
+.feedback-page .rating-text {
     text-align: center;
     font-size: 1.1rem;
     color: #666;
     font-weight: 500;
 }
-
-/* Star Rating - Criteria (Small) */
-.criteria-section {
+.feedback-page .criteria-section {
     background: #f8f9fa;
     padding: 25px;
     border-radius: 8px;
     margin: 20px 0;
 }
-
-.criteria-title {
+.feedback-page .criteria-title {
     font-size: 1.3rem;
     color: #800000;
     margin-bottom: 20px;
     font-weight: 600;
 }
-
-.criteria-item {
+.feedback-page .criteria-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -296,8 +240,7 @@ body {
     margin-bottom: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
-
-.criteria-label {
+.feedback-page .criteria-label {
     font-size: 1rem;
     color: #333;
     font-weight: 500;
@@ -305,50 +248,39 @@ body {
     align-items: center;
     gap: 10px;
 }
-
-.criteria-label i {
+.feedback-page .criteria-label i {
     color: #800000;
     width: 20px;
 }
-
-.star-rating-small {
+.feedback-page .star-rating-small {
     display: flex;
     flex-direction: row-reverse;
     gap: 5px;
     font-size: 1.8rem;
 }
-
-.star-rating-small input[type="radio"] {
+.feedback-page .star-rating-small input[type="radio"] {
     display: none;
 }
-
-.star-rating-small .star-small {
+.feedback-page .star-rating-small .star-small {
     cursor: pointer;
     color: #ddd;
     transition: color 0.2s ease;
 }
-
-.star-rating-small .star-small:hover,
-.star-rating-small .star-small:hover ~ .star-small,
-.star-rating-small input[type="radio"]:checked ~ .star-small {
+.feedback-page .star-rating-small .star-small:hover, .feedback-page .star-rating-small .star-small:hover ~ .star-small, .feedback-page .star-rating-small input[type="radio"]:checked ~ .star-small {
     color: #ffd700;
 }
-
-/* Checkbox */
-.checkbox-wrapper {
+.feedback-page .checkbox-wrapper {
     display: flex;
     align-items: flex-start;
     gap: 12px;
 }
-
-.form-checkbox {
+.feedback-page .form-checkbox {
     width: 20px;
     height: 20px;
     cursor: pointer;
     margin-top: 2px;
 }
-
-.checkbox-label {
+.feedback-page .checkbox-label {
     font-size: 1rem;
     color: #333;
     cursor: pointer;
@@ -356,20 +288,16 @@ body {
     flex-direction: column;
     gap: 5px;
 }
-
-.checkbox-label i {
+.feedback-page .checkbox-label i {
     color: #800000;
     margin-right: 5px;
 }
-
-.checkbox-help {
+.feedback-page .checkbox-help {
     font-size: 0.85rem;
     color: #888;
     font-style: italic;
 }
-
-/* Buttons */
-.btn {
+.feedback-page .btn {
     padding: 14px 30px;
     border: none;
     border-radius: 8px;
@@ -383,36 +311,29 @@ body {
     gap: 8px;
     justify-content: center;
 }
-
-.btn-primary {
+.feedback-page .btn-primary {
     background-color: #800000;
     color: white;
 }
-
-.btn-primary:hover {
+.feedback-page .btn-primary:hover {
     background-color: #5a0000;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(128, 0, 0, 0.3);
 }
-
-.btn-secondary {
+.feedback-page .btn-secondary {
     background-color: #6c757d;
     color: white;
 }
-
-.btn-secondary:hover {
+.feedback-page .btn-secondary:hover {
     background-color: #5a6268;
 }
-
-.button-group {
+.feedback-page .button-group {
     display: flex;
     gap: 15px;
     justify-content: space-between;
     margin-top: 30px;
 }
-
-/* Error Message */
-.error-message {
+.feedback-page .error-message {
     background: #ffebee;
     border-left: 4px solid #c62828;
     padding: 15px;
@@ -422,145 +343,114 @@ body {
     align-items: center;
     gap: 10px;
 }
-
-.error-message i {
+.feedback-page .error-message i {
     font-size: 1.2rem;
 }
-
-/* Success Step */
-.success-content {
+.feedback-page .success-content {
     text-align: center;
     padding: 40px 20px;
 }
-
-.success-icon {
+.feedback-page .success-icon {
     font-size: 5rem;
     color: #4caf50;
     margin-bottom: 20px;
     animation: scaleIn 0.5s ease;
 }
-
 @keyframes scaleIn {
     0% { transform: scale(0); }
     50% { transform: scale(1.1); }
     100% { transform: scale(1); }
 }
-
-.success-title {
+.feedback-page .success-title {
     font-size: 2rem;
     color: #1b1b1b;
     margin-bottom: 15px;
     font-weight: 600;
 }
-
-.success-text {
+.feedback-page .success-text {
     font-size: 1.1rem;
     color: #666;
     line-height: 1.6;
     margin-bottom: 30px;
 }
-
-.success-info {
+.feedback-page .success-info {
     background: #f8f9fa;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 30px;
 }
-
-.success-info p {
+.feedback-page .success-info p {
     margin: 10px 0;
     font-size: 1rem;
     color: #333;
 }
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    .hero-title {
+@media screen and (max-width: 768px) {.feedback-page .hero-title {
         font-size: 2rem;
     }
-
-    .hero-subtitle {
+.feedback-page .hero-subtitle {
         font-size: 1rem;
     }
-
-    .form-container {
+.feedback-page .form-container {
         padding: 25px;
     }
-
-    .form-title {
+.feedback-page .form-title {
         font-size: 1.6rem;
     }
-
-    .disclaimer-box {
+.feedback-page .disclaimer-box {
         flex-direction: column;
         padding: 20px;
     }
-
-    .star-rating {
+.feedback-page .star-rating {
         font-size: 2.5rem;
         gap: 5px;
     }
-
-    .criteria-item {
+.feedback-page .criteria-item {
         flex-direction: column;
         align-items: flex-start;
         gap: 15px;
     }
-
-    .star-rating-small {
+.feedback-page .star-rating-small {
         font-size: 1.5rem;
     }
-
-    .button-group {
+.feedback-page .button-group {
         flex-direction: column;
     }
-
-    .btn {
+.feedback-page .btn {
         width: 100%;
     }
-
-    .info-grid {
+.feedback-page .info-grid {
         grid-template-columns: 1fr;
     }
 }
-
-@media screen and (max-width: 480px) {
-    .hero-banner {
+@media screen and (max-width: 480px) {.feedback-page .hero-banner {
         height: 200px;
     }
-
-    .hero-title {
+.feedback-page .hero-title {
         font-size: 1.6rem;
     }
-
-    .form-section {
+.feedback-page .form-section {
         padding: 40px 15px;
     }
-
-    .form-container {
+.feedback-page .form-container {
         padding: 20px;
     }
-
-    .star-rating {
+.feedback-page .star-rating {
         font-size: 2rem;
     }
-
-    .form-icon {
+.feedback-page .form-icon {
         font-size: 2.5rem;
     }
-
-    .success-icon {
+.feedback-page .success-icon {
         font-size: 4rem;
     }
 }
-    .feedback-tabs {
+.feedback-page .feedback-tabs {
       display: flex;
       gap: 10px;
       margin-bottom: 30px;
       border-bottom: 2px solid #e2e8f0;
     }
-    
-    .tab-button {
+.feedback-page .tab-button {
       flex: 1;
       padding: 15px 25px;
       background: transparent;
@@ -576,41 +466,34 @@ body {
       justify-content: center;
       gap: 10px;
     }
-    
-    .tab-button:hover {
+.feedback-page .tab-button:hover {
       color: #800000;
       background: #fff5f5;
     }
-    
-    .tab-button.active {
+.feedback-page .tab-button.active {
       color: #800000;
       border-bottom-color: #800000;
       background: #fff5f5;
     }
-    
-    .tab-content {
+.feedback-page .tab-content {
       display: none;
     }
-    
-    .tab-content.active {
+.feedback-page .tab-content.active {
       display: block;
     }
-    
-    .visitor-info {
+.feedback-page .visitor-info {
       background: #f7fafc;
       padding: 20px;
       border-radius: 8px;
       margin-bottom: 25px;
       border-left: 4px solid #966f6f;
     }
-    
-    .visitor-info h4 {
+.feedback-page .visitor-info h4 {
       margin: 0 0 15px 0;
       color: #800000;
       font-size: 1.1rem;
     }
-    
-    .form-row {
+.feedback-page .form-row {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;

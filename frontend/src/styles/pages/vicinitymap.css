@@ -1,60 +1,22 @@
-* {
+:where(.vicinity-page, .vicinity-page *) {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-.main {
+.vicinity-page {
     background-color: white;
     flex-direction: column;
     align-items: center;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
 }
-
-.hero-section {
-    width: 100%;
-    height: 380px;
-    display: flex;
-    background-size: cover;   
-}
-
-.hero-content {
-    width: 100%;
-    color: white;
-    text-align: left;
-    background-color: rgb(27, 27, 27, 0.98);
-    display: flex;
-    flex-direction: column;
-}
-.hero-title-design {
-    display: flex;
-    gap: 15px;
-    position: relative;
-    top: 120px;
-    margin-left: 100px;
-}
-
-.hero-title {
-    font-size: 3.5rem;
-    font-weight: bold;
-}
-
-.hero-text {
-    font-size: 1.2rem;
-    margin-top: 30px;
-    max-width: 70%;
-    text-align:  justify;
-}
-
-.vl1 {
+.vicinity-page .vl1 {
     height: 50px;
     width: 2px;
     background-color:  rgb(237, 237, 237);
     border: none;
     margin-top: 5px;
 }
-
-@media (max-width: 1059px) {
-    .staff-container {
+@media (max-width: 1059px) {.vicinity-page .staff-container {
     border: 1px solid #ccc;
     max-width: 550px;
     width: 60%; /* adjust width for 2 per row */
@@ -66,47 +28,20 @@
     border-radius: 10px;
 }
 }
-
-/* Maps Section  */
-/* Maps Section */
-.maps-section {
+.vicinity-page .maps-section {
     padding: 3%;
     display: flex;
     justify-content: center;
     width: 100%;
 }
-
-.maps-container {
+.vicinity-page .maps-container {
     width: 100%;
     max-width: 1000px;
 }
-
-/* The embedded Google map should scale with its container, not stay 1000px. */
-.maps-container iframe {
+.vicinity-page .maps-container iframe {
     width: 100%;
 }
-
-/* ------------------------------------------------------------------ *
- * Responsive — Vicinity Map
- * ------------------------------------------------------------------ */
-@media (max-width: 768px) {
-    .hero-section {
-        height: auto;
-        min-height: 300px;
-    }
-    .hero-title-design {
-        top: 0;
-        margin-left: 0;
-        padding: 80px 24px 40px;
-    }
-    .hero-title {
-        font-size: 2.2rem;
-    }
-    .hero-text {
-        max-width: 100%;
-        font-size: 1.05rem;
-    }
-    .maps-container iframe {
+@media (max-width: 768px) {.vicinity-page .maps-container iframe {
         height: 360px;
     }
 }

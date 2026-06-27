@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import { NewsGrid } from "@/features/news/NewsGrid";
+import { NewsSection } from "@/features/news/NewsSection";
 import { PATHS, EXTERNAL_LINKS } from "@/routes/paths";
 import "@/styles/pages/students.css";
 
@@ -68,7 +68,7 @@ export function StudentsPage() {
   };
 
   return (
-    <main className="main">
+    <main className="main students-page">
       <div className="main-image">
         <img src={MAIN_IMAGE} alt="PUP campus" className="main-img" />
       </div>
@@ -98,21 +98,7 @@ export function StudentsPage() {
             </li>
           ))}
         </ul>
-
-        <section className="news-section">
-          <div className="container">
-            <h2 className="section-title">News and Updates</h2>
-            <hr
-              style={{
-                width: "90px",
-                border: "2px solid black",
-                margin: "auto",
-                marginBottom: "50px",
-              }}
-            />
-            <NewsGrid limit={3} />
-          </div>
-        </section>
+        <NewsSection />
       </div>
     </main>
   );

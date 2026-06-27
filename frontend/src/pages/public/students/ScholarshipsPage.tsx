@@ -324,7 +324,7 @@ export function ScholarshipsPage() {
   };
 
   return (
-    <main className="main">
+    <main className="main scholarships-page">
       <div className="hero-banner">
         <div className="hero-overlay">
           <h1 className="hero-title">Scholarship Opportunities</h1>

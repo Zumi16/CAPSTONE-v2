@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { NewsGrid } from "@/features/news/NewsGrid";
+import { NewsSection } from "@/features/news/NewsSection";
 import { useEscapeToClose } from "@/lib/useEscapeToClose";
 import "@/styles/pages/admission.css";
 import {
@@ -31,7 +31,7 @@ export function AdmissionPage() {
   useEscapeToClose(Boolean(modal), () => setOpenKey(null));
 
   return (
-    <main className="main">
+    <main className="main admission-page">
       <section
         className="hero-section"
         style={{ backgroundImage: `url('${HERO_BG}')` }}
@@ -155,20 +155,7 @@ export function AdmissionPage() {
           ))}
         </ul>
 
-        <section className="news-section">
-          <div className="container">
-            <h2 className="section-title">News and Updates</h2>
-            <hr
-              style={{
-                width: "90px",
-                border: "2px solid black",
-                margin: "auto",
-                marginBottom: "50px",
-              }}
-            />
-            <NewsGrid limit={3} />
-          </div>
-        </section>
+        <NewsSection />
       </div>
 
       {/* Admission modal */}

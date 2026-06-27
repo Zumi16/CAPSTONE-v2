@@ -79,7 +79,7 @@ export function AllNewsPage() {
   };
 
   return (
-    <main>
+    <main className="all-news-page">
       <div className="all-news-container">
         <div className="page-header">
           <h1>News &amp; Updates</h1>

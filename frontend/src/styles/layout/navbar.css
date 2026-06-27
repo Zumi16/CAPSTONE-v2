@@ -240,7 +240,7 @@ li {
   }
   .nav-menu {
     position: absolute;
-    left: -100%;
+    left: -110%;
     top: 169px;
     gap: 0;
     flex-direction: column;

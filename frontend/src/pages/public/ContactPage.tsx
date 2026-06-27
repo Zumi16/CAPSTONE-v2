@@ -26,7 +26,7 @@ export function ContactPage() {
   };
 
   return (
-    <main>
+    <main className="contact-page">
       <div className="contact-support-wrapper">
         <h2>Contact &amp; Support</h2>
         <div className="contact-grid">

@@ -1,74 +1,27 @@
-/* research&extension-public.css - Medium-style Article Display */
-* {
+:where(.research-ext-page, .research-ext-page *) {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
-.main {
+.research-ext-page {
     background-color: white;
     flex-direction: column;
     align-items: center;
     font-family: 'Inter', sans-serif;
 }
-
-/* ========================================
-   HERO SECTION
-   ======================================== */
-
-.hero-section {
-    width: 100%;
-    height: 380px;
-    display: flex;
-    background-size: cover;   
-}
-
-.hero-content {
-    width: 100%;
-    color: white;
-    text-align: left;
-    background-color: rgba(27, 27, 27, 0.98);
-    display: flex;
-    flex-direction: column;
-}
-
-.hero-title-design {
-    display: flex;
-    gap: 15px;
-    position: relative;
-    top: 120px;
-    margin-left: 100px;
-}
-
-.hero-title {
-    font-size: 3.5rem;
-    font-weight: bold;
-}
-
-.hero-text {
-    font-size: 1.2rem;
-    margin-top: 30px;
-    max-width: 70%;
-    text-align: justify;
-}
-
-.vl1 {
+.research-ext-page .vl1 {
     height: 50px;
     width: 2px;
     background-color: rgb(237, 237, 237);
     border: none;
     margin-top: 5px;
 }
-
-/* TEXT SECTION GRID */
-.text-description {
+.research-ext-page .text-description {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     width: 100%;
 }
-
-/* TEXT BOX */
-.desc-box {
+.research-ext-page .desc-box {
     padding: 10px 60px;
     font-size: 1.15rem;
     text-align: justify;
@@ -83,7 +36,7 @@
     z-index: 2;
     overflow: hidden;
 }
-.desc-text-content {
+.research-ext-page .desc-text-content {
     color: #ffffffbd;
     line-height: 1.4;
     padding: 20px 10px;
@@ -91,59 +44,40 @@
     text-shadow:
         0 2px 4px rgba(0, 0, 0, 0.8);
 }
-
-/* DARK OVERLAY */
-.desc-box::before {
+.research-ext-page .desc-box::before {
     content: "";
     position: absolute;
     inset: 0;
     background-color: rgba(30, 30, 30, 0.941);
     z-index: 1;
 }
-
-/* TEXT ABOVE OVERLAY */
-.desc-box > * {
+.research-ext-page .desc-box > * {
     position: relative;
     z-index: 3;
 }
-
-/* BACKGROUND IMAGES */
-.text-description > p:nth-child(1) {
+.research-ext-page .text-description > p:nth-child(1) {
     background-image: url('/assets/images/PUPBg4.jpg');
 }
-
-.text-description > p:nth-child(2) {
+.research-ext-page .text-description > p:nth-child(2) {
     background-image: url('/assets/images/PUPBg2.jpg');
 }
-
-.text-description > p:nth-child(3) {
+.research-ext-page .text-description > p:nth-child(3) {
     background-image: url('/assets/images/PUPBg3.jpg');
 }
-
-/* ========================================
-   POSTS SECTION - MEDIUM STYLE
-   ======================================== */
-
-.posts-section {
+.research-ext-page .posts-section {
     width: 100%;
     background: #fafafa;
     padding: 60px 20px;
     min-height: 500px;
 }
-
-.posts-container {
+.research-ext-page .posts-container {
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 32px;
 }
-
-/* ========================================
-   ARTICLE CARD
-   ======================================== */
-
-.article-card {
+.research-ext-page .article-card {
     background: white;
     border-radius: 4px;
     overflow: hidden;
@@ -154,33 +88,27 @@
     flex-direction: column;
     height: 100%;
 }
-
-.article-card:hover {
+.research-ext-page .article-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
-
-/* Featured Image */
-.article-featured-image {
+.research-ext-page .article-featured-image {
     width: 100%;
     height: 220px;
     overflow: hidden;
     position: relative;
     background: #f0f0f0;
 }
-
-.article-featured-image img {
+.research-ext-page .article-featured-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.4s ease;
 }
-
-.article-card:hover .article-featured-image img {
+.research-ext-page .article-card:hover .article-featured-image img {
     transform: scale(1.08);
 }
-
-.article-no-image {
+.research-ext-page .article-no-image {
     width: 100%;
     height: 220px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -191,16 +119,13 @@
     font-size: 48px;
     opacity: 0.8;
 }
-
-/* Article Content */
-.article-content {
+.research-ext-page .article-content {
     padding: 24px;
     display: flex;
     flex-direction: column;
     flex: 1;
 }
-
-.article-title {
+.research-ext-page .article-title {
     font-size: 24px;
     font-weight: 700;
     line-height: 1.3;
@@ -211,8 +136,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-
-.article-excerpt {
+.research-ext-page .article-excerpt {
     font-size: 16px;
     line-height: 1.6;
     color: #6b6b6b;
@@ -222,9 +146,7 @@
     overflow: hidden;
     flex: 1;
 }
-
-/* Article Meta */
-.article-meta {
+.research-ext-page .article-meta {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -233,18 +155,15 @@
     font-size: 14px;
     color: #6b6b6b;
 }
-
-.article-date {
+.research-ext-page .article-date {
     display: flex;
     align-items: center;
     gap: 6px;
 }
-
-.article-date i {
+.research-ext-page .article-date i {
     font-size: 12px;
 }
-
-.article-read-more {
+.research-ext-page .article-read-more {
     color: #1a8917;
     font-weight: 500;
     text-decoration: none;
@@ -253,21 +172,17 @@
     gap: 6px;
     transition: gap 0.2s ease;
 }
-
-.article-card:hover .article-read-more {
+.research-ext-page .article-card:hover .article-read-more {
     gap: 10px;
 }
-
-/* Article Attachments Badge */
-.article-attachments {
+.research-ext-page .article-attachments {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-top: 12px;
     flex-wrap: wrap;
 }
-
-.attachment-badge {
+.research-ext-page .attachment-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -278,21 +193,14 @@
     color: #6b6b6b;
     border: 1px solid #e8e8e8;
 }
-
-.attachment-badge i {
+.research-ext-page .attachment-badge i {
     font-size: 11px;
 }
-
-.attachment-badge.pdf { color: #dc3545; border-color: #fdd; background: #fff5f5; }
-.attachment-badge.word { color: #2b579a; border-color: #dde; background: #f5f7ff; }
-.attachment-badge.excel { color: #217346; border-color: #dfd; background: #f5fff5; }
-.attachment-badge.ppt { color: #d24726; border-color: #fed; background: #fff5f0; }
-
-/* ========================================
-   FULL ARTICLE VIEW MODAL
-   ======================================== */
-
-.article-modal {
+.research-ext-page .attachment-badge.pdf { color: #dc3545; border-color: #fdd; background: #fff5f5; }
+.research-ext-page .attachment-badge.word { color: #2b579a; border-color: #dde; background: #f5f7ff; }
+.research-ext-page .attachment-badge.excel { color: #217346; border-color: #dfd; background: #f5fff5; }
+.research-ext-page .attachment-badge.ppt { color: #d24726; border-color: #fed; background: #fff5f0; }
+.research-ext-page .article-modal {
     display: none;
     position: fixed;
     top: 0;
@@ -304,8 +212,7 @@
     overflow-y: auto;
     animation: fadeIn 0.3s ease;
 }
-
-.article-modal-content {
+.research-ext-page .article-modal-content {
     max-width: 1100px;
     margin: 40px auto;
     background: white;
@@ -313,12 +220,10 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     animation: slideUp 0.4s ease;
 }
-
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
-
 @keyframes slideUp {
     from {
         opacity: 0;
@@ -329,9 +234,7 @@
         transform: translateY(0);
     }
 }
-
-/* Close Button */
-.article-close {
+.research-ext-page .article-close {
     position: sticky;
     top: 20px;
     right: 20px;
@@ -350,19 +253,15 @@
     margin: 20px 20px 0 0;
     transition: all 0.2s ease;
 }
-
-.article-close:hover {
+.research-ext-page .article-close:hover {
     background: #f5f5f5;
     color: #242424;
     transform: rotate(90deg);
 }
-
-/* Full Article Header */
-.article-full-header {
+.research-ext-page .article-full-header {
     padding: 60px 60px 40px;
 }
-
-.article-full-title {
+.research-ext-page .article-full-title {
     font-size: 42px;
     font-weight: 700;
     line-height: 1.2;
@@ -370,8 +269,7 @@
     color: #242424;
     margin-bottom: 20px;
 }
-
-.article-full-meta {
+.research-ext-page .article-full-meta {
     display: flex;
     align-items: center;
     gap: 16px;
@@ -380,13 +278,10 @@
     padding-bottom: 24px;
     border-bottom: 1px solid #f2f2f2;
 }
-
-.article-full-meta i {
+.research-ext-page .article-full-meta i {
     font-size: 14px;
 }
-
-/* Full Article Image */
-.article-full-image {
+.research-ext-page .article-full-image {
     width: 100%;
     max-height: 500px;
     overflow: hidden;
@@ -395,18 +290,13 @@
     justify-content: center; /* Added */
     background: #f0f0f0; /* Added fallback */
 }
-
-.article-full-image img {
+.research-ext-page .article-full-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center center; /* CRITICAL FIX - Centers the image */
 }
-
-/* Replace the .article-full-body section in research&extension-public.css with this */
-
-/* Full Article Body - UPDATED with formatting preservation */
-.article-full-body {
+.research-ext-page .article-full-body {
   padding: 40px 60px 60px;
   font-size: 21px;
   line-height: 1.58;
@@ -415,42 +305,34 @@
   white-space: pre-wrap; /* Preserve whitespace and line breaks */
   word-wrap: break-word; /* Prevent overflow */
 }
-
-.article-full-body p {
+.research-ext-page .article-full-body p {
   margin-bottom: 1.5em;
   white-space: pre-wrap; /* Preserve formatting in paragraphs */
 }
-
-.article-full-body h1,
-.article-full-body h2,
-.article-full-body h3 {
+.research-ext-page .article-full-body h1,
+.research-ext-page .article-full-body h2,
+.research-ext-page .article-full-body h3 {
   font-family: 'Playfair Display', 'Georgia', serif;
   font-weight: 700;
   margin-top: 1.5em;
   margin-bottom: 0.5em;
   white-space: pre-wrap; /* Preserve formatting in headings */
 }
-
-.article-full-body h1 { font-size: 34px; }
-.article-full-body h2 { font-size: 28px; }
-.article-full-body h3 { font-size: 24px; }
-
-.article-full-body strong { font-weight: 700; }
-.article-full-body em { font-style: italic; }
-
-/* Preserve formatting for lists and other elements */
-.article-full-body ul,
-.article-full-body ol {
+.research-ext-page .article-full-body h1 { font-size: 34px; }
+.research-ext-page .article-full-body h2 { font-size: 28px; }
+.research-ext-page .article-full-body h3 { font-size: 24px; }
+.research-ext-page .article-full-body strong { font-weight: 700; }
+.research-ext-page .article-full-body em { font-style: italic; }
+.research-ext-page .article-full-body ul,
+.research-ext-page .article-full-body ol {
   margin-bottom: 1.5em;
   padding-left: 2em;
 }
-
-.article-full-body li {
+.research-ext-page .article-full-body li {
   margin-bottom: 0.5em;
   white-space: pre-wrap;
 }
-
-.article-full-body blockquote {
+.research-ext-page .article-full-body blockquote {
   border-left: 4px solid #e0e0e0;
   padding-left: 1.5em;
   margin: 1.5em 0;
@@ -458,27 +340,22 @@
   color: #6b6b6b;
   white-space: pre-wrap;
 }
-
-/* Full Article Attachments */
-.article-full-attachments {
+.research-ext-page .article-full-attachments {
     padding: 0 60px 40px;
 }
-
-.article-full-attachments h3 {
+.research-ext-page .article-full-attachments h3 {
     font-size: 20px;
     font-weight: 600;
     color: #292929;
     margin-bottom: 16px;
     font-family: 'Inter', sans-serif;
 }
-
-.attachment-list {
+.research-ext-page .attachment-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
-
-.attachment-item {
+.research-ext-page .attachment-item {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -489,123 +366,85 @@
     transition: all 0.2s ease;
     text-decoration: none;
 }
-
-.attachment-item:hover {
+.research-ext-page .attachment-item:hover {
     background: #f0f2f5;
     border-color: #b3b3b3;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
-
-.attachment-icon {
+.research-ext-page .attachment-icon {
     font-size: 28px;
     min-width: 32px;
 }
-
-.attachment-icon.fa-file-pdf { color: #dc3545; }
-.attachment-icon.fa-file-word { color: #2b579a; }
-.attachment-icon.fa-file-excel { color: #217346; }
-.attachment-icon.fa-file-powerpoint { color: #d24726; }
-.attachment-icon.fa-file-alt { color: #6c757d; }
-.attachment-icon.fa-file { color: #495057; }
-
-.attachment-info {
+.research-ext-page .attachment-icon.fa-file-pdf { color: #dc3545; }
+.research-ext-page .attachment-icon.fa-file-word { color: #2b579a; }
+.research-ext-page .attachment-icon.fa-file-excel { color: #217346; }
+.research-ext-page .attachment-icon.fa-file-powerpoint { color: #d24726; }
+.research-ext-page .attachment-icon.fa-file-alt { color: #6c757d; }
+.research-ext-page .attachment-icon.fa-file { color: #495057; }
+.research-ext-page .attachment-info {
     flex: 1;
 }
-
-.attachment-name {
+.research-ext-page .attachment-name {
     font-size: 16px;
     font-weight: 500;
     color: #292929;
     margin-bottom: 4px;
 }
-
-.attachment-size {
+.research-ext-page .attachment-size {
     font-size: 14px;
     color: #6b6b6b;
 }
-
-.attachment-download {
+.research-ext-page .attachment-download {
     color: #1a8917;
     font-size: 20px;
 }
-
-/* Empty State */
-.posts-empty {
+.research-ext-page .posts-empty {
     grid-column: 1 / -1;
     text-align: center;
     padding: 80px 20px;
 }
-
-.posts-empty i {
+.research-ext-page .posts-empty i {
     font-size: 64px;
     color: #e8e8e8;
     margin-bottom: 24px;
 }
-
-.posts-empty h2 {
+.research-ext-page .posts-empty h2 {
     font-size: 28px;
     font-weight: 600;
     color: #292929;
     margin-bottom: 12px;
     font-family: 'Playfair Display', serif;
 }
-
-.posts-empty p {
+.research-ext-page .posts-empty p {
     font-size: 18px;
     color: #6b6b6b;
     max-width: 500px;
     margin: 0 auto;
 }
-
-/* ========================================
-   RESPONSIVE DESIGN
-   ======================================== */
-
-@media (max-width: 768px) {
-    .hero-title-design {
-        margin-left: 20px;
-        top: 80px;
-    }
-
-    .hero-title {
-        font-size: 2.5rem;
-    }
-
-    .hero-text {
-        font-size: 1rem;
-        max-width: 90%;
-    }
-
-    .desc-text,
-    .desc-text2 {
+@media (max-width: 768px) {.research-ext-page .desc-text,
+.research-ext-page .desc-text2 {
         max-width: 90%;
         font-size: 1rem;
     }
-
-    .posts-container {
+.research-ext-page .posts-container {
         grid-template-columns: 1fr;
         gap: 24px;
     }
-
-    .article-modal-content {
+.research-ext-page .article-modal-content {
         margin: 20px;
         border-radius: 8px;
     }
-
-    .article-full-header {
+.research-ext-page .article-full-header {
         padding: 40px 24px 24px;
     }
-
-    .article-full-title {
+.research-ext-page .article-full-title {
         font-size: 32px;
     }
-
-    .article-full-body {
+.research-ext-page .article-full-body {
         padding: 24px;
         font-size: 18px;
     }
-
-    .article-full-attachments {
+.research-ext-page .article-full-attachments {
         padding: 0 24px 32px;
     }
 }

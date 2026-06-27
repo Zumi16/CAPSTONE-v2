@@ -4,7 +4,7 @@ import "@/styles/pages/nstp-public.css";
 
 export function NstpPage() {
   return (
-    <main className="main">
+    <main className="main nstp-page">
       <Hero
         title="NSTP Announcements"
         text="Stay updated with official National Service Training Program (NSTP) announcements, including schedules, requirements, orientations, and important reminders. All information posted here is released by the campus administration for enrolled students."

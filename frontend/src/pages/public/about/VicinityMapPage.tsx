@@ -6,7 +6,7 @@ const MAP_EMBED =
 
 export function VicinityMapPage() {
   return (
-    <main className="main">
+    <main className="main vicinity-page">
       <Hero
         title="Vicinity Map"
         text="Locate PUP Parañaque with ease. This map provides a clear view of the campus and its surrounding area, helping visitors navigate nearby landmarks, main roads, and transportation routes."

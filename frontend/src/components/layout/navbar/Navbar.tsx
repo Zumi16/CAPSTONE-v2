@@ -198,8 +198,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
             <span className={c.bar} />
           </div>
 
-          {/* Desktop search (right side of the bar; hidden on mobile, which
-              uses the search inside the hamburger menu instead). */}
+          {/* Desktop search */}
           <div className={c.searchBar}>
             <form className={c.searchForm} onSubmit={handleSearch}>
               <input

@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
-import { NewsGrid } from "@/features/news/NewsGrid";
-import { PATHS } from "@/routes/paths";
+import { NewsSection } from "@/features/news/NewsSection";
 import "@/styles/pages/home.css";
 import { CounterStat } from "./CounterStat";
 
@@ -65,7 +63,7 @@ const GLANCE_STATS = [
 
 export function HomePage() {
   return (
-    <main className="main">
+    <main className="main home-page">
       {/* Hero */}
       <section className="hero-section">
         <div className="overlay">
@@ -171,25 +169,7 @@ export function HomePage() {
       </section>
 
       {/* News */}
-      <section className="news-section">
-        <div className="container" data-aos="fade-up">
-          <h2 className="section-title">News and Updates</h2>
-          <hr
-            style={{
-              width: "90px",
-              border: "2px solid black",
-              margin: "auto",
-              marginBottom: "50px",
-            }}
-          />
-          <NewsGrid limit={3} />
-          <div className="view-more">
-            <Link to={PATHS.news} className="button">
-              View All News
-            </Link>
-          </div>
-        </div>
-      </section>
+      <NewsSection showViewAll />
     </main>
   );
 }

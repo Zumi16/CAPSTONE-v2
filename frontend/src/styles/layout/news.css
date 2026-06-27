@@ -5,15 +5,14 @@
    ========================================== */
 
 .news-section {
-  width: 100%;
   background: #fafafa;
-  padding: 30px 20px;
+  padding: 30px 200px;
   min-height: 500px;
 }
 
 .news-section .container {
-  max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .news-section .section-title {

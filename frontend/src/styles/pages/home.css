@@ -1,22 +1,18 @@
-/* home.css */
-:root {
+/* Scoped under `.home-page` to prevent global CSS collisions across pages. */
+.home-page {
       --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       --font-display: 'Playfair Display', Georgia, serif;
 }
-    
-/* Taas */
-* {
+:where(.home-page, .home-page *) {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   
 }
-
-.main {
+.home-page {
 background-color: white;
 }
-
-.hero-section {
+.home-page .hero-section {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -25,12 +21,10 @@ background-color: white;
   background-repeat: no-repeat;
   background-size: cover;
 }
-
-.overlay-logo {
+.home-page .overlay-logo {
 position: absolute;
 }
-
-.overlay {
+.home-page .overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -44,14 +38,13 @@ position: absolute;
   text-align: left;         
   padding: 0 50px;             
 }
-
-.overlay-text p {
+.home-page .overlay-text p {
   text-indent: 20px; 
 }
-.overlay-text h1 {
+.home-page .overlay-text h1 {
   color: #ffffff; 
 }
-.overlay-text {
+.home-page .overlay-text {
   font-family: 'Times New Roman', Times, serif;
   font-size: 25px;
   color: #ffffff;
@@ -59,7 +52,6 @@ position: absolute;
   border-left: 5px solid #ffcc00; 
   padding-left: 20px;
 }
-
 @keyframes change {
   0% {
     background-image: url('/assets/images/PUPBg11.jpg');
@@ -68,63 +60,53 @@ position: absolute;
     background-image: url('/assets/images/PUPBg3.jpg');
   }
 }
-
-
-/* About xection */
-html {
+.home-page {
   scroll-behavior: smooth;
 }
-#about {
+.home-page #about {
   scroll-margin-top: 100px; 
 }
-.about-section {
+.home-page .about-section {
 
   max-width: 1200px;
   padding: 50px 20px;
   font-family: var(--font-display);
 }
-
-.about-title {
+.home-page .about-title {
   text-align: center;
   font-size: 2.5rem;
   color: #1f2937;
   margin-bottom: 10px;
   overflow-x: hidden;
 }
-
-.subtitle {
+.home-page .subtitle {
   text-align:center;
   font-size: 1.25rem;
   color: #6b7280;;
   margin-bottom: 50px;
 }
-
-.about-content {
+.home-page .about-content {
   display:flex;
 
   justify-content: space-between;
   align-items: flex-start;
 }
-
-.about-text {
+.home-page .about-text {
   flex: 1 1 60%;
   padding-right: 30px;
 }
-
-.about-text h2 {
+.home-page .about-text h2 {
   color: #8B0000;
   font-size: 2.2rem;
   margin-bottom: 10px;
 }
-
-.about-text p {
+.home-page .about-text p {
   color:#4b5563;
   line-height: 1.6;
   margin-bottom: 30px;
   font-size: 1.3rem;
 }
-
-.about-image video {
+.home-page .about-image video {
   width: 100%;
   max-width: 800px;
   border-radius: 15px;
@@ -132,16 +114,13 @@ html {
   object-fit: cover;
   display: block;
 }
-
-
-.about-features {
+.home-page .about-features {
   margin-top: 30px;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
-
-.feature-item {
+.home-page .feature-item {
   display: flex;
   align-items: center;
   background-color: #ffffff;
@@ -150,25 +129,17 @@ html {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s;
 }
-
-
-
-.feature-item i {
+.home-page .feature-item i {
   font-size: 20px;
   color: #b11d22; 
   margin-right: 15px;
 }
-
-.feature-item span {
+.home-page .feature-item span {
   font-size: 1rem;
   color: #1e293b; 
   font-weight: 500;
 }
-
-
-
-/*Strategic */
-.goal-header {
+.home-page .goal-header {
   background: linear-gradient(to right, #ffece8, #fff7f6);
   border-radius: 10px 10px 0 0;
   align-items: center;
@@ -177,7 +148,7 @@ html {
   margin: -30px -30px 15px -30px;
   padding-top: 10px;
 }
-.goals-values-section {
+.home-page .goals-values-section {
   font-family: var(--font-display);
   display: flex;
   flex-wrap: wrap;
@@ -187,8 +158,7 @@ html {
   gap: 30px;
   color: #1f2937; 
 }
-
-.goals-container, .values-container {
+.home-page .goals-container, .home-page .values-container {
   flex: 1;
   min-width: 300px;
   background-color: #ffffff;
@@ -197,36 +167,17 @@ html {
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-.section-title {
-  font-size: 28px;
-  font-weight: bold;
-  color: #b31b1b;
-  text-align: center;
-}
-
-.title-underline {
-  width: 80px;
-  height: 4px;
-  background-color: #8B0000;
-  border: none;
-  margin: 10px auto 20px;
-  border-radius: 2px;
-  margin-bottom: 40px;
-}
-
-.goal-category {
+.home-page .goal-category {
   margin-bottom: 30px;
   gap: 15px;
 
 }
-
-.goal-category h3 {
+.home-page .goal-category h3 {
   margin: 0;
   font-size: 24px;
   color: #8B0000;
 }
-
-.goal-number {
+.home-page .goal-number {
   width: 40px;
   height: 40px;
   background: #8B0000;
@@ -237,16 +188,14 @@ html {
   font-weight: bold;
   margin-bottom: 10px; 
 }
-
-.goal-box {
+.home-page .goal-box {
   background: #f5f8fa;
   padding: 15px;
   border-radius: 10px;
   margin-bottom: 10px;
   border-left: 5px solid #8B0000;
 }
-
-.values-header {
+.home-page .values-header {
   background: linear-gradient(to right, #ffece8, #fff7f6);
   border-radius: 10px 10px 0 0;
   align-items: center;
@@ -255,9 +204,7 @@ html {
   margin: -30px -30px 15px -30px;
   padding-top: 10px;
 }
-
-
-.inspire-title {
+.home-page .inspire-title {
   font-size: 40px;
   font-weight: bold;
   color: #8B0000;
@@ -266,8 +213,7 @@ html {
   text-shadow: 1px 1px 2px #b31b1b;
   margin-bottom: 50px;
 }
-
-.value-box {
+.home-page .value-box {
   display: flex;
   align-items: center;
   background-color: #ffffff;
@@ -278,8 +224,7 @@ html {
   gap: 15px;
   font-size: 25px;
 }
-
-.value-letter {
+.home-page .value-letter {
   background: #8B0000;
   color: white;
   font-weight: bold;
@@ -290,9 +235,7 @@ html {
   border-radius: 50%;
   font-size: 25px;
 }
-
-/* Glance section */
-.glance-section {
+.home-page .glance-section {
   width: 100%;
   padding: 60px 20px;
   background-image: url('/assets/images/PUPBg13.jpg');
@@ -300,154 +243,131 @@ html {
   text-align :center;
   font-family: var(--font-display);
 }
-.glance-header h2 {
+.home-page .glance-header h2 {
   font-size: 48px;
   font-weight: bold;
   margin-bottom: 10px;
 }
-
-.glance-header p {
+.home-page .glance-header p {
   font-size: 18px;
   max-width: 800px;
   margin: 0 auto 40px;
 }
-
-.glance-stats {
+.home-page .glance-stats {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 40px;
 }
-
-.stat-box {
+.home-page .stat-box {
   min-width: 150px;
   border-left: 1px solid rgba(255, 255, 255, 0.2);
   padding: 10px 20px;
 }
-
-.stat-box .counter {
+.home-page .stat-box .counter {
   font-size: 90px;
   color: #ffcc00;
   font-weight: bold;
 
 }
-
-.stat-box p {
+.home-page .stat-box p {
   margin-top: 10px;
   font-size: 16px;
 }
-
-/* Center the about section (it had a max-width but no auto margins). */
-.about-section {
+.home-page .about-section {
   margin: 0 auto;
 }
-
-/* ------------------------------------------------------------------ *
- * Responsive — Homepage
- * ------------------------------------------------------------------ */
-
-/* Tablet */
-@media (max-width: 992px) {
-  .hero-section {
+@media (max-width: 992px) {.home-page .hero-section {
     margin-top: 160px;
   }
-  .overlay {
+.home-page .overlay {
     padding: 0 30px;
   }
-  .overlay-text {
+.home-page .overlay-text {
     margin-top: 50px;
     font-size: 20px;
   }
-  /* About: stack the text and the video instead of side by side. */
-  .about-content {
+.home-page .about-content {
     flex-direction: column;
     align-items: stretch;
   }
-  .about-text {
+.home-page .about-text {
     padding-right: 0;
     margin-bottom: 30px;
   }
-  .about-image video {
+.home-page .about-image video {
     max-width: 100%;
   }
-  .glance-header h2 {
+.home-page .glance-header h2 {
     font-size: 36px;
   }
-  .stat-box .counter {
+.home-page .stat-box .counter {
     font-size: 64px;
   }
-  .inspire-title {
+.home-page .inspire-title {
     font-size: 32px;
   }
-  .goals-container,
-  .values-container {
+.home-page .goals-container, .home-page .values-container {
     width: 100%;
     padding: 20px;
   }
 }
-
-/* Phones */
-@media (max-width: 769px) {
-  .hero-section {
+@media (max-width: 769px) {.home-page .hero-section {
     min-height: 70vh;
   }
-  .overlay {
+.home-page .overlay {
     padding: 0 20px;
     justify-content: center;
     text-align: center;
   }
-  .overlay-text {
+.home-page .overlay-text {
     margin-top: 0;
     font-size: 17px;
     border-left: none;
     padding-left: 0;
   }
-  .about-title {
+.home-page .about-title {
     font-size: 1.9rem;
   }
-  .about-text h2 {
+.home-page .about-text h2 {
     font-size: 1.7rem;
   }
-  .about-text p {
+.home-page .about-text p {
     font-size: 1.1rem;
   }
-  .goal-header, .values-header {
+.home-page .goal-header, .home-page .values-header {
     margin: -30px -20px 15px -20px;
   }
-
-  .goals-values-section {
+.home-page .goals-values-section {
     padding: 20px;
     gap: 20px;
   }
-
-  .goals-container,
-  .values-container {
+.home-page .goals-container, .home-page .values-container {
     width: 100%;
     padding: 20px;
   }
-
-  .goal-category h3 {
+.home-page .goal-category h3 {
     font-size: 20px;
   }
-  .value-box {
+.home-page .value-box {
     font-size: 18px;
     padding: 16px;
   }
-  .value-letter {
+.home-page .value-letter {
     width: 38px;
     height: 38px;
     font-size: 20px;
   }
-  .glance-section {
+.home-page .glance-section {
     padding: 40px 16px;
   }
-  .glance-header h2 {
+.home-page .glance-header h2 {
     font-size: 28px;
   }
-  .stat-box {
+.home-page .stat-box {
     border-left: none; /* the divider looks odd when stacked */
   }
-  .stat-box .counter {
+.home-page .stat-box .counter {
     font-size: 52px;
   }
 }
