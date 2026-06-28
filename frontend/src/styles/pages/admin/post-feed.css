@@ -1,0 +1,671 @@
+/* Shared adminAve announcement feed (OJT / NSTP / Research & Extension).
+   Ported from the legacy ojt.css + post.css and scoped under
+   `.post-feed-page` so the generic class names (.post-modal, .file-item,
+   .trash-item, etc.) never leak into other globally-loaded page CSS. */
+
+.post-feed-page {
+  position: relative;
+}
+
+/* ========================================
+   POST FEED & CONTAINER
+   ======================================== */
+.post-feed-page .post-container {
+  width: 100%;
+  min-height: calc(100vh - 160px);
+  background: #fafafa;
+  padding: 40px 20px;
+  border-radius: 12px;
+}
+
+.post-feed-page .post-feed {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.post-feed-page .post-placeholder {
+  text-align: center;
+  color: #6c757d;
+  padding: 60px 20px;
+}
+.post-feed-page .post-placeholder i {
+  font-size: 56px;
+  color: #c9a0a0;
+  margin-bottom: 18px;
+  display: block;
+}
+.post-feed-page .post-placeholder h2 {
+  font-size: 1.4rem;
+  color: #495057;
+  margin: 0 0 8px;
+}
+.post-feed-page .post-placeholder p {
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ========================================
+   POST ITEM
+   ======================================== */
+.post-feed-page .feed-post {
+  background: #ffffff;
+  padding: 30px 25px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(63, 63, 63, 0.25);
+  width: 80%;
+  margin: 0 auto;
+  color: #3e3e3e;
+  position: relative;
+}
+
+.post-feed-page .feed-post h1 {
+  font-size: 1.6rem;
+  color: #1b1b1b;
+  margin: 0 0 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.post-feed-page .feed-content {
+  margin: 0 0 10px;
+  color: #000000;
+  line-height: 1.6;
+}
+.post-feed-page .feed-content p { margin: 0 0 8px; }
+
+/* DIVIDER WITH DATE */
+.post-feed-page .feed-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  font-size: 0.9rem;
+  margin-top: 15px;
+  position: relative;
+}
+.post-feed-page .feed-divider::before,
+.post-feed-page .feed-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #3b3a3a;
+  margin: 0 10px;
+}
+.post-feed-page .feed-divider span {
+  background: #ffffff;
+  padding: 0 8px;
+  color: #842828;
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+/* ACTIONS + DROPDOWN */
+.post-feed-page .feed-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 8px;
+  position: relative;
+}
+.post-feed-page .post-menu-btn {
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 1.3rem;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+.post-feed-page .post-menu-btn:hover {
+  color: #822020;
+  background: #f0f0f0;
+}
+.post-feed-page .post-menu-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 160px;
+  z-index: 1000;
+  overflow: hidden;
+  margin-top: 5px;
+}
+.post-feed-page .post-menu-dropdown button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  transition: background 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+.post-feed-page .post-menu-dropdown button:last-child { border-bottom: none; }
+.post-feed-page .post-menu-dropdown .post-edit:hover { background: #e3f2fd; color: #1976d2; }
+.post-feed-page .post-menu-dropdown .post-delete:hover { background: #ffebee; color: #d32f2f; }
+.post-feed-page .post-menu-dropdown button i { width: 16px; font-size: 14px; }
+
+/* ========================================
+   FILE DISPLAY IN POSTS (MS Teams style)
+   ======================================== */
+.post-feed-page .post-files {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.post-feed-page .post-file-item.document {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  width: 100%;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.post-feed-page .post-file-item.document:hover {
+  background: #f0f2f5;
+  border-color: #d1d5db;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.post-feed-page .post-file-item.document .file-icon {
+  font-size: 28px;
+  min-width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.post-feed-page .post-file-item.document .file-icon.fa-file-pdf { color: #dc3545; }
+.post-feed-page .post-file-item.document .file-icon.fa-file-word { color: #2b579a; }
+.post-feed-page .post-file-item.document .file-icon.fa-file-powerpoint { color: #d24726; }
+.post-feed-page .post-file-item.document .file-icon.fa-file-excel { color: #217346; }
+.post-feed-page .post-file-item.document .file-icon.fa-file-alt { color: #6c757d; }
+.post-feed-page .post-file-item.document .file-icon.fa-file { color: #495057; }
+.post-feed-page .post-file-item.document .file-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.post-feed-page .post-file-item.document .file-details a {
+  color: #050505;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.2s;
+}
+.post-feed-page .post-file-item.document .file-details a:hover {
+  color: #822020;
+  text-decoration: underline;
+}
+.post-feed-page .post-file-item.document .file-size { color: #6c757d; font-size: 12px; }
+
+.post-feed-page .post-file-item.image {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e1e4e8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.post-feed-page .post-file-item.image:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.post-feed-page .post-file-item.image img { width: 100%; height: 100%; object-fit: cover; }
+.post-feed-page .post-file-item.image .image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  padding: 12px 10px 10px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.post-feed-page .post-file-item.image:hover .image-overlay { opacity: 1; }
+.post-feed-page .post-file-item.image .image-overlay a {
+  color: white;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.post-feed-page .post-file-item.image .image-overlay .file-size {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 11px;
+  margin-top: 2px;
+}
+.post-feed-page .post-file-item.image .download-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.post-feed-page .post-file-item.image:hover .download-icon { opacity: 1; }
+.post-feed-page .post-file-item.image .download-icon:hover { background: rgba(0, 0, 0, 0.8); }
+
+/* ========================================
+   FLOATING BUTTONS
+   ======================================== */
+.post-feed-page .post-btn {
+  position: fixed;
+  bottom: 32px;
+  right: 52px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #e64343;
+  color: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(230, 67, 67, 0.4);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.post-feed-page .post-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 24px rgba(230, 67, 67, 0.5);
+  background: #d93636;
+}
+.post-feed-page .trash-btn {
+  position: fixed;
+  bottom: 112px;
+  right: 52px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #6c757d;
+  color: white;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.post-feed-page .trash-btn:hover {
+  transform: scale(1.1);
+  background: #5a6268;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* ========================================
+   COMPOSE MODAL
+   ======================================== */
+.post-feed-page .post-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.post-feed-page .post-modal.open { display: flex; }
+.post-feed-page .post-modal-content {
+  background: #fafafa;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: pfModalFadeIn 0.3s ease;
+  overflow: auto;
+  padding: 10px 30px 24px;
+}
+@keyframes pfModalFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.post-feed-page .post-modal-content h2 {
+  padding: 20px 0;
+  margin: 0;
+  border-bottom: 2px solid #e8e8e8;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: #292929;
+  text-align: center;
+}
+.post-feed-page .post-title {
+  padding: 12px;
+  border: 2px solid #e8e8e8;
+  border-radius: 8px;
+  outline: none;
+  font-size: 16px;
+  font-weight: 600;
+  transition: border-color 0.2s ease;
+}
+.post-feed-page .post-title:focus { border-color: #822020; }
+.post-feed-page .post-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 8px;
+  background: #fafafa;
+  flex-wrap: wrap;
+}
+.post-feed-page .post-toolbar button {
+  background: white;
+  border: 1px solid #e8e8e8;
+  padding: 6px 10px;
+  cursor: pointer;
+  color: #6b6b6b;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+.post-feed-page .post-toolbar button:hover { background: #e8e8e8; color: #292929; }
+.post-feed-page .post-toolbar select {
+  padding: 6px 10px;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  background: white;
+  color: #292929;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+}
+.post-feed-page .post-editor {
+  min-height: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 16px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #242424;
+  outline: none;
+  border: 2px solid #e8e8e8;
+  border-radius: 8px;
+  background: white;
+  transition: border-color 0.2s ease;
+}
+.post-feed-page .post-editor:focus { border-color: #822020; }
+.post-feed-page .post-editor:empty:before {
+  content: attr(data-placeholder);
+  color: #b3b3b3;
+  cursor: text;
+}
+.post-feed-page .post-modal-actions {
+  padding-top: 16px;
+  border-top: 2px solid #e8e8e8;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+.post-feed-page .post-modal-actions button {
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+.post-feed-page #cancelPost { background: white; color: #292929; border: 2px solid #e8e8e8; }
+.post-feed-page #cancelPost:hover { background: #f5f5f5; border-color: #c4c4c4; }
+.post-feed-page #submitPost { background: #822020; color: white; }
+.post-feed-page #submitPost:hover { background: #6a1a1a; box-shadow: 0 4px 12px rgba(130, 32, 32, 0.3); }
+.post-feed-page .post-modal-actions button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* FILE UPLOAD AREA */
+.post-feed-page .file-upload-section {
+  margin-top: 5px;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+}
+.post-feed-page #pf-file-upload { display: none; }
+.post-feed-page .file-upload-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #f0f2f5;
+  color: #444;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.post-feed-page .file-upload-label:hover { background-color: #e4e6eb; border-color: #bbb; color: #222; }
+.post-feed-page .file-upload-label i { color: #666; font-size: 14px; }
+.post-feed-page .file-list {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.post-feed-page .file-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #333;
+  animation: pfFadeIn 0.3s ease;
+}
+.post-feed-page .file-item .file-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.post-feed-page .file-item .file-size { color: #999; font-size: 12px; }
+.post-feed-page .remove-file-btn {
+  border: none;
+  background-color: white;
+  cursor: pointer;
+  padding: 0 5px;
+}
+@keyframes pfFadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================================
+   TRASH MODAL
+   ======================================== */
+.post-feed-page .trash-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+}
+.post-feed-page .trash-modal.open { display: flex; }
+.post-feed-page .trash-modal-content {
+  background: white;
+  width: 90%;
+  max-width: 1000px;
+  max-height: 90vh;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  animation: pfModalFadeIn 0.3s ease;
+}
+.post-feed-page .trash-modal-header {
+  padding: 20px 30px;
+  border-bottom: 2px solid #e8e8e8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fafafa;
+}
+.post-feed-page .trash-modal-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #292929;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+}
+.post-feed-page .trash-modal-header h2 i { color: #6c757d; }
+.post-feed-page .close-trash-btn {
+  background: none;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #6b6b6b;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.post-feed-page .close-trash-btn:hover { background: #e8e8e8; color: #292929; }
+.post-feed-page .trash-modal-body { flex: 1; overflow-y: auto; padding: 20px 30px; }
+.post-feed-page .trash-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e8e8e8;
+}
+.post-feed-page .trash-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6c757d;
+  font-size: 14px;
+  margin: 0;
+}
+.post-feed-page .trash-info i { color: #17a2b8; }
+.post-feed-page .empty-trash-btn {
+  padding: 10px 20px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+.post-feed-page .empty-trash-btn:hover { background: #c82333; }
+.post-feed-page .empty-trash-btn:disabled { background: #ccc; cursor: not-allowed; }
+.post-feed-page .trash-items { display: flex; flex-direction: column; gap: 15px; }
+.post-feed-page .trash-item {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+.post-feed-page .trash-item:hover { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
+.post-feed-page .trash-item-content { flex: 1; }
+.post-feed-page .trash-item-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #292929;
+  margin-bottom: 8px;
+}
+.post-feed-page .trash-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #6c757d;
+  font-size: 14px;
+}
+.post-feed-page .trash-item-meta i { margin-right: 4px; }
+.post-feed-page .trash-item-actions { display: flex; gap: 10px; }
+.post-feed-page .restore-btn,
+.post-feed-page .delete-permanent-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+.post-feed-page .restore-btn { background: #28a745; color: white; }
+.post-feed-page .restore-btn:hover { background: #218838; }
+.post-feed-page .delete-permanent-btn { background: #dc3545; color: white; }
+.post-feed-page .delete-permanent-btn:hover { background: #c82333; }
+.post-feed-page .trash-empty { text-align: center; padding: 60px 20px; color: #6c757d; }
+.post-feed-page .trash-empty i { font-size: 64px; color: #dee2e6; margin-bottom: 20px; }
+.post-feed-page .trash-empty h3 { font-size: 20px; color: #495057; margin-bottom: 8px; }
+.post-feed-page .trash-empty p { font-size: 14px; }
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+  .post-feed-page .feed-post { width: 100%; }
+  .post-feed-page .post-file-item.image { width: 150px; height: 150px; }
+  .post-feed-page .post-file-item.document { padding: 10px 12px; }
+  .post-feed-page .post-modal-content { width: 95%; max-height: 95vh; }
+  .post-feed-page .post-btn,
+  .post-feed-page .trash-btn { right: 20px; }
+  .post-feed-page .trash-modal-content { width: 95%; max-height: 95vh; }
+  .post-feed-page .trash-actions { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .post-feed-page .trash-item { flex-direction: column; align-items: flex-start; }
+  .post-feed-page .trash-item-actions { width: 100%; margin-top: 12px; }
+  .post-feed-page .restore-btn,
+  .post-feed-page .delete-permanent-btn { flex: 1; }
+}
