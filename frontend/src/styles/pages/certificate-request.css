@@ -8,6 +8,7 @@
   font-family: 'Inter', sans-serif;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   min-height: 100vh;
+  height: 100%;
 }
 .request-page .page-header {
   background: linear-gradient(135deg, #822020 0%, #5a1414 100%);
@@ -38,8 +39,8 @@
 }
 .request-page .container {
   max-width: 900px;
-  margin: -20px auto 40px;
-  padding: 0 20px;
+  margin: -20px auto 0;
+  padding: 0 20px 40px;
 }
 .request-page .tab-container {
   display: flex;

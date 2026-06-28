@@ -139,12 +139,11 @@ position: absolute;
   color: #1e293b; 
   font-weight: 500;
 }
-.home-page .goal-header {
+.home-page .goal-header, .values-header {
   background: linear-gradient(to right, #ffece8, #fff7f6);
   border-radius: 10px 10px 0 0;
   align-items: center;
   gap: 10px;
-  padding: px;
   margin: -30px -30px 15px -30px;
   padding-top: 10px;
 }
@@ -165,6 +164,19 @@ position: absolute;
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.section-title {
+  text-align: center;
+  font-size: 1.8rem;
+  color: rgb(179, 27, 27);
+  margin-bottom: 10px;
+}
+.title-underline {
+  height: 4px;
+  width: 10%;
+  background: #8B0000;
+  justify-self: center;
 }
 
 .home-page .goal-category {
