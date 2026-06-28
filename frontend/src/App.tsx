@@ -48,6 +48,15 @@ import { SerranoLayout } from "./pages/admin/serrano/SerranoLayout";
 import { DashboardPage as SerranoDashboardPage } from "./pages/admin/serrano/DashboardPage";
 import { FacultyManagementPage } from "./pages/admin/serrano/FacultyManagementPage";
 import { FacultyAnalyticsReportPage } from "./pages/admin/serrano/FacultyAnalyticsReportPage";
+import { SuperLayout } from "./pages/admin/super/SuperLayout";
+import { SuperDashboardPage } from "./pages/admin/super/SuperDashboardPage";
+import { SecondaryLayout } from "./pages/admin/secondary/SecondaryLayout";
+import { SecondaryDashboardPage } from "./pages/admin/secondary/SecondaryDashboardPage";
+import { UserManagementPage } from "./pages/admin/super/UserManagementPage";
+import { RoleManagementPage } from "./pages/admin/super/RoleManagementPage";
+import { ActivityLogsPage } from "./pages/admin/super/ActivityLogsPage";
+import { FeedbackPage as ServiceFeedbackPage } from "./pages/admin/super/FeedbackPage";
+import { AnalyticsDashboardPage } from "./pages/admin/super/AnalyticsDashboardPage";
 
 const ADMIN_DASHBOARDS = PATHS.admin.dashboards;
 const ACCREDITATION = PATHS.admin.accreditation;
@@ -99,14 +108,24 @@ export function App() {
       </Route>
 
       {/* Admin dashboards (placeholders until each role's pages are migrated). */}
-      <Route
-        path={ADMIN_DASHBOARDS.superAdmin}
-        element={<AdminPlaceholderPage title="Super Administrator" />}
-      />
-      <Route
-        path={ADMIN_DASHBOARDS.secondarySuperAdmin}
-        element={<AdminPlaceholderPage title="Assistant Super Administrator" />}
-      />
+      {/* superAdmin (Salao) portal. */}
+      <Route path={PATHS.admin.super.dashboard} element={<SuperLayout />}>
+        <Route index element={<SuperDashboardPage />} />
+        <Route path="analytics" element={<AnalyticsDashboardPage />} />
+        <Route path="users" element={<UserManagementPage variant="super" />} />
+        <Route path="roles" element={<RoleManagementPage variant="super" />} />
+        <Route path="feedback" element={<ServiceFeedbackPage />} />
+        <Route path="activity-logs" element={<ActivityLogsPage />} />
+      </Route>
+      {/* secondarySuperAdmin (Assistant) portal — mirrors superAdmin. */}
+      <Route path={PATHS.admin.secondary.dashboard} element={<SecondaryLayout />}>
+        <Route index element={<SecondaryDashboardPage />} />
+        <Route path="analytics" element={<AnalyticsDashboardPage />} />
+        <Route path="users" element={<UserManagementPage variant="secondary" />} />
+        <Route path="roles" element={<RoleManagementPage variant="secondary" />} />
+        <Route path="feedback" element={<ServiceFeedbackPage />} />
+        <Route path="activity-logs" element={<ActivityLogsPage />} />
+      </Route>
       {/* adminAve portal (migrated dashboard; sub-pages pending). */}
       <Route path={PATHS.admin.ave.dashboard} element={<AveLayout />}>
         <Route index element={<AveDashboardPage />} />

@@ -91,6 +91,26 @@ export const PATHS = {
       facultyManagement: "/admin/serrano/faculty-management",
       analyticsReport: "/admin/serrano/analytics-report",
     },
+
+    /** superAdmin (Salao) portal: analytics / users / roles / feedback / logs. */
+    super: {
+      dashboard: "/admin/super",
+      analytics: "/admin/super/analytics",
+      users: "/admin/super/users",
+      roles: "/admin/super/roles",
+      feedback: "/admin/super/feedback",
+      activityLogs: "/admin/super/activity-logs",
+    },
+
+    /** secondarySuperAdmin (Assistant) portal: mirrors superAdmin. */
+    secondary: {
+      dashboard: "/admin/secondary",
+      analytics: "/admin/secondary/analytics",
+      users: "/admin/secondary/users",
+      roles: "/admin/secondary/roles",
+      feedback: "/admin/secondary/feedback",
+      activityLogs: "/admin/secondary/activity-logs",
+    },
   },
 } as const;
 

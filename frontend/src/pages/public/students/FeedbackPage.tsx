@@ -5,6 +5,7 @@ import { cx } from "@/lib/cx";
 import { formatLongDate } from "@/lib/format";
 import "@/styles/pages/feedback.css";
 import { StarRating } from "./StarRating";
+import { Hero } from "@/components/Hero";
 
 const HERO_BG = "/assets/images/PUPBg4.jpg";
 
@@ -266,11 +267,12 @@ export function FeedbackPage() {
 
   return (
     <main className="main feedback-page">
-      <section className="hero-section" style={{ backgroundImage: `url('${HERO_BG}')` }}>
-        <div className="hero-content">
+      <div className="hero-banner">
+        <div className="hero-overlay">
           <h1 className="hero-title">Service Feedback</h1>
+          <p className="hero-subtitle">PUP Parañaque Campus</p>
         </div>
-      </section>
+      </div>
 
       <section className="form-section">
         <div className="container">
