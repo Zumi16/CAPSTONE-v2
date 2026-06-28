@@ -1,0 +1,447 @@
+/* adminAve Forms Repository. Ported from the legacy forms-repository.css and
+   scoped under `.forms-repo-page` so generic class names (.modal-overlay,
+   .dropdown-menu, .bulk-btn, etc.) never collide with other globally-loaded
+   page CSS. The preview modal renders at the page root, so its styles are
+   scoped too. */
+
+.forms-repo-page {
+  padding: 5px 0 40px;
+}
+
+/* Header controls */
+.forms-repo-page .header-left-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.forms-repo-page .header-right-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Bulk actions */
+.forms-repo-page .bulk-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  background: #e1f2ff;
+  border-radius: 50px;
+  animation: frSlideIn 0.3s ease-out;
+}
+@keyframes frSlideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.forms-repo-page .selection-count {
+  font-weight: 600;
+  color: #1976d2;
+  font-size: 14px;
+  margin-right: 5px;
+}
+.forms-repo-page .bulk-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.forms-repo-page .bulk-btn i { font-size: 14px; }
+.forms-repo-page .download-bulk-btn,
+.forms-repo-page .trash-bulk-btn,
+.forms-repo-page .delete-bulk-btn {
+  background: #2797ec;
+  color: white;
+}
+.forms-repo-page .download-bulk-btn:hover,
+.forms-repo-page .trash-bulk-btn:hover,
+.forms-repo-page .delete-bulk-btn:hover {
+  background: #2077b8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px #2981c46c;
+}
+.forms-repo-page .cancel-bulk-btn {
+  padding: 8px 11px;
+  border-radius: 100%;
+  background: none;
+  color: #115293;
+}
+.forms-repo-page .cancel-bulk-btn:hover { background: #13589c2c; }
+.forms-repo-page .cancel-bulk-btn i { font-size: 20px; }
+
+/* Add / empty-trash button */
+.forms-repo-page .add-btn {
+  background: #ffbf00;
+  color: #fff;
+  border: 1px solid #dca500;
+  height: 40px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: bold;
+}
+.forms-repo-page .add-btn:hover { background: #ffe28a; }
+.forms-repo-page .add-btn.empty-trash-btn {
+  color: #fff;
+  background-color: #bb3535;
+  border: 1px solid #991414;
+}
+.forms-repo-page .add-btn.empty-trash-btn:hover { background-color: #ff1313; }
+
+/* Header wrapper + search + filters */
+.forms-repo-page .repository-header-wrapper {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px 25px;
+  margin: 25px 0;
+}
+.forms-repo-page .repository-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.forms-repo-page .repository-search {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  width: 300px;
+  transition: 0.2s;
+  font-size: 0.95rem;
+}
+.forms-repo-page .repository-search:focus { border-color: #b62323; }
+.forms-repo-page .repository-filters { display: flex; align-items: center; }
+.forms-repo-page .repository-filters i {
+  font-size: 20px;
+  color: #555;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.forms-repo-page .repository-filters i:hover { color: #b62323; }
+
+/* Breadcrumb */
+.forms-repo-page .breadcrumb-trail {
+  padding: 8px 5px;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: #000;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.forms-repo-page .breadcrumb-part {
+  color: #333;
+  font-family: sans-serif;
+  border-radius: 50px;
+  padding: 5px 15px;
+  transition: background 0.2s ease;
+}
+.forms-repo-page .breadcrumb-part:hover { background-color: #8282821f; color: #a91c1c; }
+.forms-repo-page .breadcrumb-current { color: #555; font-weight: 600; }
+.forms-repo-page .breadcrumb-separator { color: #888; }
+
+/* Items grid */
+.forms-repo-page .repository-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  overflow: visible;
+}
+.forms-repo-page .repository-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #888;
+  padding: 50px 0;
+}
+.forms-repo-page .repository-empty i { font-size: 48px; display: block; margin-bottom: 12px; color: #c9a0a0; }
+
+.forms-repo-page .repository-item {
+  position: relative;
+  background: #9a9a9a2e;
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 90px;
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: ellipsis;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid transparent;
+  user-select: none;
+}
+.forms-repo-page .repository-item:hover {
+  background: #50505020;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.forms-repo-page .repository-item.selected {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border: 2px solid #2196f3;
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+  transform: scale(1.02);
+}
+.forms-repo-page .repository-item.selected::before {
+  content: "\2713";
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 24px;
+  height: 24px;
+  background: #2196f3;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.forms-repo-page .repository-item.selected:hover { background: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%); }
+.forms-repo-page .repository-item.selected i { color: #1976d2; }
+.forms-repo-page .repository-item.selected .item-label { color: #1565c0; font-weight: 600; }
+.forms-repo-page .repository-item i {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 6px;
+  color: #3e3e3e;
+  transition: color 0.3s ease;
+}
+.forms-repo-page .repository-item .item-label {
+  display: block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 4px;
+  font-size: 0.9rem;
+}
+
+/* Dot menu + dropdown */
+.forms-repo-page .dot-menu {
+  position: absolute;
+  width: 25px;
+  border-radius: 100%;
+  top: 8px;
+  right: 10px;
+  cursor: pointer;
+  z-index: 1200;
+  padding: 3px;
+}
+.forms-repo-page .dot-menu:hover { background: #32323232; }
+.forms-repo-page .dot-menu i { font-size: 25px; margin: 0; }
+.forms-repo-page .dot-menu i:hover { color: #b62323; }
+.forms-repo-page .dropdown-menu {
+  position: absolute;
+  top: 30px;
+  right: 10px;
+  background: #ffffffeb;
+  border: 1px solid rgb(168, 168, 168);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  min-width: 100px;
+  max-width: 260px;
+  z-index: 2000;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  padding: 6px 0;
+}
+.forms-repo-page .dropdown-menu.hidden { display: none; }
+.forms-repo-page .dropdown-menu button {
+  background: none;
+  border: none;
+  color: #333;
+  padding: 10px 14px;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+  font-size: 0.95rem;
+  transition: background 0.2s ease;
+}
+.forms-repo-page .dropdown-menu button + button { border-top: 1px solid #f0f0f0; }
+.forms-repo-page .dropdown-menu button:hover { background: #f6f6f6; }
+.forms-repo-page .dropdown-menu .delete-perm-btn:hover { background: #ffebee; color: #d32f2f; }
+
+/* ========================================
+   FILE PREVIEW MODAL (rendered at page root)
+   ======================================== */
+.forms-repo-page #filePreviewModal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+.forms-repo-page .modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: frFadeIn 0.2s ease-out;
+}
+@keyframes frFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.forms-repo-page .modal-container {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 1200px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: frSlideUp 0.3s ease-out;
+}
+@keyframes frSlideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.forms-repo-page .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-bottom: 1px solid #e0e0e0;
+  background: #f8f9fa;
+  border-radius: 12px 12px 0 0;
+}
+.forms-repo-page .modal-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #333;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+}
+.forms-repo-page .modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+.forms-repo-page .modal-close:hover { background: #e0e0e0; color: #333; }
+.forms-repo-page .modal-body {
+  flex: 1;
+  overflow: auto;
+  padding: 20px;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+}
+.forms-repo-page .modal-body .loading { font-size: 1.1rem; color: #666; text-align: center; }
+.forms-repo-page .modal-footer {
+  padding: 15px 25px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background: #f8f9fa;
+  border-radius: 0 0 12px 12px;
+}
+.forms-repo-page .modal-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.forms-repo-page .download-modal-btn { background: #2797ec; color: white; }
+.forms-repo-page .download-modal-btn:hover {
+  background: #2077b8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(41, 129, 196, 0.3);
+}
+
+/* Spreadsheet + text/json preview */
+.forms-repo-page .preview-table-wrap { width: 100%; }
+.forms-repo-page #preview-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+  background: white;
+}
+.forms-repo-page #preview-table td,
+.forms-repo-page #preview-table th {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+}
+.forms-repo-page #preview-table th {
+  background: #2797ec;
+  color: white;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.forms-repo-page #preview-table tr:nth-child(even) { background: #f9f9f9; }
+.forms-repo-page #preview-table tr:hover { background: #f0f7ff; }
+.forms-repo-page .preview-pre {
+  white-space: pre-wrap;
+  padding: 20px;
+  width: 100%;
+  max-height: 70vh;
+  overflow: auto;
+  background: #f5f5f5;
+  border-radius: 8px;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  align-self: stretch;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .forms-repo-page .bulk-actions { flex-direction: column; align-items: stretch; }
+  .forms-repo-page .bulk-btn { width: 100%; justify-content: center; }
+  .forms-repo-page .repository-items { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+  .forms-repo-page .repository-search { width: 100%; }
+  .forms-repo-page .header-left-controls,
+  .forms-repo-page .header-right-controls { width: 100%; justify-content: space-between; }
+  .forms-repo-page .modal-container { max-width: 95%; max-height: 95vh; }
+  .forms-repo-page .modal-header h3 { font-size: 1.1rem; }
+  .forms-repo-page .modal-body { padding: 15px; }
+  .forms-repo-page .modal-footer { padding: 12px 15px; }
+}
+@media (max-width: 480px) {
+  .forms-repo-page .repository-item { min-height: 80px; }
+  .forms-repo-page .repository-item i { font-size: 36px; }
+  .forms-repo-page .breadcrumb-trail { font-size: 1.2rem; }
+}

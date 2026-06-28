@@ -66,6 +66,31 @@ export const PATHS = {
       analyticsReport: "/admin/enierga/analytics-report",
       fileRepository: "/admin/enierga/file-repository",
     },
+
+    /** adminAve portal: OJT / NSTP / Research & Extension / Forms. */
+    ave: {
+      dashboard: "/admin/ave",
+      ojt: "/admin/ave/ojt",
+      research: "/admin/ave/research-extension",
+      nstp: "/admin/ave/nstp",
+      forms: "/admin/ave/forms-repository",
+    },
+
+    /** adminMila portal: Scholarships / Careers / Certificates / Alumni. */
+    mila: {
+      dashboard: "/admin/mila",
+      scholarships: "/admin/mila/scholarships",
+      careers: "/admin/mila/careers",
+      certificates: "/admin/mila/certificates",
+      alumni: "/admin/mila/alumni-employment",
+    },
+
+    /** adminSerrano portal: Faculty Management + Analytics & AI Insights. */
+    serrano: {
+      dashboard: "/admin/serrano",
+      facultyManagement: "/admin/serrano/faculty-management",
+      analyticsReport: "/admin/serrano/analytics-report",
+    },
   },
 } as const;
 
