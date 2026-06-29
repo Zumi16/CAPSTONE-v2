@@ -24,6 +24,7 @@ export const navbarClasses = {
   navItem: "nav-item",
   dropdownButton: "dropdown-btn",
   dropdownContent: "dropdown-content",
+  dropdownOpen: "open", // added to a dropdown <li> when expanded in the hamburger menu
   arrow: "arrow",
 
   // Search shown at the top of the mobile hamburger menu (above "Home").

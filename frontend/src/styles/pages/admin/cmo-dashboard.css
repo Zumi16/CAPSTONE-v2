@@ -1,0 +1,141 @@
+/* adminCMO Dashboard. Ported from cmoDashboard.css, scoped under `.cmo-dashboard`.
+   Header/sidebar chrome comes from admin-shell.css, so only the page body is here. */
+
+/* Welcome Section */
+.cmo-dashboard .welcome-section { background: linear-gradient(135deg, #800000 0%, #a00000 100%); border-radius: 16px; padding: 35px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 30px rgba(128, 0, 0, 0.3); color: white; }
+.cmo-dashboard .welcome-content { flex: 1; }
+.cmo-dashboard .welcome-title { font-size: 2rem; font-weight: 700; margin: 0 0 8px 0; color: white; }
+.cmo-dashboard .welcome-title span { color: #ffd700; }
+.cmo-dashboard .welcome-subtitle { font-size: 1.1rem; margin: 0 0 15px 0; opacity: 0.95; }
+.cmo-dashboard .datetime-display { display: flex; align-items: center; gap: 10px; font-size: 1rem; opacity: 0.9; }
+.cmo-dashboard .datetime-display i { font-size: 1.2rem; }
+
+/* System Status */
+.cmo-dashboard .system-status { display: flex; flex-direction: column; gap: 15px; align-items: flex-end; }
+.cmo-dashboard .status-indicator { background: rgba(255, 255, 255, 0.2); padding: 15px 25px; border-radius: 12px; backdrop-filter: blur(10px); display: flex; align-items: center; gap: 12px; }
+.cmo-dashboard .status-dot { width: 12px; height: 12px; border-radius: 50%; }
+.cmo-dashboard .status-dot.operational { background: #48bb78; box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.7); animation: cmo-pulse 2s infinite; }
+@keyframes cmo-pulse { 0% { box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(72, 187, 120, 0); } 100% { box-shadow: 0 0 0 0 rgba(72, 187, 120, 0); } }
+.cmo-dashboard .status-text { display: flex; flex-direction: column; }
+.cmo-dashboard .status-label { font-size: 0.85rem; opacity: 0.9; }
+.cmo-dashboard .status-value { font-size: 1.1rem; font-weight: 600; }
+.cmo-dashboard .last-sync { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; opacity: 0.9; }
+
+/* Metrics */
+.cmo-dashboard .metrics-section { margin-bottom: 30px; }
+.cmo-dashboard .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.cmo-dashboard .metric-card { background: white; border-radius: 16px; padding: 25px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); display: flex; gap: 20px; align-items: flex-start; transition: all 0.3s ease; position: relative; overflow: hidden; }
+.cmo-dashboard .metric-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+.cmo-dashboard .metric-card.gradient-blue::before { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.cmo-dashboard .metric-card.gradient-green::before { background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); }
+.cmo-dashboard .metric-card.gradient-purple::before { background: linear-gradient(135deg, #9f7aea 0%, #805ad5 100%); }
+.cmo-dashboard .metric-card.gradient-orange::before { background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); }
+.cmo-dashboard .metric-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); }
+.cmo-dashboard .metric-icon { width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: white; flex-shrink: 0; }
+.cmo-dashboard .gradient-blue .metric-icon { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.cmo-dashboard .gradient-green .metric-icon { background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); }
+.cmo-dashboard .gradient-purple .metric-icon { background: linear-gradient(135deg, #9f7aea 0%, #805ad5 100%); }
+.cmo-dashboard .gradient-orange .metric-icon { background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); }
+.cmo-dashboard .metric-content { flex: 1; }
+.cmo-dashboard .metric-value { font-size: 2.5rem; font-weight: 700; color: #2d3748; margin-bottom: 8px; line-height: 1; }
+.cmo-dashboard .metric-label { font-size: 1rem; font-weight: 600; color: #4a5568; margin-bottom: 4px; }
+.cmo-dashboard .metric-subtext { font-size: 0.85rem; color: #a0aec0; }
+
+/* Skeleton */
+.cmo-dashboard .skeleton-loader { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: cmo-loading 1.5s infinite; border-radius: 8px; height: 2.5rem; width: 80%; }
+@keyframes cmo-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.cmo-dashboard .skeleton-activity { display: flex; flex-direction: column; gap: 15px; }
+.cmo-dashboard .skeleton-activity .skeleton-loader { height: 60px; }
+
+/* Content Columns */
+.cmo-dashboard .content-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+.cmo-dashboard .left-column, .cmo-dashboard .right-column { display: flex; flex-direction: column; gap: 25px; }
+
+/* Cards */
+.cmo-dashboard .insights-card, .cmo-dashboard .quick-actions-card, .cmo-dashboard .notifications-card { background: white; border-radius: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); overflow: hidden; }
+.cmo-dashboard .card-header { padding: 20px 25px; border-bottom: 2px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+.cmo-dashboard .card-header h3 { margin: 0; font-size: 1.2rem; font-weight: 600; color: #2d3748; display: flex; align-items: center; gap: 10px; }
+.cmo-dashboard .card-header h3 i { color: #800000; }
+.cmo-dashboard .view-all-btn { background: none; border: none; color: #800000; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: color 0.3s ease; }
+.cmo-dashboard .view-all-btn:hover { color: #a00000; text-decoration: underline; }
+.cmo-dashboard .card-body { padding: 25px; }
+
+/* Recent News */
+.cmo-dashboard .recent-news-list { display: flex; flex-direction: column; gap: 15px; max-height: 450px; overflow-y: auto; }
+.cmo-dashboard .news-item { display: flex; gap: 15px; padding: 15px; border-radius: 10px; transition: all 0.3s ease; border-left: 4px solid #800000; background: #f7fafc; cursor: pointer; }
+.cmo-dashboard .news-item:hover { background: #edf2f7; transform: translateX(5px); }
+.cmo-dashboard .news-icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: white; background: linear-gradient(135deg, #800000 0%, #a00000 100%); flex-shrink: 0; }
+.cmo-dashboard .news-content { flex: 1; }
+.cmo-dashboard .news-title { font-weight: 600; color: #2d3748; margin-bottom: 5px; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.cmo-dashboard .news-meta { display: flex; gap: 15px; font-size: 0.8rem; color: #a0aec0; }
+
+/* Insights */
+.cmo-dashboard .insight-item { display: flex; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #e2e8f0; }
+.cmo-dashboard .insight-item:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.cmo-dashboard .insight-icon { width: 50px; height: 50px; border-radius: 10px; background: #f7fafc; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #800000; flex-shrink: 0; }
+.cmo-dashboard .insight-icon.trending { background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; }
+.cmo-dashboard .insight-icon.trending.down { background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%); }
+.cmo-dashboard .insight-icon.trending.stable { background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); }
+.cmo-dashboard .insight-content { flex: 1; }
+.cmo-dashboard .insight-label { font-size: 0.85rem; color: #a0aec0; margin-bottom: 5px; }
+.cmo-dashboard .insight-value { font-size: 1.1rem; font-weight: 600; color: #2d3748; }
+.cmo-dashboard .insight-message { display: flex; gap: 12px; padding: 15px; background: #fffaf0; border-left: 4px solid #ed8936; border-radius: 8px; }
+.cmo-dashboard .insight-message i { color: #ed8936; font-size: 1.3rem; flex-shrink: 0; }
+.cmo-dashboard .insight-message p { margin: 0; color: #4a5568; line-height: 1.6; }
+
+/* Quick Actions */
+.cmo-dashboard .actions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+.cmo-dashboard .action-button { background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: all 0.3s ease; font-weight: 600; color: #2d3748; }
+.cmo-dashboard .action-button i { font-size: 2rem; }
+.cmo-dashboard .action-button.blue { border-color: #667eea; } .cmo-dashboard .action-button.blue i { color: #667eea; }
+.cmo-dashboard .action-button.green { border-color: #48bb78; } .cmo-dashboard .action-button.green i { color: #48bb78; }
+.cmo-dashboard .action-button.purple { border-color: #9f7aea; } .cmo-dashboard .action-button.purple i { color: #9f7aea; }
+.cmo-dashboard .action-button.orange { border-color: #ed8936; } .cmo-dashboard .action-button.orange i { color: #ed8936; }
+.cmo-dashboard .action-button:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); }
+.cmo-dashboard .action-button.blue:hover { background: #667eea; color: white; } .cmo-dashboard .action-button.blue:hover i { color: white; }
+.cmo-dashboard .action-button.green:hover { background: #48bb78; color: white; } .cmo-dashboard .action-button.green:hover i { color: white; }
+.cmo-dashboard .action-button.purple:hover { background: #9f7aea; color: white; } .cmo-dashboard .action-button.purple:hover i { color: white; }
+.cmo-dashboard .action-button.orange:hover { background: #ed8936; color: white; } .cmo-dashboard .action-button.orange:hover i { color: white; }
+
+/* Notifications */
+.cmo-dashboard .notifications-list { display: flex; flex-direction: column; gap: 12px; }
+.cmo-dashboard .notification-item { padding: 15px; border-radius: 10px; display: flex; gap: 12px; border-left: 4px solid; }
+.cmo-dashboard .notification-item.info { background: #ebf8ff; border-left-color: #4299e1; }
+.cmo-dashboard .notification-item.warning { background: #fffaf0; border-left-color: #ed8936; }
+.cmo-dashboard .notification-item.error { background: #fff5f5; border-left-color: #e53e3e; }
+.cmo-dashboard .notification-item.success { background: #f0fff4; border-left-color: #48bb78; }
+.cmo-dashboard .notification-icon { font-size: 1.3rem; flex-shrink: 0; }
+.cmo-dashboard .notification-item.info .notification-icon { color: #4299e1; }
+.cmo-dashboard .notification-item.warning .notification-icon { color: #ed8936; }
+.cmo-dashboard .notification-item.error .notification-icon { color: #e53e3e; }
+.cmo-dashboard .notification-item.success .notification-icon { color: #48bb78; }
+.cmo-dashboard .notification-content { flex: 1; }
+.cmo-dashboard .notification-title { font-weight: 600; color: #2d3748; margin-bottom: 5px; }
+.cmo-dashboard .notification-message { font-size: 0.9rem; color: #4a5568; }
+.cmo-dashboard .no-notifications { text-align: center; padding: 30px; color: #a0aec0; }
+
+/* Empty State */
+.cmo-dashboard .empty-state { text-align: center; padding: 50px 20px; color: #a0aec0; }
+.cmo-dashboard .empty-state i { font-size: 4rem; margin-bottom: 15px; opacity: 0.5; }
+.cmo-dashboard .empty-state h4 { margin: 0 0 8px 0; color: #4a5568; }
+
+/* Scrollbar */
+.cmo-dashboard .recent-news-list::-webkit-scrollbar { width: 8px; }
+.cmo-dashboard .recent-news-list::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+.cmo-dashboard .recent-news-list::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 4px; }
+.cmo-dashboard .recent-news-list::-webkit-scrollbar-thumb:hover { background: #a0aec0; }
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .cmo-dashboard .content-columns { grid-template-columns: 1fr; }
+  .cmo-dashboard .metrics-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+}
+@media (max-width: 768px) {
+  .cmo-dashboard .welcome-section { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .cmo-dashboard .system-status { align-items: flex-start; }
+  .cmo-dashboard .metrics-grid, .cmo-dashboard .actions-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .cmo-dashboard .welcome-title { font-size: 1.5rem; }
+  .cmo-dashboard .metric-value { font-size: 2rem; }
+}

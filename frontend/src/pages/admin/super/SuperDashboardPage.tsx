@@ -18,7 +18,7 @@ type User = { status?: string };
 type Role = { is_system?: boolean; user_count?: number };
 type Feedback = { status?: string };
 type Activity = { id: number | string; type: string; title: string; description: string; module: string; timestamp: Date; user?: string };
-type RawLog = { id: number | string; action?: string; type?: string; message?: string; details?: string; module?: string; timestamp?: string; adminid?: string };
+type RawLog = { id: number | string; action?: string; type?: string; message?: string; details?: unknown; module?: string; timestamp?: string; adminid?: string };
 type Notif = { type: "info" | "warning" | "error" | "success"; title: string; message: string };
 
 const TOTAL_STORAGE = 100 * 1024 * 1024 * 1024;
@@ -70,15 +70,20 @@ export function SuperDashboardPage() {
   async function loadActivities(): Promise<Activity[]> {
     try {
       const logs = await api.get<RawLog[]>("/api/activity-logs");
-      const acts = (Array.isArray(logs) ? logs : []).map((log) => ({
-        id: log.id,
-        type: activityType(log.action || log.type),
-        title: log.action || log.message || "Activity",
-        description: log.details || log.message || "",
-        module: log.module || "System",
-        timestamp: new Date(log.timestamp ?? Date.now()),
-        user: log.adminid,
-      }));
+      const acts = (Array.isArray(logs) ? logs : []).map((log) => {
+        // `details` may be a JSON object (analytics logs) — never render it raw,
+        // or React throws "Objects are not valid as a React child".
+        const detailsText = typeof log.details === "string" ? log.details : "";
+        return {
+          id: log.id,
+          type: activityType(log.action || log.type),
+          title: log.action || log.message || "Activity",
+          description: detailsText || log.message || "",
+          module: log.module || "System",
+          timestamp: new Date(log.timestamp ?? Date.now()),
+          user: log.adminid,
+        };
+      });
       setActivities(acts);
       return acts;
     } catch {

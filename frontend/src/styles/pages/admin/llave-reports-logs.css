@@ -1,0 +1,109 @@
+/* adminLlave Reports & Logs. Ported from report&Logs.css, scoped under
+   `.reports-logs-page`. */
+
+.reports-logs-page { padding-bottom: 30px; }
+
+/* Sub-tabs */
+.reports-logs-page .sub-tab-toggle { display: flex; gap: 10px; margin-bottom: 30px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); }
+.reports-logs-page .sub-tab-btn { flex: 1; padding: 15px 25px; background: #f3f4f6; border: 2px solid transparent; border-radius: 8px; font-size: 16px; font-weight: 600; color: #6b7280; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 10px; }
+.reports-logs-page .sub-tab-btn:hover { background: #e5e7eb; color: #374151; }
+.reports-logs-page .sub-tab-btn.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: #667eea; }
+.reports-logs-page .sub-tab-btn i { font-size: 18px; }
+
+/* Reports */
+.reports-logs-page .report-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); margin-bottom: 32px; }
+.reports-logs-page .report-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px solid #e5e7eb; }
+.reports-logs-page .report-card-title { font-size: 20px; font-weight: 600; color: #111827; display: flex; align-items: center; gap: 12px; }
+.reports-logs-page .report-card-title i { color: #667eea; }
+.reports-logs-page .reports-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.reports-logs-page .report-item { background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 24px; transition: all 0.2s ease; }
+.reports-logs-page .report-item:hover { border-color: #667eea; box-shadow: 0 4px 16px rgba(102, 126, 234, 0.12); transform: translateY(-4px); }
+.reports-logs-page .report-item-header { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 16px; }
+.reports-logs-page .report-icon { width: 56px; height: 56px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 26px; flex-shrink: 0; }
+.reports-logs-page .report-item-title { font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 8px; }
+.reports-logs-page .report-item-desc { font-size: 14px; color: #6b7280; line-height: 1.6; margin-bottom: 16px; }
+.reports-logs-page .report-item-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid #e5e7eb; }
+.reports-logs-page .report-format { display: flex; gap: 8px; }
+.reports-logs-page .format-badge { padding: 4px 10px; background: #ede9fe; border-radius: 6px; font-size: 12px; font-weight: 600; color: #6d28d9; }
+.reports-logs-page .btn-generate { padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px; }
+.reports-logs-page .btn-generate:hover { background: #5568d3; }
+.reports-logs-page .btn-generate:disabled { background: #d1d5db; cursor: not-allowed; }
+
+/* Activity log filters */
+.reports-logs-page .log-filters { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); }
+.reports-logs-page .filters-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
+.reports-logs-page .filter-group { display: flex; flex-direction: column; gap: 8px; }
+.reports-logs-page .filter-label { font-size: 13px; font-weight: 600; color: #374151; text-transform: uppercase; letter-spacing: 0.5px; }
+.reports-logs-page .filter-input, .reports-logs-page .filter-select { padding: 10px 15px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 14px; color: #374151; transition: all 0.2s ease; background: white; }
+.reports-logs-page .filter-input:focus, .reports-logs-page .filter-select:focus { outline: none; border-color: #667eea; }
+.reports-logs-page .filters-actions { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+.reports-logs-page .btn-filter { padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
+.reports-logs-page .btn-filter:hover { background: #5568d3; }
+.reports-logs-page .btn-reset { padding: 10px 20px; background: #f3f4f6; color: #374151; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
+.reports-logs-page .btn-reset:hover { background: #e5e7eb; }
+.reports-logs-page .btn-export { padding: 10px 20px; background: #10b981; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px; }
+.reports-logs-page .btn-export:hover { background: #059669; }
+
+/* Activity summary */
+.reports-logs-page .activity-summary { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); }
+.reports-logs-page .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.reports-logs-page .summary-item { text-align: center; padding: 16px; background: #f9fafb; border-radius: 8px; transition: all 0.2s ease; }
+.reports-logs-page .summary-item:hover { transform: translateY(-2px); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); }
+.reports-logs-page .summary-value { font-size: 28px; font-weight: 700; color: #667eea; margin-bottom: 6px; line-height: 1; }
+.reports-logs-page .summary-label { font-size: 12px; color: #6b7280; font-weight: 500; }
+
+/* Log table */
+.reports-logs-page .log-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); }
+.reports-logs-page .log-table { width: 100%; border-collapse: collapse; }
+.reports-logs-page .log-table thead { background: #f9fafb; }
+.reports-logs-page .log-table th { padding: 14px 16px; text-align: left; font-size: 13px; font-weight: 600; color: #374151; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #e5e7eb; }
+.reports-logs-page .log-table td { padding: 16px; border-bottom: 1px solid #e5e7eb; font-size: 14px; color: #374151; }
+.reports-logs-page .log-table tbody tr { transition: background 0.2s; }
+.reports-logs-page .log-table tbody tr:hover { background: #f9fafb; }
+.reports-logs-page .log-timestamp { font-size: 13px; color: #6b7280; white-space: nowrap; }
+.reports-logs-page .log-user { display: flex; align-items: center; gap: 10px; }
+.reports-logs-page .user-avatar-small { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+.reports-logs-page .user-info .user-name { font-weight: 600; color: #111827; }
+.reports-logs-page .user-info .user-role { font-size: 12px; color: #6b7280; }
+.reports-logs-page .action-badge { padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+.reports-logs-page .action-created { background: #dbeafe; color: #1e40af; }
+.reports-logs-page .action-updated { background: #e0e7ff; color: #4338ca; }
+.reports-logs-page .action-deleted { background: #fee2e2; color: #b91c1c; }
+.reports-logs-page .action-submitted { background: #d1fae5; color: #065f46; }
+.reports-logs-page .action-reviewed { background: #fef3c7; color: #92400e; }
+.reports-logs-page .action-assigned { background: #e0e7ff; color: #5b21b6; }
+.reports-logs-page .action-opened, .reports-logs-page .action-closed { background: #f3e8ff; color: #6b21a8; }
+.reports-logs-page .action-archived { background: #e5e7eb; color: #374151; }
+.reports-logs-page .log-details { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Pagination */
+.reports-logs-page .pagination { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; }
+.reports-logs-page .pagination-btn { padding: 8px 16px; background: white; border: 2px solid #e5e7eb; border-radius: 6px; font-size: 14px; font-weight: 500; color: #374151; cursor: pointer; transition: all 0.2s ease; }
+.reports-logs-page .pagination-btn:hover:not(:disabled) { background: #f9fafb; border-color: #667eea; color: #667eea; }
+.reports-logs-page .pagination-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.reports-logs-page .pagination-info { font-size: 14px; color: #6b7280; font-weight: 500; }
+
+/* Empty + no data */
+.reports-logs-page .no-data { text-align: center; padding: 32px; color: #6b7280; }
+.reports-logs-page .no-data-message { background: white; border-radius: 12px; padding: 60px 40px; text-align: center; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); max-width: 500px; margin: 60px auto; }
+.reports-logs-page .no-data-message i { font-size: 64px; color: #f59e0b; margin-bottom: 20px; }
+.reports-logs-page .no-data-message h2 { font-size: 24px; font-weight: 700; color: #111827; margin-bottom: 12px; }
+.reports-logs-page .no-data-message p { font-size: 16px; color: #6b7280; margin-bottom: 24px; }
+
+/* Toast */
+.reports-logs-page .rl-toast { position: fixed; top: 20px; right: 20px; padding: 15px 20px; color: white; border-radius: 8px; z-index: 10000; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+.reports-logs-page .toast-success { background: #10b981; }
+.reports-logs-page .toast-error { background: #ef4444; }
+.reports-logs-page .toast-warning { background: #f59e0b; }
+.reports-logs-page .toast-info { background: #3b82f6; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .reports-logs-page .summary-grid { grid-template-columns: repeat(2, 1fr); }
+  .reports-logs-page .reports-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+}
+@media (max-width: 768px) {
+  .reports-logs-page .sub-tab-toggle { flex-direction: column; }
+  .reports-logs-page .reports-grid, .reports-logs-page .filters-row, .reports-logs-page .summary-grid { grid-template-columns: 1fr; }
+  .reports-logs-page .log-table th, .reports-logs-page .log-table td { padding: 12px; }
+}

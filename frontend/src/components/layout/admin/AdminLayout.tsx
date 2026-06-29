@@ -78,11 +78,11 @@ export function AdminLayout({
     <div className="admin-shell">
       {/* SIDEBAR */}
       <section className="sidebar">
-        <div className="logo">
-          <img className="logoimage" src={LOGO} alt="PUP Logo" />
-          <div className="logotitlewrap">
-            <h2 className="logotitle logotitle1">PUP</h2>
-            <h2 className="logotitle">Parañaque</h2>
+        <div className="admin-logo">
+          <img className="admin-logo-img" src={LOGO} alt="PUP Logo" />
+          <div className="admin-logo-titlewrap">
+            <h2 className="admin-logo-title admin-logo-title1">PUP</h2>
+            <h2 className="admin-logo-title">Parañaque</h2>
           </div>
         </div>
 
@@ -131,16 +131,31 @@ export function AdminLayout({
             <div className="notification-button">
               <i className="fa fa-bell" aria-hidden="true" />
             </div>
-            <div className="profile-button" ref={profileRef}>
-              <i
-                className="fa fa-user"
-                aria-hidden="true"
-                onClick={(e) => {
-                  e.stopPropagation();
+            <div
+              className="profile-button"
+              ref={profileRef}
+              role="button"
+              tabIndex={0}
+              aria-haspopup="menu"
+              aria-expanded={menuOpen}
+              onClick={(e) => {
+                e.stopPropagation();
+                setMenuOpen((v) => !v);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
                   setMenuOpen((v) => !v);
-                }}
-              />
-              <div className={cx("profile-dropdown", menuOpen && "show")}>
+                } else if (e.key === "Escape") {
+                  setMenuOpen(false);
+                }
+              }}
+            >
+              <i className="fa fa-user" aria-hidden="true" />
+              <div
+                className={cx("profile-dropdown", menuOpen && "show")}
+                onClick={(e) => e.stopPropagation()}
+              >
                 <div className="dropdown-header">
                   <i className="fas fa-user-circle" />
                   <div className="dropdown-user-info">
