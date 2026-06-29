@@ -1,0 +1,179 @@
+/* adminLlave (Accreditation) dashboard. Ported from adminLlave.css, scoped
+   under `.llave-dashboard`. The legacy `:root` tokens are scoped to the page
+   root. Modals render inside the page, so their styles are contained too. */
+
+.llave-dashboard {
+  --primary-color: #800000;
+  --secondary-color: #ffd700;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --info-color: #3b82f6;
+  --light-bg: #f9fafb;
+  --card-bg: #ffffff;
+  --border-color: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  padding-bottom: 30px;
+}
+
+/* Cycle info */
+.llave-dashboard .cycle-info-card { background: linear-gradient(135deg, var(--primary-color), #a00000); border-radius: 12px; padding: 30px; color: white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+.llave-dashboard .cycle-header { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+.llave-dashboard .cycle-title { font-size: 1.75rem; font-weight: 700; margin-bottom: 8px; }
+.llave-dashboard .cycle-status { font-size: 1rem; opacity: 0.9; }
+.llave-dashboard .cycle-actions { display: flex; gap: 15px; flex-wrap: wrap; }
+
+/* Buttons */
+.llave-dashboard .btn-primary, .llave-dashboard .btn-secondary, .llave-dashboard .btn-control { padding: 12px 24px; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; }
+.llave-dashboard .btn-primary { background: white; border: 2px solid #800000; color: var(--primary-color); }
+.llave-dashboard .btn-primary:hover { background: #ffbf48; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
+.llave-dashboard .btn-secondary { background: #ffbf48; color: #fffdf8; border: 2px solid #ffdc9b; }
+.llave-dashboard .btn-secondary:hover { background: #fda606; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
+.llave-dashboard .btn-sm { padding: 8px 16px; font-size: 14px; }
+
+/* Stats */
+.llave-dashboard .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+.llave-dashboard .stat-card { background: var(--card-bg); border-radius: 12px; padding: 25px; display: flex; align-items: center; gap: 20px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); transition: all 0.3s; }
+.llave-dashboard .stat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); }
+.llave-dashboard .stat-icon { width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; flex-shrink: 0; }
+.llave-dashboard .stat-icon.blue { background: var(--info-color); }
+.llave-dashboard .stat-icon.green { background: var(--success-color); }
+.llave-dashboard .stat-icon.orange { background: var(--warning-color); }
+.llave-dashboard .stat-icon.purple { background: #8b5cf6; }
+.llave-dashboard .stat-info { flex: 1; }
+.llave-dashboard .stat-value { font-size: 1.6rem; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+.llave-dashboard .stat-label { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 4px; }
+.llave-dashboard .stat-percentage { font-size: 0.875rem; font-weight: 600; color: var(--success-color); }
+
+/* Submission control */
+.llave-dashboard .submission-control-card { background: var(--card-bg); border-radius: 12px; padding: 30px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); }
+.llave-dashboard .control-header h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; }
+.llave-dashboard .control-body { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+.llave-dashboard .status-indicator { display: flex; align-items: center; gap: 15px; }
+.llave-dashboard .status-badge { padding: 12px 24px; border-radius: 8px; font-size: 1.125rem; font-weight: 700; display: inline-flex; align-items: center; gap: 10px; }
+.llave-dashboard .status-badge.open { background: var(--success-color); color: white; }
+.llave-dashboard .status-badge.closed { background: var(--danger-color); color: white; }
+.llave-dashboard .status-text { font-size: 1rem; color: var(--text-secondary); }
+.llave-dashboard .btn-control { padding: 14px 28px; font-size: 1.125rem; }
+.llave-dashboard .btn-open { background: var(--success-color); color: white; }
+.llave-dashboard .btn-open:hover { background: #059669; transform: translateY(-2px); }
+.llave-dashboard .btn-close { background: var(--danger-color); color: white; }
+.llave-dashboard .btn-close:hover { background: #dc2626; transform: translateY(-2px); }
+
+/* Areas */
+.llave-dashboard .areas-section, .llave-dashboard .activity-section { background: var(--card-bg); border-radius: 12px; padding: 30px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); }
+.llave-dashboard .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+.llave-dashboard .section-header h3 { font-size: 1.5rem; font-weight: 700; }
+.llave-dashboard .areas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+.llave-dashboard .area-card { background: var(--light-bg); border: 2px solid var(--border-color); border-radius: 12px; padding: 20px; transition: all 0.3s; }
+.llave-dashboard .area-card:hover { border-color: var(--primary-color); box-shadow: 0 4px 12px rgba(128, 0, 0, 0.1); }
+.llave-dashboard .area-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; gap: 10px; }
+.llave-dashboard .area-title { font-size: 1.125rem; font-weight: 700; color: var(--text-primary); flex: 1; }
+.llave-dashboard .area-status { padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+.llave-dashboard .status-complete { background: var(--success-color); color: white; }
+.llave-dashboard .status-pending { background: var(--warning-color); color: white; }
+.llave-dashboard .status-empty { background: var(--text-secondary); color: white; }
+.llave-dashboard .area-info { margin-bottom: 20px; }
+.llave-dashboard .info-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-color); gap: 8px; }
+.llave-dashboard .info-row:last-child { border-bottom: none; }
+.llave-dashboard .info-label { font-size: 0.875rem; color: var(--text-secondary); font-weight: 500; white-space: nowrap; }
+.llave-dashboard .info-value { font-size: 0.875rem; color: var(--text-primary); font-weight: 600; flex: 1; text-align: right; padding-right: 10px; word-break: break-word; }
+.llave-dashboard .btn-icon { width: 32px; height: 32px; border: none; background: var(--primary-color); color: white; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; flex-shrink: 0; }
+.llave-dashboard .btn-icon:hover { background: #a00000; transform: scale(1.1); }
+.llave-dashboard .area-progress { margin-bottom: 20px; }
+.llave-dashboard .progress-item { margin-bottom: 15px; }
+.llave-dashboard .progress-item:last-child { margin-bottom: 0; }
+.llave-dashboard .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.875rem; }
+.llave-dashboard .progress-bar { width: 100%; height: 10px; background: #e5e7eb; border-radius: 5px; overflow: hidden; }
+.llave-dashboard .progress-fill { height: 100%; background: var(--primary-color); transition: width 0.3s; }
+.llave-dashboard .btn-view-details { width: 100%; padding: 12px; background: var(--primary-color); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s; }
+.llave-dashboard .btn-view-details:hover { background: #a00000; transform: translateY(-2px); }
+
+/* Activity */
+.llave-dashboard .activity-feed { display: flex; flex-direction: column; gap: 15px; max-height: 500px; overflow-y: auto; }
+.llave-dashboard .activity-item { display: flex; gap: 15px; padding: 15px; background: var(--light-bg); border-radius: 8px; transition: all 0.3s; }
+.llave-dashboard .activity-item:hover { background: #f3f4f6; transform: translateX(4px); }
+.llave-dashboard .activity-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.875rem; flex-shrink: 0; background: var(--text-secondary); }
+.llave-dashboard .activity-icon.adminllave { background: var(--info-color); }
+.llave-dashboard .activity-icon.area-head { background: var(--success-color); }
+.llave-dashboard .activity-icon.accreditor { background: var(--warning-color); }
+.llave-dashboard .activity-content { flex: 1; }
+.llave-dashboard .activity-text { font-size: 0.875rem; color: var(--text-primary); margin-bottom: 4px; }
+.llave-dashboard .activity-time { font-size: 0.75rem; color: var(--text-secondary); }
+.llave-dashboard .no-activity { text-align: center; color: var(--text-secondary); padding: 40px; font-style: italic; }
+
+/* Modal */
+.llave-dashboard .modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 1000; align-items: center; justify-content: center; }
+.llave-dashboard .modal-content { background: var(--card-bg); border-radius: 12px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15); }
+.llave-dashboard .modal-content.modal-large { max-width: 900px; }
+.llave-dashboard .modal-header { padding: 25px 30px; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+.llave-dashboard .modal-header h3 { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); }
+.llave-dashboard .modal-close { width: 35px; height: 35px; border: none; background: transparent; color: var(--text-secondary); font-size: 1.5rem; cursor: pointer; border-radius: 6px; transition: all 0.3s; }
+.llave-dashboard .modal-close:hover { background: var(--light-bg); color: var(--danger-color); }
+.llave-dashboard .modal-body { padding: 30px; }
+.llave-dashboard .modal-footer { padding: 20px 30px; border-top: 2px solid var(--border-color); display: flex; justify-content: flex-end; gap: 15px; }
+
+/* Form */
+.llave-dashboard .form-group { margin-bottom: 20px; }
+.llave-dashboard .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-primary); }
+.llave-dashboard .form-group input, .llave-dashboard .form-group select { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; transition: all 0.3s; }
+.llave-dashboard .form-group input:focus, .llave-dashboard .form-group select:focus { outline: none; border-color: var(--primary-color); }
+.llave-dashboard .form-hint { font-size: 0.8rem; color: var(--text-secondary); }
+
+/* Table */
+.llave-dashboard .data-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+.llave-dashboard .data-table thead { background: var(--light-bg); }
+.llave-dashboard .data-table th { padding: 15px; text-align: left; font-weight: 600; color: var(--text-primary); border-bottom: 2px solid var(--border-color); }
+.llave-dashboard .data-table td { padding: 15px; border-bottom: 1px solid var(--border-color); }
+.llave-dashboard .data-table tbody tr:hover { background: var(--light-bg); }
+
+/* Badges + links */
+.llave-dashboard .badge { padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; display: inline-block; }
+.llave-dashboard .badge-green { background: var(--success-color); color: white; }
+.llave-dashboard .badge-yellow { background: var(--warning-color); color: white; }
+.llave-dashboard .badge-red { background: var(--danger-color); color: white; }
+.llave-dashboard .badge-gray { background: var(--text-secondary); color: white; }
+.llave-dashboard .link-button { color: var(--primary-color); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+.llave-dashboard .link-button:hover { text-decoration: underline; }
+.llave-dashboard .text-muted { color: var(--text-secondary); font-style: italic; }
+.llave-dashboard .no-data { text-align: center; padding: 40px; color: var(--text-secondary); font-style: italic; }
+
+/* Archived */
+.llave-dashboard .archived-cycles-container { max-height: 500px; overflow-y: auto; }
+.llave-dashboard .archived-cycle-item { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 15px; gap: 15px; flex-wrap: wrap; }
+.llave-dashboard .cycle-info h4 { margin: 0 0 10px; color: #1e293b; font-size: 18px; font-weight: 600; }
+.llave-dashboard .cycle-dates { display: flex; gap: 20px; font-size: 14px; color: #64748b; flex-wrap: wrap; }
+.llave-dashboard .archived-cycle-details { padding: 10px 0; }
+.llave-dashboard .detail-section { margin-bottom: 30px; }
+.llave-dashboard .detail-section h4 { margin: 0 0 15px; color: #1e293b; font-size: 16px; font-weight: 600; padding-bottom: 10px; border-bottom: 2px solid #e0e0e0; }
+.llave-dashboard .stats-grid-small { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+.llave-dashboard .stat-item-small { display: flex; justify-content: space-between; padding: 10px; background: #f8f9fa; border-radius: 6px; }
+.llave-dashboard .area-list-compact { display: flex; flex-direction: column; gap: 10px; }
+.llave-dashboard .area-row-compact { display: flex; justify-content: space-between; padding: 12px; background: #f8f9fa; border-radius: 6px; gap: 10px; }
+.llave-dashboard .area-row-compact .area-name { font-weight: 500; color: #1e293b; }
+.llave-dashboard .area-row-compact .area-progress { color: #64748b; font-size: 14px; margin: 0; }
+.llave-dashboard .export-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* Toast */
+.llave-dashboard .llave-toast { position: fixed; top: 20px; right: 20px; padding: 15px 20px; color: white; border-radius: 8px; z-index: 10000; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+.llave-dashboard .toast-success { background: #10b981; }
+.llave-dashboard .toast-error { background: #ef4444; }
+.llave-dashboard .toast-info { background: #3b82f6; }
+.llave-dashboard .toast-warning { background: #f59e0b; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .llave-dashboard .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .llave-dashboard .areas-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .llave-dashboard .stats-grid { grid-template-columns: 1fr; }
+  .llave-dashboard .cycle-header { flex-direction: column; gap: 20px; }
+  .llave-dashboard .control-body { flex-direction: column; align-items: stretch; }
+  .llave-dashboard .modal-content { width: 95%; }
+  .llave-dashboard .stats-grid-small { grid-template-columns: 1fr; }
+}
