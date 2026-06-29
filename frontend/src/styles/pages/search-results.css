@@ -176,10 +176,17 @@
   font-size: 13px;
   color: #822020;
   text-decoration: none;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 5px;
   font-weight: 500;
+  /* reset <button> chrome so it matches the original link */
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  cursor: pointer;
 }
 .search-page .result-url i {
   font-size: 12px;
