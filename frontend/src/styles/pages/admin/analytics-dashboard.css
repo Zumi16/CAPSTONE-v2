@@ -2,7 +2,7 @@
    analyticsDashboard.css, scoped under `.analytics-dashboard-page`. */
 
 .analytics-dashboard-page { padding-bottom: 30px; }
-.analytics-dashboard-page .ad-header { display: flex; align-items: center; gap: 12px; margin-bottom: 25px; }
+.analytics-dashboard-page .ad-header { display: flex; align-items: center; gap: 12px; margin-bottom: 25px; justify-content: flex-end; }
 .analytics-dashboard-page .ad-header h2 { font-size: 1.6rem; color: #2d3748; font-weight: 700; margin: 0; flex: 1; }
 .analytics-dashboard-page .refresh-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; }
 .analytics-dashboard-page .refresh-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); }

@@ -117,9 +117,10 @@
     flex-wrap: wrap;
 }
 .campus-life-page .facilities-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     justify-content: center;
-    display: flex;
-    gap: 50px;
+    gap: 30px;
     margin: 22px 10px;
     flex-wrap: wrap;
 }

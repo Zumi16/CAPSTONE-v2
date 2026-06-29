@@ -157,7 +157,6 @@ export function ActivityLogsPage() {
   return (
     <div className="activity-logs-page">
       <div className="al-header">
-        <h2>Admin Activity Logs</h2>
         <button className="refresh-btn" title="Refresh Logs" onClick={refresh}><i className="fas fa-sync-alt" /></button>
       </div>
 

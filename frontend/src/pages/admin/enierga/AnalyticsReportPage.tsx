@@ -116,7 +116,7 @@ export function AnalyticsReportPage() {
         const display =
           file.displayName || file.display_name || extractDisplayName(stored);
         const chartType =
-          localStorage.getItem(`chartType_${display}`) || file.chart_type || "bar";
+          localStorage.getItem(`chartType_${file.id}`) || file.chart_type || "bar";
 
         let interpretation: string | null = null;
         if (view === "active") {
@@ -137,7 +137,7 @@ export function AnalyticsReportPage() {
             generate_interpretation: false,
           });
           out.push({
-            id: i + 1,
+            id: file.id,
             file_id: file.id,
             title: display,
             actualFilename: stored || display,
@@ -159,7 +159,7 @@ export function AnalyticsReportPage() {
           });
         } catch (err) {
           out.push({
-            id: i + 1,
+            id: file.id,
             file_id: file.id,
             title: display,
             actualFilename: stored || display,
@@ -199,7 +199,7 @@ export function AnalyticsReportPage() {
         chart_type: type,
         generate_interpretation: false,
       });
-      localStorage.setItem(`chartType_${report.title}`, type);
+      localStorage.setItem(`chartType_${report.file_id}`, type);
       patch(report.id, { chartType: type, chartImage: a.chart_image, statistics: a.statistics });
     } catch {
       window.alert("Failed to regenerate chart.");
@@ -554,73 +554,80 @@ export function AnalyticsReportPage() {
 
       {modal && modal.statistics && modal.tableData && (
         <div className="ar-modal-overlay" onClick={() => setModal(null)}>
-          <div className="ar-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-modal" onClick={() => setModal(null)}>
-              &times;
-            </button>
-            <h2>{modal.title}</h2>
-            <p>
-              <strong>Currently Analyzing:</strong> {modal.currentColumn}
-            </p>
-            {modal.chartImage && (
-              <div style={{ textAlign: "center", margin: "16px 0" }}>
-                <img src={modal.chartImage} alt="Full Chart" style={{ maxWidth: "100%" }} />
-              </div>
-            )}
-            <div className="stats-section">
-              {(
-                [
-                  ["blue", "Mean", modal.statistics.mean],
-                  ["green", "Median", modal.statistics.median],
-                  ["purple", "Mode", modal.statistics.mode],
-                  ["orange", "Std Dev", modal.statistics.std],
-                  ["red", "Min", modal.statistics.min],
-                  ["teal", "Max", modal.statistics.max],
-                  ["yellow", "Q1", modal.statistics.q1],
-                  ["pink", "Q3", modal.statistics.q3],
-                ] as const
-              ).map(([color, label, val]) => (
-                <div className={cx("stat-card", color)} key={label}>
-                  <strong>{label}</strong>
-                  <p>{val.toFixed(2)}</p>
-                </div>
-              ))}
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>{modal.title}</h2>
+              <button className="close-modal" onClick={() => setModal(null)}>
+                &times;
+              </button>
             </div>
 
-            <div>
-              <strong>🔍 Analysis Summary</strong>
+            <div className="report-details">
               <p>
-                {modal.interpretation ||
-                  'No AI interpretation available yet. Click "Generate AI" to create one.'}
+                <strong>Currently Analyzing:</strong> {modal.currentColumn}
               </p>
-            </div>
 
-            <div style={{ overflowX: "auto", marginTop: 16 }}>
-              <strong>📋 Data Table</strong>
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    {modal.tableData.headers.map((h) => (
-                      <th key={h}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {modal.tableData.rows.slice(0, 50).map((row, i) => (
-                    <tr key={i}>
-                      {row.map((cell, j) => (
-                        <td key={j}>{typeof cell === "number" ? cell.toFixed(2) : cell}</td>
+              {modal.chartImage && (
+                <div className="chart-full">
+                  <img src={modal.chartImage} alt="Full Chart" />
+                </div>
+              )}
+
+              <div className="stats-section">
+                {(
+                  [
+                    ["blue", "Mean", modal.statistics.mean],
+                    ["green", "Median", modal.statistics.median],
+                    ["purple", "Mode", modal.statistics.mode],
+                    ["orange", "Std Dev", modal.statistics.std],
+                    ["red", "Min", modal.statistics.min],
+                    ["teal", "Max", modal.statistics.max],
+                    ["yellow", "Q1", modal.statistics.q1],
+                    ["pink", "Q3", modal.statistics.q3],
+                  ] as const
+                ).map(([color, label, val]) => (
+                  <div className={cx("stat-card", color)} key={label}>
+                    <strong>{label}</strong>
+                    <p>{val.toFixed(2)}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="insight">
+                <strong>🔍 Analysis Summary</strong>
+                <div className="interpretation-text">
+                  {modal.interpretation ||
+                    'No AI interpretation available yet. Click "Generate AI" to create one.'}
+                </div>
+              </div>
+
+              <div className="data-table-container">
+                <strong>📋 Data Table</strong>
+                <table className="data-table">
+                  <thead>
+                    <tr>
+                      {modal.tableData.headers.map((h) => (
+                        <th key={h}>{h}</th>
                       ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {modal.tableData.rows.slice(0, 50).map((row, i) => (
+                      <tr key={i}>
+                        {row.map((cell, j) => (
+                          <td key={j}>{typeof cell === "number" ? cell.toFixed(2) : cell}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
-            <div className="export-options">
-              <button className="export-csv-btn" onClick={() => exportReportCsv(modal)}>
-                <i className="bi bi-file-spreadsheet" /> Export as CSV
-              </button>
+              <div className="export-options">
+                <button className="export-csv-btn" onClick={() => exportReportCsv(modal)}>
+                  <i className="bi bi-file-spreadsheet" /> Export as CSV
+                </button>
+              </div>
             </div>
           </div>
         </div>
