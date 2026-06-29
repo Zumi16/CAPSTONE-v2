@@ -267,53 +267,60 @@ li {
 
 /* Responsive */
 @media (max-width: 1175px) {
+  /* Mobile bar: hamburger on the left, circular logo image on the right. */
   .navbar {
     position: relative;
     top: 0;
-    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    height: auto;
     background-color: rgb(111, 35, 35);
     z-index: 1000;
-    height: 170px;
   }
 
-  .logotitle {
-    font-size: 14px;
+  /* Hide the wordmark + divider on mobile — only the logo image shows. */
+  .logotitlewrap,
+  .hr1 {
+    display: none;
   }
 
-  .logotitle2 {
-    font-size: 13px;
-  }
-
+  /* Logo image sits on the right. */
   .logo {
-    flex-direction: column;
-    display: block;
+    display: flex;
+    align-items: center;
+    order: 2;
+    padding: 0;
   }
 
   .logoimage {
-    height: 30px;
-    width: 30px;
+    height: 44px;
+    width: 44px;
+    margin: 0;
   }
 
+  /* Hamburger sits on the left. */
   .search-hamburger {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-top: auto;
-    padding: 20px;
-    height: 40px;
+    order: 1;
+    margin: 0;
+    padding: 0;
+    height: auto;
   }
 
-  /* Hide the desktop (right-side) search on mobile — the hamburger menu
+  /* Hide the desktop right-side search on mobile — the hamburger menu
      has its own ".nav-search" search at the top instead. */
-  .search {
+  .search,
+  .search-bar {
     display: none;
   }
 
   .hamburger {
-    display: inline;
-    left: 20px;
+    display: inline-block;
     position: relative;
-
   }
 
   .hamburger.active .bar:nth-child(2) {
@@ -330,14 +337,20 @@ li {
 
   .nav-menu {
     position: absolute;
-    left: -110%;
-    top: 169px;
+    left: 0;
+    top: 100%;
     gap: 0;
     flex-direction: column;
     background-color: rgb(111, 35, 35);
     width: 100%;
     text-align: center;
-    transition: 0.3s;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    /* Drop down from the top (slide + fade) instead of sliding in from the left. */
+    transform: translateY(-12px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
   }
 
   .nav-item {
@@ -346,7 +359,10 @@ li {
   }
 
   .nav-menu.active {
-    left: 0;
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
 
   /* Search at the very top of the open hamburger menu — a full-width single-row
