@@ -19,6 +19,11 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  optimizeDeps: {
+    esbuildOptions: {
+      sourcemap: false,
+    },
+  },
   server: {
     port: 5173,
     proxy: {

@@ -14,6 +14,16 @@
       align-items: center;
       overflow-x: hidden;
     }
+.admin-officials-page .page-hero__overlay {
+      background-color: rgba(27, 27, 27, 0.98);
+}
+.admin-officials-page .page-hero__line {
+      height: 50px;
+      width: 2px;
+      background-color: rgb(237, 237, 237);
+      border: none;
+      margin-top: 5px;
+}
 .admin-officials-page .vl1 {
       height: 50px;
       width: 2px;

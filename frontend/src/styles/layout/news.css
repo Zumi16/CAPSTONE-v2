@@ -6,13 +6,13 @@
 
 .news-section {
   background: #fafafa;
-  padding: 30px 200px;
-  min-height: 500px;
+  padding: 30px 20px;
 }
 
 .news-section .container {
   margin: 0 auto;
   width: 100%;
+  overflow-x: hidden;
 }
 
 .news-section .section-title {

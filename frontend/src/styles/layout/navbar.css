@@ -10,13 +10,16 @@
   padding: 10px;
   background-color: rgb(111, 35, 35);
   z-index: 1000;
-  
+
 }
 /* Search bar */
 .search {
     position: absolute;
     right: 100px;
     bottom:  70px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     justify-content: right;
 }
 .searchbox {

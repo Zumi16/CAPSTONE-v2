@@ -98,8 +98,9 @@ export function StudentsPage() {
             </li>
           ))}
         </ul>
-        <NewsSection />
       </div>
+
+      <NewsSection />
     </main>
   );
 }
