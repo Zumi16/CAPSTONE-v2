@@ -55,8 +55,18 @@ export const PATHS = {
       adminCMO: "/admin/cmo",
     },
     accreditation: {
-      areaHead: "/accreditation/area-head",
-      accreditor: "/accreditation/accreditor",
+      /** Accreditation Area Head portal: dashboard + activity log + reports. */
+      areaHead: {
+        dashboard: "/accreditation/area-head",
+        activityLog: "/accreditation/area-head/activity-log",
+        reports: "/accreditation/area-head/reports",
+      },
+      /** Accreditation Accreditor portal: dashboard + my reviews + statistics. */
+      accreditor: {
+        dashboard: "/accreditation/accreditor",
+        myReviews: "/accreditation/accreditor/my-reviews",
+        statistics: "/accreditation/accreditor/statistics",
+      },
     },
 
     /** adminEnierga portal: dashboard + data tools. */
@@ -110,6 +120,20 @@ export const PATHS = {
       roles: "/admin/secondary/roles",
       feedback: "/admin/secondary/feedback",
       activityLogs: "/admin/secondary/activity-logs",
+    },
+
+    /** adminLlave portal: Accreditation management. */
+    llave: {
+      dashboard: "/admin/llave",
+      management: "/admin/llave/management",
+      reviewMonitoring: "/admin/llave/review-monitoring",
+      reportsLogs: "/admin/llave/reports-logs",
+    },
+
+    /** adminCMO portal: Communications & Marketing — dashboard + news. */
+    cmo: {
+      dashboard: "/admin/cmo",
+      news: "/admin/cmo/news",
     },
   },
 } as const;

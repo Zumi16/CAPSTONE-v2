@@ -1,5 +1,5 @@
-import { useEffect, useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { cx } from "@/lib/cx";
 import { PATHS, EXTERNAL_LINKS } from "@/routes/paths";
@@ -7,6 +7,7 @@ import { PATHS, EXTERNAL_LINKS } from "@/routes/paths";
 import "@/styles/layout/navbar.css";
 import "./navbar-home.css";
 import { navbarClasses as c } from "./navbar.classes";
+import { SearchBox } from "./SearchBox";
 
 const LOGO_SRC = "/assets/images/PUPLogo.webp";
 
@@ -16,10 +17,10 @@ type NavbarProps = {
 };
 
 export function Navbar({ variant = "default" }: NavbarProps) {
-  const navigate = useNavigate();
-
   // Is the mobile (hamburger) menu open?
   const [menuOpen, setMenuOpen] = useState(false);
+  // Which dropdown is expanded inside the hamburger menu ("about" | "students" | null).
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   // Has the user scrolled down? (only used by the homepage variant)
   const [scrolled, setScrolled] = useState(false);
 
@@ -31,21 +32,28 @@ export function Navbar({ variant = "default" }: NavbarProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const closeMenu = () => setMenuOpen(false);
-
-  const handleSearch = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const input = event.currentTarget.elements.namedItem(
-      "search",
-    ) as HTMLInputElement | null;
-    const query = input?.value.trim() ?? "";
-    if (query.length < 2) {
-      window.alert("Please enter at least 2 characters to search");
-      return;
-    }
-    navigate(`${PATHS.search}?q=${encodeURIComponent(query)}`);
-    closeMenu();
+  const closeMenu = () => {
+    setMenuOpen(false);
+    setOpenDropdown(null);
   };
+
+  // In the hamburger menu, the dropdown parents expand inline (accordion)
+  // instead of opening the hover flyout. On desktop (> 1175px) the hover
+  // behaviour is kept and these clicks fall through to their normal action.
+  const isMobileMenu = () =>
+    typeof window !== "undefined" &&
+    window.matchMedia("(max-width: 1175px)").matches;
+
+  const toggleDropdown =
+    (key: string, alwaysPrevent = false) =>
+    (e: React.MouseEvent) => {
+      if (isMobileMenu()) {
+        e.preventDefault();
+        setOpenDropdown((cur) => (cur === key ? null : key));
+      } else if (alwaysPrevent) {
+        e.preventDefault();
+      }
+    };
 
   return (
     <header className={c.header}>
@@ -74,17 +82,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
         <ul className={cx(c.navMenu, menuOpen && c.active)}>
           {/* Search — appears at the top of the mobile menu, above "Home" */}
           <li className={c.navSearch}>
-            <form className={c.navSearchForm} onSubmit={handleSearch}>
-              <input
-                type="text"
-                placeholder="Search"
-                name="search"
-                className={c.searchBox}
-              />
-              <button type="submit" className={c.searchButton}>
-                <i className="fa fa-search" />
-              </button>
-            </form>
+            <SearchBox formClassName={c.navSearchForm} onNavigate={closeMenu} />
           </li>
 
           <li className={c.navItem}>
@@ -93,8 +91,8 @@ export function Navbar({ variant = "default" }: NavbarProps) {
             </Link>
           </li>
 
-          <li className={cx(c.navItem, c.dropdownButton)}>
-            <a href="#about">
+          <li className={cx(c.navItem, c.dropdownButton, openDropdown === "about" && c.dropdownOpen)}>
+            <a href="#about" onClick={toggleDropdown("about", true)} aria-expanded={openDropdown === "about"}>
               About <span className={c.arrow}>&#11206;</span>
             </a>
             <div className={c.dropdownContent}>
@@ -122,8 +120,8 @@ export function Navbar({ variant = "default" }: NavbarProps) {
             </Link>
           </li>
 
-          <li className={cx(c.navItem, c.dropdownButton)}>
-            <Link to={PATHS.students.index} onClick={closeMenu}>
+          <li className={cx(c.navItem, c.dropdownButton, openDropdown === "students" && c.dropdownOpen)}>
+            <Link to={PATHS.students.index} onClick={toggleDropdown("students")} aria-expanded={openDropdown === "students"}>
               Students <span className={c.arrow}>&#11206;</span>
             </Link>
             <div className={c.dropdownContent}>
@@ -185,11 +183,12 @@ export function Navbar({ variant = "default" }: NavbarProps) {
             tabIndex={0}
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((open) => !open)}
+            onClick={() => { setMenuOpen((open) => !open); setOpenDropdown(null); }}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
                 setMenuOpen((open) => !open);
+                setOpenDropdown(null);
               }
             }}
           >
@@ -200,17 +199,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
 
           {/* Desktop search */}
           <div className={c.searchBar}>
-            <form className={c.searchForm} onSubmit={handleSearch}>
-              <input
-                type="text"
-                placeholder="Search"
-                name="search"
-                className={c.searchBox}
-              />
-              <button type="submit" className={c.searchButton}>
-                <i className="fa fa-search" />
-              </button>
-            </form>
+            <SearchBox formClassName={c.searchForm} onNavigate={closeMenu} />
           </div>
         </div>
       </nav>

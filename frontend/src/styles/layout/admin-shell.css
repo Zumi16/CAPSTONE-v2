@@ -36,22 +36,25 @@
 }
 
 /* Sidebar top / logo */
-.admin-shell .logo {
+/* Logo uses `admin-logo*` classes (NOT the public navbar's `logo*`) so the
+   globally-loaded navbar.css can never leak into the admin sidebar. */
+.admin-shell .admin-logo {
   display: flex;
   justify-content: left;
   padding-bottom: 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.admin-shell .logotitlewrap {
+.admin-shell .admin-logo-titlewrap {
   text-align: left;
   gap: 0;
   flex-direction: column;
   padding-top: 30px;
   padding-left: 10px;
+  color: black;
 }
 
-.admin-shell .logoimage {
+.admin-shell .admin-logo-img {
   height: 50px;
   width: 50px;
   margin-top: 30px;
@@ -59,11 +62,11 @@
   padding-top: 8px;
 }
 
-.admin-shell .logotitle {
+.admin-shell .admin-logo-title {
   margin: 0;
 }
 
-.admin-shell .logotitle1 {
+.admin-shell .admin-logo-title1 {
   font-size: 32px;
 }
 
@@ -93,10 +96,6 @@
   list-style: none;
   padding-left: 0;
   margin: 0;
-}
-
-.admin-shell .nav-item {
-  margin-bottom: 0.5rem;
 }
 
 .admin-shell .nav-link {
@@ -144,6 +143,8 @@
 
 /* Sidebar footer (logged-in user) */
 .admin-shell .sidebar-footer {
+  position: absolute;
+  bottom: -5px;
   padding: 20px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }

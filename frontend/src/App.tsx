@@ -26,39 +26,44 @@ import { NotFoundPage } from "./pages/public/NotFoundPage";
 
 // Admin / accreditation portal (migration of the old "private/" area)
 import { LoginPage } from "./pages/admin/LoginPage";
-import { AdminPlaceholderPage } from "./pages/admin/AdminPlaceholderPage";
-import { EniergaLayout } from "./pages/admin/enierga/EniergaLayout";
+import { PortalRoute } from "./pages/admin/portals";
 import { DashboardPage as EniergaDashboardPage } from "./pages/admin/enierga/DashboardPage";
 import { DataUploadsPage } from "./pages/admin/enierga/DataUploadsPage";
 import { FileRepositoryPage } from "./pages/admin/enierga/FileRepositoryPage";
 import { AnalyticsReportPage } from "./pages/admin/enierga/AnalyticsReportPage";
-import { AveLayout } from "./pages/admin/ave/AveLayout";
 import { AveDashboardPage } from "./pages/admin/ave/AveDashboardPage";
 import { OjtPage as AveOjtPage } from "./pages/admin/ave/OjtPage";
 import { NstpPage as AveNstpPage } from "./pages/admin/ave/NstpPage";
 import { ResearchExtensionPage as AveResearchExtensionPage } from "./pages/admin/ave/ResearchExtensionPage";
 import { FormsRepositoryPage as AveFormsRepositoryPage } from "./pages/admin/ave/FormsRepositoryPage";
-import { MilaLayout } from "./pages/admin/mila/MilaLayout";
 import { MilaDashboardPage } from "./pages/admin/mila/MilaDashboardPage";
 import { ScholarshipsPage as MilaScholarshipsPage } from "./pages/admin/mila/ScholarshipsPage";
 import { CareersPage as MilaCareersPage } from "./pages/admin/mila/CareersPage";
 import { CertificatesPage as MilaCertificatesPage } from "./pages/admin/mila/CertificatesPage";
 import { AlumniEmploymentPage as MilaAlumniEmploymentPage } from "./pages/admin/mila/AlumniEmploymentPage";
-import { SerranoLayout } from "./pages/admin/serrano/SerranoLayout";
 import { DashboardPage as SerranoDashboardPage } from "./pages/admin/serrano/DashboardPage";
 import { FacultyManagementPage } from "./pages/admin/serrano/FacultyManagementPage";
 import { FacultyAnalyticsReportPage } from "./pages/admin/serrano/FacultyAnalyticsReportPage";
-import { SuperLayout } from "./pages/admin/super/SuperLayout";
 import { SuperDashboardPage } from "./pages/admin/super/SuperDashboardPage";
-import { SecondaryLayout } from "./pages/admin/secondary/SecondaryLayout";
 import { SecondaryDashboardPage } from "./pages/admin/secondary/SecondaryDashboardPage";
 import { UserManagementPage } from "./pages/admin/super/UserManagementPage";
 import { RoleManagementPage } from "./pages/admin/super/RoleManagementPage";
 import { ActivityLogsPage } from "./pages/admin/super/ActivityLogsPage";
 import { FeedbackPage as ServiceFeedbackPage } from "./pages/admin/super/FeedbackPage";
 import { AnalyticsDashboardPage } from "./pages/admin/super/AnalyticsDashboardPage";
+import { LlaveDashboardPage } from "./pages/admin/llave/LlaveDashboardPage";
+import { ManagementPage } from "./pages/admin/llave/ManagementPage";
+import { ReviewMonitoringPage } from "./pages/admin/llave/ReviewMonitoringPage";
+import { ReportsLogsPage } from "./pages/admin/llave/ReportsLogsPage";
+import { CmoDashboardPage } from "./pages/admin/cmo/CmoDashboardPage";
+import { NewsManagementPage } from "./pages/admin/cmo/NewsManagementPage";
+import { DashboardPage as AreaHeadDashboardPage } from "./pages/admin/accreditation/areaHead/DashboardPage";
+import { ActivityLogPage as AreaHeadActivityLogPage } from "./pages/admin/accreditation/areaHead/ActivityLogPage";
+import { ReportsPage as AreaHeadReportsPage } from "./pages/admin/accreditation/areaHead/ReportsPage";
+import { DashboardPage as AccreditorDashboardPage } from "./pages/admin/accreditation/accreditor/DashboardPage";
+import { MyReviewsPage } from "./pages/admin/accreditation/accreditor/MyReviewsPage";
+import { StatisticsPage as AccreditorStatisticsPage } from "./pages/admin/accreditation/accreditor/StatisticsPage";
 
-const ADMIN_DASHBOARDS = PATHS.admin.dashboards;
 const ACCREDITATION = PATHS.admin.accreditation;
 
 export function App() {
@@ -109,7 +114,7 @@ export function App() {
 
       {/* Admin dashboards (placeholders until each role's pages are migrated). */}
       {/* superAdmin (Salao) portal. */}
-      <Route path={PATHS.admin.super.dashboard} element={<SuperLayout />}>
+      <Route path={PATHS.admin.super.dashboard} element={<PortalRoute portal="super" />}>
         <Route index element={<SuperDashboardPage />} />
         <Route path="analytics" element={<AnalyticsDashboardPage />} />
         <Route path="users" element={<UserManagementPage variant="super" />} />
@@ -118,7 +123,7 @@ export function App() {
         <Route path="activity-logs" element={<ActivityLogsPage />} />
       </Route>
       {/* secondarySuperAdmin (Assistant) portal — mirrors superAdmin. */}
-      <Route path={PATHS.admin.secondary.dashboard} element={<SecondaryLayout />}>
+      <Route path={PATHS.admin.secondary.dashboard} element={<PortalRoute portal="secondary" />}>
         <Route index element={<SecondaryDashboardPage />} />
         <Route path="analytics" element={<AnalyticsDashboardPage />} />
         <Route path="users" element={<UserManagementPage variant="secondary" />} />
@@ -127,7 +132,7 @@ export function App() {
         <Route path="activity-logs" element={<ActivityLogsPage />} />
       </Route>
       {/* adminAve portal (migrated dashboard; sub-pages pending). */}
-      <Route path={PATHS.admin.ave.dashboard} element={<AveLayout />}>
+      <Route path={PATHS.admin.ave.dashboard} element={<PortalRoute portal="ave" />}>
         <Route index element={<AveDashboardPage />} />
         <Route path="ojt" element={<AveOjtPage />} />
         <Route path="research-extension" element={<AveResearchExtensionPage />} />
@@ -135,42 +140,50 @@ export function App() {
         <Route path="forms-repository" element={<AveFormsRepositoryPage />} />
       </Route>
       {/* adminEnierga portal (migrated): dashboard + data tools. */}
-      <Route path={PATHS.admin.enierga.dashboard} element={<EniergaLayout />}>
+      <Route path={PATHS.admin.enierga.dashboard} element={<PortalRoute portal="enierga" />}>
         <Route index element={<EniergaDashboardPage />} />
         <Route path="data-uploads" element={<DataUploadsPage />} />
         <Route path="analytics-report" element={<AnalyticsReportPage />} />
         <Route path="file-repository" element={<FileRepositoryPage />} />
       </Route>
       {/* adminMila portal (migrated dashboard; sub-pages pending). */}
-      <Route path={PATHS.admin.mila.dashboard} element={<MilaLayout />}>
+      <Route path={PATHS.admin.mila.dashboard} element={<PortalRoute portal="mila" />}>
         <Route index element={<MilaDashboardPage />} />
         <Route path="scholarships" element={<MilaScholarshipsPage />} />
         <Route path="careers" element={<MilaCareersPage />} />
         <Route path="certificates" element={<MilaCertificatesPage />} />
         <Route path="alumni-employment" element={<MilaAlumniEmploymentPage />} />
       </Route>
-      <Route
-        path={ADMIN_DASHBOARDS.adminLlave}
-        element={<AdminPlaceholderPage title="Management & Accreditation" />}
-      />
+      {/* adminLlave portal (Accreditation): dashboard + management tools. */}
+      <Route path={PATHS.admin.llave.dashboard} element={<PortalRoute portal="llave" />}>
+        <Route index element={<LlaveDashboardPage />} />
+        <Route path="management" element={<ManagementPage />} />
+        <Route path="review-monitoring" element={<ReviewMonitoringPage />} />
+        <Route path="reports-logs" element={<ReportsLogsPage />} />
+      </Route>
       {/* adminSerrano portal (Academic Affairs): dashboard + faculty tools. */}
-      <Route path={PATHS.admin.serrano.dashboard} element={<SerranoLayout />}>
+      <Route path={PATHS.admin.serrano.dashboard} element={<PortalRoute portal="serrano" />}>
         <Route index element={<SerranoDashboardPage />} />
         <Route path="faculty-management" element={<FacultyManagementPage />} />
         <Route path="analytics-report" element={<FacultyAnalyticsReportPage />} />
       </Route>
-      <Route
-        path={ADMIN_DASHBOARDS.adminCMO}
-        element={<AdminPlaceholderPage title="News Management (CMO)" />}
-      />
-      <Route
-        path={ACCREDITATION.areaHead}
-        element={<AdminPlaceholderPage title="Accreditation — Area Head" />}
-      />
-      <Route
-        path={ACCREDITATION.accreditor}
-        element={<AdminPlaceholderPage title="Accreditation — Accreditor" />}
-      />
+      {/* adminCMO portal (Communications & Marketing): dashboard + news. */}
+      <Route path={PATHS.admin.cmo.dashboard} element={<PortalRoute portal="cmo" />}>
+        <Route index element={<CmoDashboardPage />} />
+        <Route path="news" element={<NewsManagementPage />} />
+      </Route>
+      {/* Accreditation Area Head portal. */}
+      <Route path={ACCREDITATION.areaHead.dashboard} element={<PortalRoute portal="areaHead" />}>
+        <Route index element={<AreaHeadDashboardPage />} />
+        <Route path="activity-log" element={<AreaHeadActivityLogPage />} />
+        <Route path="reports" element={<AreaHeadReportsPage />} />
+      </Route>
+      {/* Accreditation Accreditor portal. */}
+      <Route path={ACCREDITATION.accreditor.dashboard} element={<PortalRoute portal="accreditor" />}>
+        <Route index element={<AccreditorDashboardPage />} />
+        <Route path="my-reviews" element={<MyReviewsPage />} />
+        <Route path="statistics" element={<AccreditorStatisticsPage />} />
+      </Route>
     </Routes>
   );
 }

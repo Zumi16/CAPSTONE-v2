@@ -60,7 +60,7 @@ export function resolveAdminDashboard(data: AdminLoginResponse): string | null {
 
 /** Area Heads and Accreditors land on different portals. */
 export function resolveAccreditationDashboard(role: string): string {
-  return role === "Area Head" ? accreditation.areaHead : accreditation.accreditor;
+  return role === "Area Head" ? accreditation.areaHead.dashboard : accreditation.accreditor.dashboard;
 }
 
 // --- localStorage session -------------------------------------------------

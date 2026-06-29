@@ -1,0 +1,148 @@
+/* adminLlave Management. Ported from Management.css, scoped under
+   `.management-page`. `:root` tokens scoped to the page root. */
+
+.management-page {
+  --primary-color: #800000;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --info-color: #3b82f6;
+  --light-bg: #f9fafb;
+  --card-bg: #ffffff;
+  --border-color: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  padding-bottom: 30px;
+}
+
+/* Sub-tabs */
+.management-page .sub-tab-toggle { display: flex; gap: 10px; margin-bottom: 15px; background: var(--card-bg); padding: 10px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); }
+.management-page .sub-tab-btn { flex: 1; padding: 15px 25px; border: 2px solid var(--border-color); background: transparent; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s; color: var(--text-secondary); }
+.management-page .sub-tab-btn:hover { background: var(--light-bg); border-color: var(--primary-color); }
+.management-page .sub-tab-btn.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+.management-page .sub-tab-btn i { font-size: 1.2rem; }
+
+/* Card */
+.management-page .management-card { background: var(--card-bg); border-radius: 12px; padding: 30px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); margin-bottom: 15px; }
+.management-page .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px solid var(--border-color); gap: 15px; flex-wrap: wrap; }
+.management-page .card-title { font-size: 1.75rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 12px; }
+.management-page .card-title i { color: var(--primary-color); }
+.management-page .header-actions { display: flex; gap: 15px; }
+
+/* Stats */
+.management-page .summary-stats { display: flex; gap: 30px; padding: 20px; background: var(--light-bg); border-radius: 8px; margin-bottom: 25px; flex-wrap: wrap; }
+.management-page .stat-item { display: flex; flex-direction: column; gap: 5px; }
+.management-page .stat-label { font-size: 0.875rem; color: var(--text-secondary); font-weight: 500; }
+.management-page .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+
+/* Search / filter */
+.management-page .search-filter-bar { display: flex; gap: 20px; margin-bottom: 25px; flex-wrap: wrap; }
+.management-page .search-box { flex: 1; min-width: 200px; position: relative; }
+.management-page .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
+.management-page .search-box input { width: 100%; padding: 12px 15px 12px 45px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; transition: all 0.3s; }
+.management-page .search-box input:focus { outline: none; border-color: var(--primary-color); }
+.management-page .filter-group { display: flex; gap: 15px; }
+.management-page .filter-group select { padding: 12px 15px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; cursor: pointer; transition: all 0.3s; background: white; }
+.management-page .filter-group select:focus { outline: none; border-color: var(--primary-color); }
+
+/* Table */
+.management-page .table-container { overflow-x: auto; border-radius: 8px; border: 2px solid var(--border-color); }
+.management-page .data-table { width: 100%; border-collapse: collapse; }
+.management-page .data-table thead { background: var(--light-bg); }
+.management-page .data-table th { padding: 15px; text-align: left; font-weight: 600; color: var(--text-primary); border-bottom: 2px solid var(--border-color); white-space: nowrap; }
+.management-page .data-table td { padding: 15px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
+.management-page .data-table tbody tr:hover { background: var(--light-bg); }
+.management-page .data-table tbody tr:last-child td { border-bottom: none; }
+.management-page .action-buttons { display: flex; gap: 8px; }
+.management-page .btn-icon { width: 35px; height: 35px; border: none; background: var(--primary-color); color: white; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; font-size: 0.9rem; text-decoration: none; }
+.management-page .btn-icon:hover { background: #a00000; transform: scale(1.1); }
+.management-page .btn-icon.btn-danger { background: var(--danger-color); }
+.management-page .btn-icon.btn-danger:hover { background: #dc2626; }
+.management-page .no-data, .management-page .loading-cell, .management-page .error-cell { text-align: center; padding: 40px !important; color: var(--text-secondary); font-style: italic; }
+
+/* Buttons */
+.management-page .btn-primary, .management-page .btn-secondary { padding: 12px 24px; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; }
+.management-page .btn-primary { background: var(--primary-color); color: white; }
+.management-page .btn-primary:hover { background: #a00000; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(128, 0, 0, 0.3); }
+.management-page .btn-secondary { background: white; color: var(--primary-color); border: 2px solid var(--primary-color); }
+.management-page .btn-secondary:hover { background: var(--light-bg); transform: translateY(-2px); }
+
+/* Badges */
+.management-page .badge { padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; display: inline-block; white-space: nowrap; }
+.management-page .badge-green { background: var(--success-color); color: white; }
+.management-page .badge-yellow { background: var(--warning-color); color: white; }
+.management-page .badge-red { background: var(--danger-color); color: white; }
+.management-page .badge-gray { background: var(--text-secondary); color: white; }
+
+/* Accounts */
+.management-page .accounts-container { display: flex; flex-direction: column; gap: 10px; }
+
+/* Modal */
+.management-page .modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 1000; align-items: center; justify-content: center; }
+.management-page .modal-content { background: var(--card-bg); border-radius: 12px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15); }
+.management-page .modal-header { padding: 25px 30px; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+.management-page .modal-header h3 { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); }
+.management-page .modal-close { width: 35px; height: 35px; border: none; background: transparent; color: var(--text-secondary); font-size: 1.5rem; cursor: pointer; border-radius: 6px; transition: all 0.3s; }
+.management-page .modal-close:hover { background: var(--light-bg); color: var(--danger-color); }
+.management-page .modal-body { padding: 30px; max-height: 70vh; overflow-y: auto; }
+.management-page .modal-footer { padding: 20px 30px; border-top: 2px solid var(--border-color); display: flex; justify-content: flex-end; gap: 15px; }
+
+/* Forms */
+.management-page .form-group { margin-bottom: 20px; }
+.management-page .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-primary); }
+.management-page .form-group input[type="text"], .management-page .form-group input[type="email"], .management-page .form-group input[type="password"], .management-page .form-group input[type="file"], .management-page .form-group select { width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; transition: all 0.3s; }
+.management-page .form-group input:focus, .management-page .form-group select:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.1); }
+.management-page .form-group input[type="checkbox"] { width: auto; margin-right: 8px; cursor: pointer; }
+.management-page .form-hint { display: block; margin-top: 4px; font-size: 12px; color: var(--text-secondary); }
+
+/* Import instructions */
+.management-page .import-instructions { background: var(--light-bg); padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+.management-page .import-instructions h4 { margin-bottom: 15px; color: var(--primary-color); }
+.management-page .import-instructions ul { margin-left: 20px; margin-bottom: 15px; }
+.management-page .import-instructions li { margin-bottom: 8px; color: var(--text-secondary); }
+.management-page .import-instructions .example { background: white; padding: 15px; border-radius: 6px; border-left: 4px solid var(--primary-color); font-family: monospace; white-space: pre-line; }
+
+/* Account details + assignments */
+.management-page .account-details { background: #f9fafb; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+.management-page .detail-row { padding: 8px 0; border-bottom: 1px solid #e5e7eb; }
+.management-page .detail-row:last-child { border-bottom: none; }
+.management-page .detail-row strong { display: inline-block; width: 120px; color: #374151; }
+.management-page .assignment-list { display: grid; gap: 10px; margin-top: 15px; }
+.management-page .assignment-item { background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #3b82f6; border: 1px solid #e5e7eb; border-left: 4px solid #3b82f6; }
+.management-page .assignment-item strong { display: block; color: #1f2937; margin-bottom: 8px; }
+.management-page .assignment-item p { margin: 4px 0; color: #6b7280; font-size: 0.9em; }
+.management-page .assignment-manager { max-height: 500px; overflow-y: auto; }
+.management-page .info-text { background: #f3f4f6; padding: 12px; border-radius: 6px; margin-bottom: 15px; color: #374151; font-size: 0.9em; }
+.management-page .areas-list { display: flex; flex-direction: column; gap: 10px; }
+.management-page .area-assignment-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border: 1px solid #e5e7eb; border-radius: 8px; transition: all 0.2s; gap: 10px; }
+.management-page .area-assignment-row:hover { border-color: #3b82f6; box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1); }
+.management-page .area-info strong { display: block; color: #1f2937; margin-bottom: 4px; }
+.management-page .area-info .text-sm { font-size: 0.875em; color: #6b7280; margin: 0; }
+.management-page .area-action { flex-shrink: 0; }
+.management-page .btn-sm { padding: 6px 12px; font-size: 0.875em; border-radius: 6px; border: none; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.management-page .btn-primary.btn-sm { background: #3b82f6; color: white; }
+.management-page .btn-primary.btn-sm:hover { background: #2563eb; }
+.management-page .btn-danger.btn-sm { background: #ef4444; color: white; }
+.management-page .btn-danger.btn-sm:hover { background: #dc2626; }
+.management-page .text-muted { color: #9ca3af; font-size: 0.875em; }
+.management-page h4 { margin: 0 0 10px; color: #374151; }
+
+/* Toast */
+.management-page .mgmt-toast { position: fixed; top: 20px; right: 20px; padding: 15px 20px; color: white; border-radius: 8px; z-index: 10000; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+.management-page .toast-success { background: #10b981; }
+.management-page .toast-error { background: #ef4444; }
+.management-page .toast-warning { background: #f59e0b; }
+.management-page .toast-info { background: #3b82f6; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .management-page .search-filter-bar, .management-page .filter-group, .management-page .header-actions { flex-direction: column; }
+  .management-page .summary-stats { flex-direction: column; gap: 15px; }
+}
+@media (max-width: 768px) {
+  .management-page .sub-tab-btn { font-size: 0.875rem; padding: 12px 15px; }
+  .management-page .card-title { font-size: 1.25rem; }
+  .management-page .management-card { padding: 20px; }
+  .management-page .modal-content { width: 95%; }
+  .management-page .data-table th, .management-page .data-table td { padding: 10px; }
+}

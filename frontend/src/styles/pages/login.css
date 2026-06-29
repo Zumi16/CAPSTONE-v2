@@ -22,14 +22,12 @@
 
 /* Main content */
 .login-main {
-  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
 }
 
 .login-main .welcome-container {
   height: auto;
-  max-width: none;
   text-align: center;
   margin: 0 0 2rem;
   color: inherit;
@@ -43,7 +41,6 @@
 
 .login-main .welcome-desc {
   color: #666;
-  max-width: 800px;
   margin: 0 auto;
 }
 
@@ -112,11 +109,6 @@
   background: rgba(128, 0, 0, 0.02);
 }
 
-.login-main .tab-content {
-  display: block;
-  width: 100%;
-  max-width: 500px;
-}
 
 .login-main .tab-pane {
   padding: 1.5rem 0;
@@ -201,13 +193,9 @@
   position: relative;
 }
 
-.login-main .password-field input {
-  padding-right: 2.75rem;
-}
-
 .login-main .toggle-password {
   position: absolute;
-  right: 12px;
+  right: -15px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
@@ -312,11 +300,6 @@
 
   .login-main .welcome-desc {
     font-size: 0.9rem;
-  }
-
-  .login-main .login-tabs,
-  .login-main .tab-content {
-    max-width: 100%;
   }
 
   .login-main .tab-btn {
