@@ -3,6 +3,17 @@
  * CSS files (reused as-is and imported by the components that need them). We
  * only set a couple of sensible defaults here.
  */
+/* border-box everywhere: width:100% + padding no longer overflows. Without this
+   the inner-page navbar (.navbar { width:100%; padding:10px }, position:sticky)
+   was 20px wider than the viewport, pushing the whole document sideways and
+   leaving a white gap on the right of every public page except the homepage
+   (whose navbar is position:fixed, so out of flow). */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html {
   scroll-behavior: smooth;
 }

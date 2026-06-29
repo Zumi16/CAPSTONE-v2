@@ -1,7 +1,8 @@
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
+
 .navbar {
   position: sticky;
   top: 0;
@@ -12,55 +13,131 @@
   z-index: 1000;
 
 }
-/* Search bar */
+
+/* Desktop search bar — a joined input + button, vertically centered on the
+   right of the navbar. (The hamburger search overrides these via `.nav-search`.) */
 .search {
-    position: absolute;
-    right: 100px;
-    bottom:  70px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    justify-content: right;
+  position: absolute;
+  right: 5.5%;
+  top: 35%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
 }
+
 .searchbox {
-    border-radius: 10px;
-    border: solid 1px rgb(255, 255, 255);
-    background-color: transparent;
-    color: white;
-    height: 30px;
-    width: 200px;
-    padding-left: 20px;
-    outline: none;
+  height: 40px;
+  width: 220px;
+  border: 1px solid white;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  background-color: transparent;
+  color: white;
+  padding: 0 16px;
+  font-size: 15px;
+  outline: none;
 }
+
 ::placeholder {
-    color: white;
+  color: white;
 }
+
 .searchbutton {
-    border: 1px solid white;
-    border-radius: 100%;
-    height: 35px;
-    width: 35px;
-    background-color: transparent;
+  height: 40px;
+  width: 48px;
+  border: 1px solid white;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
+
 .searchbutton:hover {
-    cursor: pointer;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.15);
 }
+
+/* Subtle highlight when typing. */
+.search:focus-within .searchbox,
+.search:focus-within .searchbutton {
+  border-color: rgb(255, 198, 107);
+}
+
+.search:focus-within .fa-search {
+  color: rgb(255, 198, 107);
+}
+
 .fa-search {
-    color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
 
 /* Search inside the mobile hamburger menu (above "Home").
    Hidden on desktop; shown inside the slide-in menu on small screens.
    Unlike ".search", this stays in normal flow so it sits at the top of the menu. */
 .nav-search {
-    display: none;
+  display: none;
 }
+
 .nav-search-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  position: relative; /* anchor for the suggestions dropdown */
 }
+
+/* Type-ahead suggestions dropdown (shared by desktop + hamburger search).
+   The parent <form> is the positioning context (.search is absolute,
+   .nav-search-form is relative). */
+.search-suggestions {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  z-index: 1001;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.search-suggestions li {
+  list-style: none;
+}
+
+.search-suggestions button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  color: #3e3e3e;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  border-radius: 6px;
+}
+
+.search-suggestions button:hover {
+  background: rgb(255, 224, 224);
+  color: rgb(111, 35, 35);
+}
+
+.search-suggestions button i {
+  font-size: 11px;
+  color: rgb(111, 35, 35);
+}
+
 /* Scrolled state */
 .navbar.scrolled {
   background-color: rgb(111, 35, 35);
@@ -73,6 +150,9 @@
   align-items: center;
   flex-wrap: wrap;
   text-align: center;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 .logoimage {
@@ -120,11 +200,12 @@
 
 
 .nav-menu a:hover {
-    color: rgb(255, 198, 107);
+  color: rgb(255, 198, 107);
 }
 
 .arrow {
-    font-size: 15px; /* Size of the arrow */
+  font-size: 15px;
+  /* Size of the arrow */
 }
 
 li {
@@ -145,127 +226,243 @@ li {
   background-color: white;
 }
 
-/* Student Button Dropdown */  
+/* Student Button Dropdown */
 .dropdown-content {
-    opacity: 0;
-    visibility: hidden;
-    position: absolute;
-    border: 1px solid rgb(111, 35, 35);
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255);
-    min-width: 250px;
-    z-index: 1;
-    margin-top: 5px;
-    margin-left: -15px;
-    transition: opacity 0.4s ease, transform 0.8s ease, linear 0.3s;
-    transform: translateY(10px); 
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  border: 1px solid rgb(111, 35, 35);
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255);
+  min-width: 250px;
+  z-index: 1;
+  margin-top: 5px;
+  margin-left: -15px;
+  transition: opacity 0.4s ease, transform 0.8s ease, linear 0.3s;
+  transform: translateY(10px);
 
 }
+
 .dropdown-content a:hover {
-    color: rgb(111, 35, 35);
-    text-decoration: underline;
-    background-color: rgb(255, 224, 224);
-    border-radius: 5px;
+  color: rgb(111, 35, 35);
+  text-decoration: underline;
+  background-color: rgb(255, 224, 224);
+  border-radius: 5px;
 }
+
 .dropdown-content a {
-    color: rgb(99, 99, 99);
-    padding: 10px 10px;
-    text-decoration: none;
-    display: block;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 13px;
+  color: rgb(99, 99, 99);
+  padding: 10px 10px;
+  text-decoration: none;
+  display: block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
 }
 
 .dropdown-btn:hover .dropdown-content {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0); 
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 /* Responsive */
 @media (max-width: 1175px) {
+  /* Mobile bar: hamburger on the left, circular logo image on the right. */
   .navbar {
     position: relative;
     top: 0;
-    padding: 10px;
-    background-color:  rgb(111, 35, 35);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    height: auto;
+    background-color: rgb(111, 35, 35);
     z-index: 1000;
-    height: 170px;
   }
 
-  .logotitle {
-    font-size: 14px;
+  /* Hide the wordmark + divider on mobile — only the logo image shows. */
+  .logotitlewrap,
+  .hr1 {
+    display: none;
   }
 
-  .logotitle2 {
-    font-size: 13px;
-  }
-
+  /* Logo image sits on the right. */
   .logo {
-    flex-direction: column;
-    display: block;
+    display: flex;
+    align-items: center;
+    order: 2;
+    padding: 0;
   }
 
   .logoimage {
-    height: 30px;
-    width: 30px;
+    height: 44px;
+    width: 44px;
+    margin: 0;
   }
 
+  /* Hamburger sits on the left. */
   .search-hamburger {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-top: auto;
-    padding: 20px;
-    height: 40px;
+    order: 1;
+    margin: 0;
+    padding: 0;
+    height: auto;
   }
 
-  /* Hide the desktop (right-side) search on mobile — the hamburger menu
+  /* Hide the desktop right-side search on mobile — the hamburger menu
      has its own ".nav-search" search at the top instead. */
-  .search {
+  .search,
+  .search-bar {
     display: none;
   }
 
   .hamburger {
-    display: inline;
-    left: 20px;
+    display: inline-block;
     position: relative;
-
   }
-  .hamburger.active .bar:nth-child(2){
+
+  .hamburger.active .bar:nth-child(2) {
     opacity: 0;
   }
-  .hamburger.active .bar:nth-child(1){
+
+  .hamburger.active .bar:nth-child(1) {
     transform: translateY(8px) rotate (45deg);
   }
-  .hamburger.active .bar:nth-child(1){
+
+  .hamburger.active .bar:nth-child(1) {
     transform: translateY(-8px) rotate (-45deg);
   }
+
   .nav-menu {
     position: absolute;
-    left: -110%;
-    top: 169px;
+    left: 0;
+    top: 100%;
     gap: 0;
     flex-direction: column;
     background-color: rgb(111, 35, 35);
     width: 100%;
     text-align: center;
-    transition: 0.3s;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    /* Drop down from the top (slide + fade) instead of sliding in from the left. */
+    transform: translateY(-12px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
   }
 
   .nav-item {
     margin: 16px;
 
   }
-  .nav-menu.active{
-    left: 0;
+
+  .nav-menu.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
 
-  /* Show the search at the very top of the open hamburger menu. */
+  /* Search at the very top of the open hamburger menu — a full-width single-row
+     bar (input + attached button), not the small desktop pill. */
   .nav-search {
     display: flex;
+    align-items: center;
     justify-content: center;
     margin: 16px;
-    order: -1; /* keep it first even if markup order ever changes */
+    order: -1;
+    /* keep it first even if markup order ever changes */
   }
+
+  .nav-search .nav-search-form {
+    display: flex;
+    width: 80%;
+    gap: 0;
+  }
+
+  .nav-search .searchbox {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    height: 44px;
+    padding-left: 16px;
+    font-size: 16px;
+    border-radius: 8px 0 0 8px;
+    border-right: none;
+  }
+
+  .nav-search .searchbutton {
+    flex: 0 0 auto;
+    width: 54px;
+    height: 44px;
+    border-radius: 0 8px 8px 0;
+    border-left: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Hamburger dropdowns expand the menu inline (accordion) on click, instead of
+     the desktop hover flyout — the sub-pages appear as nav buttons in the list. */
+  .dropdown-btn {
+    cursor: pointer;
+  }
+
+  .dropdown-content {
+    position: static;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    margin: 0;
+    min-width: auto;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0.18);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  /* Reveal only when the parent <li> is toggled open (not on hover/tap-hover). */
+  .dropdown-btn:hover .dropdown-content {
+    max-height: 0;
+  }
+
+  .dropdown-btn.open .dropdown-content {
+    max-height: 700px;
+  }
+
+  .dropdown-content a {
+    color: white;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+    padding: 14px 10px;
+  }
+
+  .dropdown-content a:hover {
+    color: rgb(255, 198, 107);
+    background-color: rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+  }
+
+  /* Flip the caret when expanded. */
+  .dropdown-btn .arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+
+  .dropdown-btn.open .arrow {
+    transform: rotate(180deg);
+  }
+}
+
+@media (max-width: 650px) {
+  .nav-search .nav-search-form {
+    width: 85%;
+  }
+
 }

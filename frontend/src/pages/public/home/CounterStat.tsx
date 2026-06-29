@@ -12,9 +12,13 @@ type CounterStatProps = {
 export function CounterStat({ target, label }: CounterStatProps) {
   const { ref, value } = useCountUp(target);
 
+  // Reserve the final number's width from the start so the box doesn't resize
+  // (and the row doesn't re-wrap) while counting up from 0.
+  const reserve = `${target.toLocaleString().length}ch`;
+
   return (
     <div className="stat-box">
-      <div className="counter" ref={ref}>
+      <div className="counter" ref={ref} style={{ minWidth: reserve }}>
         {value.toLocaleString()}
       </div>
       <p>{label}</p>

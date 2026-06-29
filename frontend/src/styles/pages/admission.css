@@ -537,6 +537,89 @@
 }
 
 /* Responsive Design */
+
+/* Tablet & below: stack the two-column content rows into a single column. */
+@media (max-width: 992px) {
+  /* Hero */
+  .admission-page .hero-section {
+    height: auto;
+  }
+  .admission-page .hero-content {
+    padding: 60px 24px;
+  }
+  .admission-page .hero-title {
+    font-size: 2.5rem;
+  }
+  .admission-page .hero-text {
+    font-size: 1.1rem;
+    margin: 30px auto;
+    max-width: 100%;
+  }
+  .admission-page .hero-buttons {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  /* Content rows: stack vertically, auto height */
+  .admission-page .content-box,
+  .admission-page .content-box-dark {
+    flex-direction: column;
+    height: auto;
+    padding: 40px 20px;
+    gap: 24px;
+  }
+
+  /* Both halves go full width */
+  .admission-page .image-container,
+  .admission-page .text-container {
+    min-width: 100%;
+    max-width: 100%;
+    margin: 0;
+    text-align: center;
+  }
+
+  /* Keep the image on top even in the dark row (text comes first in markup). */
+  .admission-page .content-box-dark .image-container {
+    order: -1;
+  }
+
+  /* Image scales instead of a fixed 400px that overflows */
+  .admission-page .content-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+  }
+
+  /* The vertical divider only makes sense side-by-side */
+  .admission-page .vl1 {
+    display: none;
+  }
+
+  /* Remove the desktop offsets that pushed text off-screen on mobile */
+  .admission-page .text-button-wrap,
+  .admission-page .text-button-wrap1 {
+    margin-left: 0;
+    left: 0;
+    gap: 24px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .admission-page .content-text {
+    max-width: 100%;
+    font-size: 1.05rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admission-page .hero-title {
+    font-size: 2rem;
+  }
+  .admission-page .hero-content {
+    padding: 48px 16px;
+  }
+}
+
 @media (max-width: 768px) {
   .admission-page .modal-content {
     width: 95%;

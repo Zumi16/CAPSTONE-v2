@@ -1,10 +1,57 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
 import { formatLongDate } from "@/lib/format";
+import { PATHS } from "@/routes/paths";
 import "@/styles/pages/search-results.css";
+
+/**
+ * The search API still returns legacy "/public/html/..." URLs from the old
+ * site. Map each result to its real React route so results actually navigate
+ * (and so Vite stops warning about the /public prefix).
+ */
+const SECTION_ROUTE: Record<string, string> = {
+  news: PATHS.news,
+  scholarships: PATHS.students.scholarships,
+  careers: PATHS.students.careers,
+  nstp: PATHS.students.nstp,
+  ojt: PATHS.students.ojt,
+  researchExtension: PATHS.about.researchExtension,
+};
+
+/** Legacy static-page html path fragments → React routes (for the "pages" section). */
+const PAGE_ROUTE: [RegExp, string][] = [
+  [/administrativeofficials/i, PATHS.about.administrativeOfficials],
+  [/vicinitymap/i, PATHS.about.vicinityMap],
+  [/history/i, PATHS.about.history],
+  [/research&extension/i, PATHS.about.researchExtension],
+  [/admission/i, PATHS.admission],
+  [/campus-life/i, PATHS.campusLife],
+  [/alumni/i, PATHS.alumni],
+  [/feedback/i, PATHS.students.feedback],
+  [/certificate-request/i, PATHS.students.certificateRequest],
+  [/scholarships/i, PATHS.students.scholarships],
+  [/careers/i, PATHS.students.careers],
+  [/nstp/i, PATHS.students.nstp],
+  [/ojt/i, PATHS.students.ojt],
+  [/students/i, PATHS.students.index],
+  [/quickhelp|contact/i, PATHS.contact],
+  [/news/i, PATHS.news],
+  [/index\.html|^\/public\/?$/i, PATHS.home],
+];
+
+/** Returns either an internal route (`to`) or an external link (`href`). */
+function resolveTarget(item: SearchItem, sectionKey: string): { to?: string; href?: string } {
+  const url = item.url ?? "";
+  if (/^https?:\/\//i.test(url)) return { href: url }; // external (e.g. partner website)
+  if (sectionKey === "pages") {
+    const hit = PAGE_ROUTE.find(([re]) => re.test(url));
+    return { to: hit ? hit[1] : PATHS.home };
+  }
+  return { to: SECTION_ROUTE[sectionKey] ?? PATHS.home };
+}
 
 /** One result row from the search API. Fields vary by section. */
 type SearchItem = {
@@ -48,28 +95,49 @@ const FILTER_TABS = [
   { key: "pages", label: "Pages", icon: "fa-file" },
 ] as const;
 
-function ResultItem({ item, type }: { item: SearchItem; type: string }) {
+function ResultItem({
+  item,
+  type,
+  onOpen,
+}: {
+  item: SearchItem;
+  type: string;
+  onOpen: (item: SearchItem, type: string) => void;
+}) {
   const title = item.title || item.name || "Untitled";
   const excerpt = item.excerpt || item.description || "";
   const meta = item.meta || (item.created_at ? formatLongDate(item.created_at) : "");
-  const url = item.url || "#";
 
   return (
-    <div className="result-item" onClick={() => (window.location.href = url)}>
+    <div className="result-item" onClick={() => onOpen(item, type)}>
       <span className={cx("result-type", type)}>{type}</span>
       <h3 className="result-title">{title}</h3>
       {meta && <p className="result-meta">{meta}</p>}
       {excerpt && <p className="result-excerpt">{excerpt}</p>}
-      <a href={url} className="result-url" onClick={(e) => e.stopPropagation()}>
+      <button
+        type="button"
+        className="result-url"
+        onClick={(e) => {
+          e.stopPropagation();
+          onOpen(item, type);
+        }}
+      >
         View Details <i className="fa fa-arrow-right" />
-      </a>
+      </button>
     </div>
   );
 }
 
 export function SearchResultsPage() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("q") ?? "";
+
+  const openResult = (item: SearchItem, type: string) => {
+    const { to, href } = resolveTarget(item, type);
+    if (href) window.open(href, "_blank", "noopener");
+    else if (to) navigate(to);
+  };
 
   const [input, setInput] = useState(query);
   const [results, setResults] = useState<SearchResults>({});
@@ -165,7 +233,7 @@ export function SearchResultsPage() {
                   <i className={cx("fa", section.icon)} /> {section.title}
                 </h2>
                 {results[section.key].map((item, index) => (
-                  <ResultItem key={index} item={item} type={section.key} />
+                  <ResultItem key={index} item={item} type={section.key} onOpen={openResult} />
                 ))}
               </div>
             ))}
