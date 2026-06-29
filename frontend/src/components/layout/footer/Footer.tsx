@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+
+import { PATHS, EXTERNAL_LINKS } from "@/routes/paths";
 import "@/styles/layout/footer.css";
 import { footerClasses as c } from "./footer.classes";
 
@@ -10,7 +13,7 @@ export function Footer() {
         <div className={c.container}>
           {/* Logo + description */}
           <div className={c.section}>
-            <div className={c.logoWrapper}>
+            <Link className={c.logoWrapper} to={PATHS.home}>
               <img src={LOGO_SRC} alt="PUP logo" className={c.logoImg} />
               <div className={c.logoText}>
                 <p className={c.logoName}>
@@ -18,7 +21,7 @@ export function Footer() {
                 </p>
                 <p className={c.logoBranch}>PARAÑAQUE CAMPUS</p>
               </div>
-            </div>
+            </Link>
             <p className={c.desc}>
               PUP Parañaque recognizes the vital contributions of its faculty
               and staff in delivering quality education and services to its
@@ -48,19 +51,19 @@ export function Footer() {
             <h3>Quick Links</h3>
             <ul className={c.links}>
               <li>
-                <a href="#">Home</a>
+                <Link to={PATHS.home}>Home</Link>
               </li>
               <li>
-                <a href="#">About</a>
+                <Link to={PATHS.about.history}>About</Link>
               </li>
               <li>
-                <a href="#">Programs</a>
+                <Link to={PATHS.admission}>Admission</Link>
               </li>
               <li>
-                <a href="#">Admission</a>
+                <Link to={PATHS.about.researchExtension}>Extension Services</Link>
               </li>
               <li>
-                <a href="#">Extension Services</a>
+                <Link to={PATHS.news}>News &amp; Updates</Link>
               </li>
             </ul>
           </div>
@@ -70,19 +73,27 @@ export function Footer() {
             <h3>Resources</h3>
             <ul className={c.links}>
               <li>
-                <a href="#">Forms</a>
+                <Link to={PATHS.students.scholarships}>Scholarships</Link>
               </li>
               <li>
-                <a href="#">Academic Calendar</a>
+                <Link to={PATHS.students.careers}>Career &amp; Job Placement</Link>
               </li>
               <li>
-                <a href="#">Faculty Resources</a>
+                <Link to={PATHS.students.certificateRequest}>
+                  Certificate Request
+                </Link>
               </li>
               <li>
-                <a href="#">Staff Resources</a>
+                <Link to={PATHS.students.feedback}>Service Feedback</Link>
               </li>
               <li>
-                <a href="#">University Policies</a>
+                <a
+                  href={EXTERNAL_LINKS.studentPortal}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  PUP Student Portal
+                </a>
               </li>
             </ul>
           </div>
@@ -91,7 +102,7 @@ export function Footer() {
           <div className={c.section}>
             <h3>Contact</h3>
             <p className={c.contactText}>
-              <a href="#" className={c.contactLink}>
+              <Link to={PATHS.about.vicinityMap} className={c.contactLink}>
                 PUP Parañaque Campus
                 <br />
                 Col. E. De Leon St. Wawa, Brgy. Sto. Niño
@@ -99,10 +110,12 @@ export function Footer() {
                 Parañaque City, Philippines 1700,
                 <br />
                 Metro Manila
-              </a>
+              </Link>
             </p>
             <p className={c.contactInfo}>
-              <i className="fas fa-phone-alt" /> (63 2) 553-8623
+              <a href="tel:+6325538623">
+                <i className="fas fa-phone-alt" /> (63 2) 553-8623
+              </a>
             </p>
             <p className={c.contactInfo}>
               <i className="fas fa-envelope" />{" "}
