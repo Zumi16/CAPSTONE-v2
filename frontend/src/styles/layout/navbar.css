@@ -150,6 +150,9 @@
   align-items: center;
   flex-wrap: wrap;
   text-align: center;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 .logoimage {

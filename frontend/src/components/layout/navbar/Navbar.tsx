@@ -65,8 +65,8 @@ export function Navbar({ variant = "default" }: NavbarProps) {
           menuOpen && c.active,
         )}
       >
-        {/* Logo + title */}
-        <div className={c.logo}>
+        {/* Logo + title — links home */}
+        <Link className={c.logo} to={PATHS.home} onClick={closeMenu}>
           <img className={c.logoImage} src={LOGO_SRC} alt="PUP logo" />
           <div className={c.logoTitleWrap}>
             <h1 className={c.logoTitle}>
@@ -74,7 +74,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
             </h1>
             <h2 className={c.logoTitle2}>PARAÑAQUE CITY CAMPUS</h2>
           </div>
-        </div>
+        </Link>
 
         <hr className={c.divider} />
 
