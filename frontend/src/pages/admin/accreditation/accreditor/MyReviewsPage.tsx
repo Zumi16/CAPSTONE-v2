@@ -96,7 +96,7 @@ export function MyReviewsPage() {
   return (
     <div className="accreditor-page">
       <div className="page-header">
-        <div className="header-content"><h1 className="main-title">My Reviews</h1><p className="subtitle">Review history and submitted evaluations</p></div>
+        <div className="header-content"><p className="subtitle">Review history and submitted evaluations</p></div>
       </div>
 
       <div className="stats-grid">

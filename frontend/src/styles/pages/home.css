@@ -11,7 +11,10 @@
 }
 .home-page {
 background-color: white;
-overflow-x: hidden;
+/* `clip` (not `hidden`) clips horizontal overflow WITHOUT turning the element
+   into a scroll container — `overflow-x: hidden` forces overflow-y to `auto`,
+   which produced a stray inner vertical scrollbar on reload. */
+overflow-x: clip;
 }
 .home-page .hero-section {
   position: relative;

@@ -31,9 +31,11 @@ type Report = {
   id: number; file_id: number; title: string; actualFilename: string; date: string; uploadedAt: Date;
   recordsProcessed: number; chartType: string; chartImage: string; statistics: Stats;
   interpretation: string; hasInterpretation: boolean; interpretationGenerated?: string; analyzedColumn?: string;
-  availableColumns: Column[]; currentColumn: string; adminId: string;
+  availableColumns: Column[]; currentColumn: string; adminId: string; error?: string;
 };
 type Toast = { msg: string; type: "success" | "error" };
+
+const ZERO_STATS: Stats = { count: 0, mean: 0, median: 0, mode: 0, std: 0, min: 0, max: 0, q1: 0, q3: 0, range: 0 };
 
 function timeAgo(date: Date): string {
   const s = Math.floor((Date.now() - date.getTime()) / 1000);
@@ -109,13 +111,25 @@ export function AnalyticsDashboardPage() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const d = await res.json();
         out.push({
-          id: i + 1, file_id: file.id, title: displayName, actualFilename, date: new Date(file.uploaded_at || file.created_at || Date.now()).toLocaleDateString(),
+          id: file.id, file_id: file.id, title: displayName, actualFilename, date: new Date(file.uploaded_at || file.created_at || Date.now()).toLocaleDateString(),
           uploadedAt: new Date(file.uploaded_at || file.created_at || Date.now()), recordsProcessed: d.statistics.count, chartType,
           chartImage: d.chart_image, statistics: d.statistics, interpretation: savedInterpretation || "No AI interpretation available yet.",
           hasInterpretation: !!savedInterpretation, interpretationGenerated, analyzedColumn,
           availableColumns: d.file_info?.available_columns || [], currentColumn: d.file_info?.analyzed_column || "Default Column", adminId: file.adminid || "Unknown",
         });
-      } catch { /* python down for this file — skip */ }
+      } catch {
+        // Don't silently drop the file — surface it so it's clear a chart failed
+        // (analytics service offline, or this file can't be processed).
+        out.push({
+          id: file.id, file_id: file.id, title: displayName, actualFilename,
+          date: new Date(file.uploaded_at || file.created_at || Date.now()).toLocaleDateString(),
+          uploadedAt: new Date(file.uploaded_at || file.created_at || Date.now()),
+          recordsProcessed: 0, chartType, chartImage: "", statistics: ZERO_STATS,
+          interpretation: savedInterpretation || "", hasInterpretation: !!savedInterpretation,
+          availableColumns: [], currentColumn: "", adminId: file.adminid || "Unknown",
+          error: "Visualization unavailable — the analytics service (port 5000) is offline or this file can't be processed.",
+        });
+      }
     }
     setReports(out);
   }, []);
@@ -197,7 +211,7 @@ export function AnalyticsDashboardPage() {
   if (reports.length === 0) {
     return (
       <div className="analytics-dashboard-page">
-        <div className="ad-header"><h2>Analytics Dashboard</h2><button className="refresh-btn" onClick={refresh} title="Refresh"><i className="fas fa-sync-alt" /></button></div>
+        <div className="ad-header"><button className="refresh-btn" onClick={refresh} title="Refresh"><i className="fas fa-sync-alt" /></button></div>
         <div className="empty-state">
           <i className="fas fa-chart-line empty-icon" />
           <h2>No Analytics Data Available</h2>
@@ -209,7 +223,7 @@ export function AnalyticsDashboardPage() {
 
   return (
     <div className="analytics-dashboard-page">
-      <div className="ad-header"><h2>Analytics Dashboard</h2><button className="refresh-btn" onClick={refresh} title="Refresh"><i className="fas fa-sync-alt" /></button></div>
+      <div className="ad-header"><button className="refresh-btn" onClick={refresh} title="Refresh"><i className="fas fa-sync-alt" /></button></div>
 
       <div className="executive-summary">
         <SummaryCard grad="gradient-blue" icon="fa-file-alt" value={reports.length} label="Total Reports" />
@@ -267,6 +281,14 @@ export function AnalyticsDashboardPage() {
           {visible.length === 0 ? <p className="no-data">No reports match the selected filters</p> : (
             visible.map((r) => (
               <div className="analytics-report-card" key={r.id}>
+                {r.error ? (
+                  <>
+                    <div className="report-card-header"><h3>{r.title}</h3><span className="admin-badge">{adminName(r.adminId)}</span></div>
+                    <div className="chart-preview"><p className="loading-chart">{r.error}</p></div>
+                    <div className="report-card-footer"><span className="upload-date"><i className="far fa-calendar" /> {r.date}</span></div>
+                  </>
+                ) : (
+                <>
                 <div className="report-card-header"><h3>{r.title}</h3><span className="admin-badge">{adminName(r.adminId)}</span></div>
                 <span className={cx("ai-status-badge", r.hasInterpretation ? "success" : "pending")}>
                   <i className={cx("fas", r.hasInterpretation ? "fa-check-circle" : "fa-robot")} /> {r.hasInterpretation ? "AI Analysis Available" : "No AI Analysis"}
@@ -295,6 +317,8 @@ export function AnalyticsDashboardPage() {
                   <span className="upload-date"><i className="far fa-calendar" /> {r.date}</span>
                   <button className="view-details-btn" onClick={() => setDetail(r)}><i className="fas fa-eye" /> View Details</button>
                 </div>
+                </>
+                )}
               </div>
             ))
           )}

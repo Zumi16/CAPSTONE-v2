@@ -6,10 +6,17 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
 import base64
+import threading
 from scipy import stats
 import json
 import warnings
 warnings.filterwarnings('ignore')
+
+# matplotlib's pyplot interface uses global state and is NOT thread-safe. Flask's
+# dev server is threaded, so concurrent chart requests (e.g. React StrictMode's
+# double mount, or several admins at once) would corrupt each other's figures —
+# producing blank charts. This lock serializes all chart rendering.
+_RENDER_LOCK = threading.Lock()
 
 class AnalyticsProcessor:
     """Process analytics data using numpy, pandas, and matplotlib"""
@@ -380,7 +387,10 @@ class AnalyticsProcessor:
         try:
             statistics = self.calculate_statistics()
             interpretation = self.generate_interpretation(statistics)
-            chart_image = self.create_visualization(chart_type)
+            # Serialize matplotlib (global pyplot state) so concurrent requests
+            # don't corrupt each other's figures and return blank charts.
+            with _RENDER_LOCK:
+                chart_image = self.create_visualization(chart_type)
             
             table_rows = self.viz_df.values.tolist()
             if len(table_rows) > 100:
