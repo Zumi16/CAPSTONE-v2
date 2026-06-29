@@ -53,7 +53,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
         className={cx(
           c.nav,
           variant === "home" && c.navHome,
-          variant === "home" && scrolled && c.scrolled,
+          scrolled && c.scrolled,
           menuOpen && c.active,
         )}
       >

@@ -8,6 +8,17 @@
     flex-direction: column;
     align-items: center;
     font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+.research-ext-page .page-hero__overlay {
+    background-color: rgba(27, 27, 27, 0.98);
+}
+.research-ext-page .page-hero__line {
+    height: 50px;
+    width: 2px;
+    background-color: rgb(237, 237, 237);
+    border: none;
+    margin-top: 5px;
 }
 .research-ext-page .vl1 {
     height: 50px;
@@ -20,9 +31,10 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     width: 100%;
+    overflow-x: hidden;
 }
 .research-ext-page .desc-box {
-    padding: 10px 60px;
+    padding: 10px 20px;
     font-size: 1.15rem;
     text-align: justify;
     color: rgb(255, 255, 255);
@@ -69,6 +81,7 @@
     background: #fafafa;
     padding: 60px 20px;
     min-height: 500px;
+    overflow-x: hidden;
 }
 .research-ext-page .posts-container {
     max-width: 1200px;
@@ -76,6 +89,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 32px;
+    overflow-x: hidden;
 }
 .research-ext-page .article-card {
     background: white;
@@ -302,8 +316,8 @@
   line-height: 1.58;
   font-family: 'Inter', 'Georgia', serif;
   color: #242424;
-  white-space: pre-wrap; /* Preserve whitespace and line breaks */
-  word-wrap: break-word; /* Prevent overflow */
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 .research-ext-page .article-full-body p {
   margin-bottom: 1.5em;

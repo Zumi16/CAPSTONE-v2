@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 
 import { assetUrl } from "@/lib/config";
 import { formatLongDate } from "@/lib/format";
@@ -20,17 +21,20 @@ export function NewsModal({ article, onClose }: NewsModalProps) {
       if (e.key === "Escape") onClose();
     };
     document.addEventListener("keydown", onKey);
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
     document.body.style.overflow = "hidden";
 
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
     };
   }, [article, onClose]);
 
   if (!article) return null;
 
-  return (
+  return createPortal(
     <div
       className={c.modal}
       style={{ display: "block" }}
@@ -68,6 +72,7 @@ export function NewsModal({ article, onClose }: NewsModalProps) {
           dangerouslySetInnerHTML={{ __html: article.content }}
         />
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

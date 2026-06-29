@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 40px 20px;
   min-height: 70vh;
+  overflow-x: hidden;
 }
 .all-news-page .page-header {
   text-align: center;

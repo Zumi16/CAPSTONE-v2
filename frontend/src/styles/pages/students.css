@@ -1,10 +1,7 @@
 /* Scoped under `.students-page` to prevent global CSS collisions across pages. */
 .students-page {
-    background-color: #f9f9f9;
-    color: #333;
-}
-.students-page {
     background-color: #ffffff;
+    overflow-x: hidden;
 }
 .students-page .main-image {
     width: 100%;
@@ -24,6 +21,9 @@
     border-radius: 50px;
 }
 
+.students-page .main-container {
+    padding: 0 20px 40px;
+}
 .students-page .main-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

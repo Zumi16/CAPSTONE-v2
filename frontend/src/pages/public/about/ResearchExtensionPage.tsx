@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import { useNews, type NewsArticle } from "@/features/news/news.api";
+import { useResearchExtension, type ResearchArticle } from "@/features/research/research.api";
 import { assetUrl } from "@/lib/config";
 import { extractTextPreview, formatLongDate, formatShortDate } from "@/lib/format";
 import { useEscapeToClose } from "@/lib/useEscapeToClose";
@@ -18,10 +18,22 @@ function ArticleModal({
   article,
   onClose,
 }: {
-  article: NewsArticle | null;
+  article: ResearchArticle | null;
   onClose: () => void;
 }) {
   useEscapeToClose(Boolean(article), onClose);
+
+  useEffect(() => {
+    if (!article) return;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+    };
+  }, [article]);
+
   if (!article) return null;
 
   return (
@@ -62,8 +74,8 @@ function ArticleModal({
 }
 
 export function ResearchExtensionPage() {
-  const { articles, status } = useNews(); // reuses the same posts shape
-  const [selected, setSelected] = useState<NewsArticle | null>(null);
+  const { articles, status } = useResearchExtension();
+  const [selected, setSelected] = useState<ResearchArticle | null>(null);
 
   return (
     <main className="main research-ext-page">
