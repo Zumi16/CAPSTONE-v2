@@ -2,7 +2,7 @@
    (+ the scholarship parts of post.css) and scoped under `.scholarships-page`
    so generic class names don't collide with other globally-loaded page CSS. */
 
-.scholarships-page { width: 100%; }
+.scholarships-page { width: 100%; background: none; }
 
 /* Filter tabs */
 .scholarships-page .scholarship-filters {

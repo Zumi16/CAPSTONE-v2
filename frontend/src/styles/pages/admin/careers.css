@@ -1,7 +1,7 @@
 /* adminMila Career & Job Placement directory. Ported from the legacy
    careers.css and scoped under `.careers-page`. */
 
-.careers-page { width: 100%; }
+.careers-page { width: 100%; background: none; }
 
 /* Category filters */
 .careers-page .category-filters {
