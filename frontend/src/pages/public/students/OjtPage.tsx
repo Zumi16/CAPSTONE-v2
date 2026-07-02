@@ -1,6 +1,10 @@
 import { AnnouncementFeed } from "@/features/announcements/AnnouncementFeed";
+import { FacebookPageEmbed } from "@/components/FacebookPageEmbed";
 import { Hero } from "@/components/Hero";
 import "@/styles/pages/ojt-public.css";
+
+// TODO: replace with the official OJT Facebook page URL
+const OJT_FACEBOOK_PAGE = "https://www.facebook.com/profile.php?id=61573085073705";
 
 export function OjtPage() {
   return (
@@ -12,13 +16,18 @@ export function OjtPage() {
       />
 
       <section className="posts-section" data-aos="fade">
-        <div className="posts-container">
-          <AnnouncementFeed
-            endpoint="/api/ojt/posts"
-            officeName="OJT Office"
-            postClassName="ojt-public-post"
-            emptyText="Check back later for updates from the OJT Office regarding partner companies, requirements, and deployment schedules."
+        <div className="posts-layout">
+          <FacebookPageEmbed
+            pageUrl={OJT_FACEBOOK_PAGE}
           />
+          <div className="posts-container">
+            <AnnouncementFeed
+              endpoint="/api/ojt/posts"
+              officeName="OJT Office"
+              postClassName="ojt-public-post"
+              emptyText="Check back later for updates from the OJT Office regarding partner companies, requirements, and deployment schedules."
+            />
+          </div>
         </div>
       </section>
     </main>

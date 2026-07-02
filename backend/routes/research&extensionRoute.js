@@ -79,18 +79,13 @@ async function saveFileToRepository(folderId, file, adminid) {
   return result.rows[0];
 }
 
-router.post('/create', upload.single('thumbnail'), async (req, res) => {
+router.post('/create', upload.array('files', 1), async (req, res) => {
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
 
     const { title, content, adminid } = req.body;
-    
-    if (!req.file) {
-      await client.query('ROLLBACK');
-      return res.status(400).json({ success: false, message: 'Thumbnail image is required' });
-    }
 
     const postQuery = `
       INSERT INTO researchextension_posts (title, content, adminid)
@@ -100,27 +95,23 @@ router.post('/create', upload.single('thumbnail'), async (req, res) => {
     const postResult = await client.query(postQuery, [title, content, adminid]);
     const post = postResult.rows[0];
 
-    const folderId = await getResearchExtensionFolderId(adminid);
-    const savedFile = await saveFileToRepository(folderId, req.file, adminid);
-    
-    await client.query(
-      'INSERT INTO researchextension_post_files (post_id, file_id) VALUES ($1, $2)',
-      [post.id, savedFile.id]
-    );
+    if (req.files && req.files.length > 0) {
+      const folderId = await getResearchExtensionFolderId(adminid);
+
+      for (const file of req.files) {
+        const savedFile = await saveFileToRepository(folderId, file, adminid);
+        await client.query(
+          'INSERT INTO researchextension_post_files (post_id, file_id) VALUES ($1, $2)',
+          [post.id, savedFile.id]
+        );
+      }
+    }
 
     await client.query('COMMIT');
     res.json({ success: true, post });
   } catch (err) {
     await client.query('ROLLBACK');
     console.error('Error creating Research & Extension post:', err);
-    
-    if (req.file) {
-      const filePath = path.join(uploadDir, req.file.filename);
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-    }
-    
     res.status(500).json({ success: false, message: 'Failed to create post' });
   } finally {
     client.release();
@@ -131,18 +122,28 @@ router.post('/create', upload.single('thumbnail'), async (req, res) => {
 router.get('/posts', async (req, res) => {
   try {
     const postsQuery = `
-      SELECT 
+      SELECT
         p.*,
-        f.id as thumbnail_id,
-        f.file_path as thumbnail_path,
-        f.file_name as thumbnail_name
+        json_agg(
+          json_build_object(
+            'id', f.id,
+            'file_name', f.file_name,
+            'file_path', f.file_path,
+            'file_type', f.file_type,
+            'file_size', f.file_size
+          ) ORDER BY f.id
+        ) FILTER (WHERE f.id IS NOT NULL) as files,
+        (array_agg(f.id ORDER BY f.id) FILTER (WHERE f.id IS NOT NULL))[1] as thumbnail_id,
+        (array_agg(f.file_path ORDER BY f.id) FILTER (WHERE f.id IS NOT NULL))[1] as thumbnail_path,
+        (array_agg(f.file_name ORDER BY f.id) FILTER (WHERE f.id IS NOT NULL))[1] as thumbnail_name
       FROM researchextension_posts p
       LEFT JOIN researchextension_post_files pf ON p.id = pf.post_id
       LEFT JOIN forms_repository_files f ON pf.file_id = f.id
       WHERE p.deleted_at IS NULL
+      GROUP BY p.id
       ORDER BY p.created_at DESC
     `;
-    
+
     const result = await pool.query(postsQuery);
     res.json({ success: true, posts: result.rows });
   } catch (err) {
@@ -155,18 +156,28 @@ router.get('/posts', async (req, res) => {
 router.get('/trash', async (req, res) => {
   try {
     const postsQuery = `
-      SELECT 
+      SELECT
         p.*,
-        f.id as thumbnail_id,
-        f.file_path as thumbnail_path,
-        f.file_name as thumbnail_name
+        json_agg(
+          json_build_object(
+            'id', f.id,
+            'file_name', f.file_name,
+            'file_path', f.file_path,
+            'file_type', f.file_type,
+            'file_size', f.file_size
+          ) ORDER BY f.id
+        ) FILTER (WHERE f.id IS NOT NULL) as files,
+        (array_agg(f.id ORDER BY f.id) FILTER (WHERE f.id IS NOT NULL))[1] as thumbnail_id,
+        (array_agg(f.file_path ORDER BY f.id) FILTER (WHERE f.id IS NOT NULL))[1] as thumbnail_path,
+        (array_agg(f.file_name ORDER BY f.id) FILTER (WHERE f.id IS NOT NULL))[1] as thumbnail_name
       FROM researchextension_posts p
       LEFT JOIN researchextension_post_files pf ON p.id = pf.post_id
       LEFT JOIN forms_repository_files f ON pf.file_id = f.id
       WHERE p.deleted_at IS NOT NULL
+      GROUP BY p.id
       ORDER BY p.deleted_at DESC
     `;
-    
+
     const result = await pool.query(postsQuery);
     res.json({ success: true, posts: result.rows });
   } catch (err) {
@@ -306,14 +317,24 @@ router.delete('/empty-trash', async (req, res) => {
   }
 });
 
-router.put('/update/:id', upload.single('thumbnail'), async (req, res) => {
+router.put('/update/:id', upload.array('files', 1), async (req, res) => {
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
 
     const { id } = req.params;
-    const { title, content, adminid, keepThumbnail } = req.body;
+    const { title, content, adminid, keepFiles } = req.body;
+
+    let filesToKeep = [];
+    if (keepFiles) {
+      try {
+        const parsed = JSON.parse(keepFiles);
+        filesToKeep = parsed.map(fid => parseInt(fid, 10));
+      } catch (e) {
+        console.error('Error parsing keepFiles:', e);
+      }
+    }
 
     const updateQuery = `
       UPDATE researchextension_posts
@@ -323,33 +344,34 @@ router.put('/update/:id', upload.single('thumbnail'), async (req, res) => {
     `;
     const result = await client.query(updateQuery, [title, content, id]);
 
-    if (req.file) {
-      const existingFile = await client.query(
-        `SELECT f.id, f.file_path
-         FROM forms_repository_files f
-         JOIN researchextension_post_files pf ON f.id = pf.file_id
-         WHERE pf.post_id = $1`,
-        [id]
-      );
+    const existingFiles = await client.query(
+      `SELECT f.id, f.file_path
+       FROM forms_repository_files f
+       JOIN researchextension_post_files pf ON f.id = pf.file_id
+       WHERE pf.post_id = $1`,
+      [id]
+    );
 
-      if (existingFile.rows.length > 0) {
-        const oldPath = path.join('./public', existingFile.rows[0].file_path);
-        if (fs.existsSync(oldPath)) {
-          fs.unlinkSync(oldPath);
+    for (const file of existingFiles.rows) {
+      if (!filesToKeep.includes(file.id)) {
+        const fullPath = path.join('./public', file.file_path);
+        if (fs.existsSync(fullPath)) {
+          fs.unlinkSync(fullPath);
         }
-        await client.query('DELETE FROM forms_repository_files WHERE id = $1', [existingFile.rows[0].id]);
+        await client.query('DELETE FROM forms_repository_files WHERE id = $1', [file.id]);
       }
+    }
 
+    if (req.files && req.files.length > 0) {
       const folderId = await getResearchExtensionFolderId(adminid);
-      const savedFile = await saveFileToRepository(folderId, req.file, adminid);
-      
-      await client.query(
-        'INSERT INTO researchextension_post_files (post_id, file_id) VALUES ($1, $2)',
-        [id, savedFile.id]
-      );
-    } else if (!keepThumbnail) {
-      await client.query('ROLLBACK');
-      return res.status(400).json({ success: false, message: 'Thumbnail is required' });
+
+      for (const file of req.files) {
+        const savedFile = await saveFileToRepository(folderId, file, adminid);
+        await client.query(
+          'INSERT INTO researchextension_post_files (post_id, file_id) VALUES ($1, $2)',
+          [id, savedFile.id]
+        );
+      }
     }
 
     await client.query('COMMIT');
@@ -357,14 +379,6 @@ router.put('/update/:id', upload.single('thumbnail'), async (req, res) => {
   } catch (err) {
     await client.query('ROLLBACK');
     console.error('Error updating Research & Extension post:', err);
-    
-    if (req.file) {
-      const filePath = path.join(uploadDir, req.file.filename);
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-    }
-    
     res.status(500).json({ success: false, message: 'Failed to update post' });
   } finally {
     client.release();

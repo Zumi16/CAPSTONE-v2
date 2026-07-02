@@ -9,6 +9,8 @@ export function ResearchExtensionPage() {
       emptyIcon="fa-book"
       emptyTitle="No Research & Extension posts yet"
       emptyText="Share research and extension updates and files here to keep everyone informed."
+      maxFiles={1}
+      accept=".jpg,.jpeg,.png,.gif,.webp"
     />
   );
 }

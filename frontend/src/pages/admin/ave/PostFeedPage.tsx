@@ -28,7 +28,14 @@ export type PostFeedConfig = {
   emptyIcon: string;
   emptyTitle: string;
   emptyText: string;
+  /** Max attachments allowed per post. Defaults to 3. */
+  maxFiles?: number;
+  /** `accept` attribute for the file picker. Defaults to all supported types. */
+  accept?: string;
 };
+
+const DEFAULT_ACCEPT =
+  ".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.gif,.webp,.txt";
 
 type PostFile = {
   id?: number;
@@ -49,7 +56,6 @@ type Post = {
 
 type ApiList = { success?: boolean; posts?: Post[] };
 
-const MAX_FILES = 3;
 
 function getFileIcon(mime?: string): string {
   if (!mime) return "fa-file";
@@ -85,6 +91,8 @@ function sortFiles<T extends { file_type?: string; type?: string }>(files: T[]):
 
 export function PostFeedPage(config: PostFeedConfig) {
   const { apiBase, adminId, emptyIcon, emptyTitle, emptyText } = config;
+  const maxFiles = config.maxFiles ?? 3;
+  const accept = config.accept ?? DEFAULT_ACCEPT;
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [loaded, setLoaded] = useState(false);
@@ -167,8 +175,12 @@ export function PostFeedPage(config: PostFeedConfig) {
 
   function onPickFiles(e: React.ChangeEvent<HTMLInputElement>) {
     const picked = Array.from(e.target.files ?? []);
-    if (existingFiles.length + newFiles.length + picked.length > MAX_FILES) {
-      window.alert(`You can only upload up to ${MAX_FILES} files per post.`);
+    if (existingFiles.length + newFiles.length + picked.length > maxFiles) {
+      window.alert(
+        maxFiles === 1
+          ? "You can only attach one image per post. Remove the current one first."
+          : `You can only upload up to ${maxFiles} files per post.`,
+      );
       e.target.value = "";
       return;
     }
@@ -427,14 +439,15 @@ export function PostFeedPage(config: PostFeedConfig) {
 
             <div className="file-upload-section">
               <label htmlFor="pf-file-upload" className="file-upload-label">
-                <i className="fa fa-paperclip" /> Attach Files (Max {MAX_FILES})
+                <i className="fa fa-paperclip" />{" "}
+                {maxFiles === 1 ? "Attach Image" : `Attach Files (Max ${maxFiles})`}
               </label>
               <input
                 id="pf-file-upload"
                 ref={fileInputRef}
                 type="file"
-                multiple
-                accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.gif,.webp,.txt"
+                multiple={maxFiles > 1}
+                accept={accept}
                 onChange={onPickFiles}
               />
               <div className="file-list">
