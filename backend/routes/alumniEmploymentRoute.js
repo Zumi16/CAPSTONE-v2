@@ -17,9 +17,11 @@ const pool = new Pool({
 router.get('/alumni-employment/responses', async (req, res) => {
   try {
     const query = `
-      SELECT 
+      SELECT
         id,
         full_name,
+        student_number,
+        birth_date,
         batch,
         program,
         employment_status,
@@ -83,32 +85,46 @@ router.get('/alumni-employment/stats', async (req, res) => {
 // POST new alumni response (public submission)
 router.post('/alumni-employment/submit', async (req, res) => {
   try {
-    const { 
-      full_name, 
-      batch, 
-      program, 
-      employment_status, 
-      work_type, 
-      employment_timeline 
+    const {
+      full_name,
+      batch,
+      program,
+      employment_status,
+      work_type,
+      employment_timeline,
+      student_number,
+      birth_date
     } = req.body;
 
     // Validation
     if (!full_name || !batch || !program || !employment_status) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Please fill in all required fields' 
+      return res.status(400).json({
+        success: false,
+        message: 'Please fill in all required fields'
+      });
+    }
+
+    // Alumni must be identifiable by either their student number or,
+    // if forgotten, their full name + birth date (no enrolled-student
+    // database to cross-check against yet, so this is self-reported).
+    if (!student_number && !birth_date) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide your student number, or your birth date if you forgot it'
       });
     }
 
     const query = `
-      INSERT INTO alumni_employment_responses 
-      (full_name, batch, program, employment_status, work_type, employment_timeline)
-      VALUES ($1, $2, $3, $4, $5, $6)
+      INSERT INTO alumni_employment_responses
+      (full_name, student_number, birth_date, batch, program, employment_status, work_type, employment_timeline)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *
     `;
 
     const values = [
       full_name.trim(),
+      student_number ? student_number.trim().toUpperCase() : null,
+      birth_date || null,
       batch.trim(),
       program,
       employment_status,

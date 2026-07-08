@@ -97,17 +97,16 @@ Col. E. De Leon St., Wawa, Brgy. Sto. Niño
 Parañaque City, Metro Manila 1700, Philippines
 
 Contact Numbers:
-- Main Office: (02) 8839-0432
-- Admissions Office: (02) 8839-0433
-- Office of Student Affairs: (02) 8839-0434
+- Main Office: (63 2) 553-8623
 
 Email Addresses:
-- General Inquiries: info.paranaque@pup.edu.ph
-- Admissions: admissions.paranaque@pup.edu.ph
-- Student Affairs: osa.paranaque@pup.edu.ph
+- Registrar Office: paranaque.registrar@pup.edu.ph
+- Student Services: paranaque.studentservices@pup.edu.ph
+- Academic: paranaque.academic@pup.edu.ph
+- Director: paranaque.director@pup.edu.ph
 
 Office Hours:
-- Monday to Friday: 8:00 AM – 5:00 PM
+- Tuesday to Friday: 8:00 AM – 5:00 PM
 - Closed on Weekends and Holidays
 
 --------------------------------
@@ -443,7 +442,7 @@ def chatbot():
     except Exception as e:
         print(f"Error: {str(e)}")
         return jsonify({
-            'reply': 'I apologize, but I encountered an error processing your request. Please try again or contact the office directly at (02) 8839-0432.'
+            'reply': 'I apologize, but I encountered an error processing your request. Please try again or contact the office directly at (63 2) 553-8623.'
         }), 500
 
 @app.route('/api/chatbot/health', methods=['GET'])

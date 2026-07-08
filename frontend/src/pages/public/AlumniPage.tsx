@@ -31,6 +31,8 @@ const TIMELINES = [
   "More than 1 year",
 ];
 
+const STUDENT_NUMBER_PATTERN = /^\d{4}-\d{5}-[A-Za-z]{2}-\d$/;
+
 export function AlumniPage() {
   const navigate = useNavigate();
 
@@ -40,6 +42,9 @@ export function AlumniPage() {
   const [employmentStatus, setEmploymentStatus] = useState("");
   const [workType, setWorkType] = useState("");
   const [timeline, setTimeline] = useState("");
+  const [studentNumber, setStudentNumber] = useState("");
+  const [forgotStudentNumber, setForgotStudentNumber] = useState(false);
+  const [birthDate, setBirthDate] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -60,6 +65,15 @@ export function AlumniPage() {
 
     if (!program) return fail("Please select your program/course");
     if (!employmentStatus) return fail("Please select your current employment status");
+
+    if (!forgotStudentNumber) {
+      if (!studentNumber.trim()) return fail("Please enter your student number");
+      if (!STUDENT_NUMBER_PATTERN.test(studentNumber.trim()))
+        return fail("Please enter a valid student number (e.g., 2022-00349-PQ-0)");
+    } else if (!birthDate) {
+      return fail("Please enter your birth date so we can verify your record");
+    }
+
     return true;
   };
 
@@ -83,6 +97,8 @@ export function AlumniPage() {
           employment_status: employmentStatus,
           work_type: workType.trim() || null,
           employment_timeline: timeline || null,
+          student_number: forgotStudentNumber ? null : studentNumber.trim().toUpperCase(),
+          birth_date: forgotStudentNumber ? birthDate : null,
         },
       );
 
@@ -162,6 +178,43 @@ export function AlumniPage() {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                 />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="studentNumber">
+                  Student Number <span className="required">*</span>
+                </label>
+                {!forgotStudentNumber ? (
+                  <input
+                    type="text"
+                    id="studentNumber"
+                    placeholder="e.g., 2022-00349-PQ-0"
+                    value={studentNumber}
+                    onChange={(e) => setStudentNumber(e.target.value)}
+                  />
+                ) : (
+                  <input
+                    type="date"
+                    id="birthDate"
+                    value={birthDate}
+                    max={new Date().toISOString().split("T")[0]}
+                    onChange={(e) => setBirthDate(e.target.value)}
+                  />
+                )}
+                <label className="checkbox-option">
+                  <input
+                    type="checkbox"
+                    checked={forgotStudentNumber}
+                    onChange={(e) => setForgotStudentNumber(e.target.checked)}
+                  />
+                  <span>I don't remember my student number</span>
+                </label>
+                {forgotStudentNumber && (
+                  <p className="field-hint">
+                    We'll use your full name and birth date above to help verify your
+                    record instead.
+                  </p>
+                )}
               </div>
 
               <div className="form-row">

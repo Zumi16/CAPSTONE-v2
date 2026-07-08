@@ -44,13 +44,10 @@ export function ContactPage() {
               </p>
             </div>
             <div>
-              <h4>Contact Numbers</h4>
+              <h4>Contact Number</h4>
               <p>
-                <strong>Main Office:</strong> (02) 8839-0432
+                <strong>Main Office:</strong> (63 2) 553-8623
                 <br />
-                <strong>Admissions:</strong> (02) 8839-0433
-                <br />
-                <strong>Student Affairs:</strong> (02) 8839-0434
               </p>
             </div>
             <div>
@@ -69,7 +66,7 @@ export function ContactPage() {
             <div>
               <h4>Office Hours</h4>
               <p>
-                Monday to Friday: 8:00 AM - 5:00 PM
+                Tuesday to Friday: 8:00 AM - 5:00 PM
                 <br />
                 Closed on Weekends and Holidays
               </p>

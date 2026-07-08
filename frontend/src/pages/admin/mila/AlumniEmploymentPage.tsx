@@ -25,6 +25,8 @@ const TIMELINES = ["Within 3 months", "Within 6 months", "Within 1 year", "More 
 type Response = {
   id: number;
   full_name: string;
+  student_number?: string;
+  birth_date?: string;
   batch: string;
   program: string;
   employment_status: string;
@@ -128,9 +130,11 @@ export function AlumniEmploymentPage() {
       window.alert("No data to export");
       return;
     }
-    const headers = ["Full Name", "Batch", "Program", "Employment Status", "Work Type", "Employment Timeline", "Submitted Date"];
+    const headers = ["Full Name", "Student Number", "Birth Date", "Batch", "Program", "Employment Status", "Work Type", "Employment Timeline", "Submitted Date"];
     const rows = filtered.map((r) => [
-      r.full_name, r.batch, r.program, r.employment_status, r.work_type || "N/A",
+      r.full_name, r.student_number || "N/A",
+      r.birth_date ? new Date(r.birth_date).toLocaleDateString() : "N/A",
+      r.batch, r.program, r.employment_status, r.work_type || "N/A",
       r.employment_timeline || "N/A", new Date(r.submitted_at).toLocaleDateString(),
     ]);
     const csv = [headers.join(","), ...rows.map((row) => row.map((c) => `"${c}"`).join(","))].join("\n");
@@ -238,14 +242,14 @@ export function AlumniEmploymentPage() {
           <table className="responses-table">
             <thead>
               <tr>
-                <th>Full Name</th><th>Batch</th><th>Program</th><th>Status</th>
+                <th>Full Name</th><th>Student No.</th><th>Birth Date</th><th>Batch</th><th>Program</th><th>Status</th>
                 <th>Work Type</th><th>Timeline</th><th>Submitted</th><th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="no-data">
+                  <td colSpan={10} className="no-data">
                     <i className="fa-solid fa-inbox" />
                     <p>No responses found</p>
                   </td>
@@ -254,6 +258,8 @@ export function AlumniEmploymentPage() {
                 filtered.map((r) => (
                   <tr key={r.id}>
                     <td>{r.full_name}</td>
+                    <td>{r.student_number || "N/A"}</td>
+                    <td>{r.birth_date ? new Date(r.birth_date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "N/A"}</td>
                     <td>{r.batch}</td>
                     <td>{r.program}</td>
                     <td>
