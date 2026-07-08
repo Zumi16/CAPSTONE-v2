@@ -17,6 +17,7 @@ import { FeedbackPage } from "./pages/public/students/FeedbackPage";
 import { ScholarshipsPage } from "./pages/public/students/ScholarshipsPage";
 import { CareersPage } from "./pages/public/students/CareersPage";
 import { CertificateRequestPage } from "./pages/public/students/CertificateRequestPage";
+import { DownloadableFormsPage } from "./pages/public/students/DownloadableFormsPage";
 import { CampusLifePage } from "./pages/public/CampusLifePage";
 import { AlumniPage } from "./pages/public/AlumniPage";
 import { ContactPage } from "./pages/public/ContactPage";
@@ -98,6 +99,10 @@ export function App() {
         <Route
           path={PATHS.students.certificateRequest}
           element={<CertificateRequestPage />}
+        />
+        <Route
+          path={PATHS.students.downloadableForms}
+          element={<DownloadableFormsPage />}
         />
 
         <Route path={PATHS.campusLife} element={<CampusLifePage />} />

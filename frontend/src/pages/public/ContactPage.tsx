@@ -71,9 +71,7 @@ export function ContactPage() {
               <p>
                 Monday to Friday: 8:00 AM - 5:00 PM
                 <br />
-                Saturday: 8:00 AM - 12:00 NN
-                <br />
-                Closed on Sundays and Holidays
+                Closed on Weekends and Holidays
               </p>
             </div>
           </div>

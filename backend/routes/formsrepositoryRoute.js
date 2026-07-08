@@ -117,7 +117,7 @@ router.delete("/folders/:id", async (req, res) => {
 // Upload File (folder_id REQUIRED)
 router.post("/files", upload.single("file"), async (req, res) => {
   try {
-    const { folder_id } = req.body;
+    const { folder_id, description } = req.body;
 
     if (!folder_id) {
       return res.status(400).json({ success: false, message: "folder_id is required" });
@@ -127,8 +127,8 @@ router.post("/files", upload.single("file"), async (req, res) => {
 
     const result = await pool.query(
       `INSERT INTO forms_repository_files
-       (folder_id, file_name, file_path, file_type, file_size, adminid)
-       VALUES ($1, $2, $3, $4, $5, $6)
+       (folder_id, file_name, file_path, file_type, file_size, adminid, description)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
        RETURNING *`,
       [
         parseInt(folder_id),
@@ -137,6 +137,39 @@ router.post("/files", upload.single("file"), async (req, res) => {
         req.file.mimetype,
         req.file.size,
         ADMIN_ID,
+        description || null,
+      ]
+    );
+
+    res.json({ success: true, file: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// Rename a file and/or edit its description ("what this file is for").
+router.put("/files/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { file_name, description } = req.body;
+
+    const existing = await pool.query(
+      "SELECT * FROM forms_repository_files WHERE id = $1",
+      [id]
+    );
+    if (!existing.rows.length) {
+      return res.status(404).json({ success: false, message: "File not found" });
+    }
+
+    const result = await pool.query(
+      `UPDATE forms_repository_files
+       SET file_name = $1, description = $2
+       WHERE id = $3
+       RETURNING *`,
+      [
+        file_name?.trim() || existing.rows[0].file_name,
+        description !== undefined ? (description || null) : existing.rows[0].description,
+        id,
       ]
     );
 
@@ -175,6 +208,33 @@ router.get("/files", async (req, res) => {
     );
 
     res.json({ success: true, files: result.rows });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ---------- Public Route ----------
+
+// Public: list every downloadable form plus the folder tree, so the public
+// "Downloadable Forms" page can group/filter files by their top-level category
+// folder (OJT Forms / Proposal Forms / Other Student Forms).
+router.get("/public", async (req, res) => {
+  try {
+    const [folders, files] = await Promise.all([
+      pool.query(
+        "SELECT id, name, parent_id FROM forms_repository_folders WHERE adminid = $1",
+        [ADMIN_ID]
+      ),
+      pool.query(
+        `SELECT id, folder_id, file_name, file_path, file_type, file_size, description, created_at
+         FROM forms_repository_files
+         WHERE adminid = $1
+         ORDER BY created_at DESC`,
+        [ADMIN_ID]
+      ),
+    ]);
+
+    res.json({ success: true, folders: folders.rows, files: files.rows });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
