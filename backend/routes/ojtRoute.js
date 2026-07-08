@@ -1,4 +1,6 @@
 // ojtRoute.js - With Trash System
+// Post attachments are stored independently of the forms repository: files land
+// in /uploads/posts and their metadata lives directly on ojt_post_files.
 import express from 'express';
 import multer from 'multer';
 import pkg from 'pg';
@@ -16,7 +18,7 @@ const pool = new Pool({
   port: 5432
 });
 
-const uploadDir = './public/uploads/forms_repository';
+const uploadDir = './public/uploads/posts';
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
 const storage = multer.diskStorage({
@@ -27,7 +29,7 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ 
+const upload = multer({
   storage,
   limits: { fileSize: 50 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
@@ -46,7 +48,7 @@ const upload = multer({
       'image/webp',
       'text/plain'
     ];
-    
+
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
@@ -55,41 +57,19 @@ const upload = multer({
   }
 });
 
-async function getOJTFolderId(adminid) {
-  const checkFolder = await pool.query(
-    'SELECT id FROM forms_repository_folders WHERE name = $1 AND adminid = $2 AND parent_id IS NULL',
-    ['OJT', adminid]
+// Save an uploaded file's metadata straight onto the post's junction table.
+async function attachFileToPost(client, postId, file) {
+  const filePath = `/uploads/posts/${file.filename}`;
+  await client.query(
+    `INSERT INTO ojt_post_files (post_id, file_name, file_path, file_type, file_size)
+     VALUES ($1, $2, $3, $4, $5)`,
+    [postId, file.originalname, filePath, file.mimetype, file.size]
   );
-
-  if (checkFolder.rows.length > 0) {
-    return checkFolder.rows[0].id;
-  }
-
-  const createFolder = await pool.query(
-    'INSERT INTO forms_repository_folders (name, adminid, parent_id) VALUES ($1, $2, NULL) RETURNING id',
-    ['OJT', adminid]
-  );
-
-  return createFolder.rows[0].id;
-}
-
-async function saveFileToRepository(folderId, file, adminid) {
-  const filePath = `/uploads/forms_repository/${file.filename}`;
-  
-  const result = await pool.query(
-    `INSERT INTO forms_repository_files 
-     (folder_id, file_name, file_path, file_type, file_size, adminid)
-     VALUES ($1, $2, $3, $4, $5, $6)
-     RETURNING *`,
-    [folderId, file.originalname, filePath, file.mimetype, file.size, adminid]
-  );
-
-  return result.rows[0];
 }
 
 router.post('/create', upload.array('files', 3), async (req, res) => {
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
 
@@ -104,14 +84,8 @@ router.post('/create', upload.array('files', 3), async (req, res) => {
     const post = postResult.rows[0];
 
     if (req.files && req.files.length > 0) {
-      const ojtFolderId = await getOJTFolderId(adminid);
-
       for (const file of req.files) {
-        const savedFile = await saveFileToRepository(ojtFolderId, file, adminid);
-        await client.query(
-          'INSERT INTO ojt_post_files (post_id, file_id) VALUES ($1, $2)',
-          [post.id, savedFile.id]
-        );
+        await attachFileToPost(client, post.id, file);
       }
     }
 
@@ -130,25 +104,24 @@ router.post('/create', upload.array('files', 3), async (req, res) => {
 router.get('/posts', async (req, res) => {
   try {
     const postsQuery = `
-      SELECT 
+      SELECT
         p.*,
         json_agg(
           json_build_object(
-            'id', f.id,
-            'file_name', f.file_name,
-            'file_path', f.file_path,
-            'file_type', f.file_type,
-            'file_size', f.file_size
+            'id', pf.id,
+            'file_name', pf.file_name,
+            'file_path', pf.file_path,
+            'file_type', pf.file_type,
+            'file_size', pf.file_size
           )
-        ) FILTER (WHERE f.id IS NOT NULL) as files
+        ) FILTER (WHERE pf.id IS NOT NULL) as files
       FROM ojt_posts p
       LEFT JOIN ojt_post_files pf ON p.id = pf.post_id
-      LEFT JOIN forms_repository_files f ON pf.file_id = f.id
       WHERE p.deleted_at IS NULL
       GROUP BY p.id
       ORDER BY p.created_at DESC
     `;
-    
+
     const result = await pool.query(postsQuery);
     res.json({ success: true, posts: result.rows });
   } catch (err) {
@@ -161,25 +134,24 @@ router.get('/posts', async (req, res) => {
 router.get('/trash', async (req, res) => {
   try {
     const postsQuery = `
-      SELECT 
+      SELECT
         p.*,
         json_agg(
           json_build_object(
-            'id', f.id,
-            'file_name', f.file_name,
-            'file_path', f.file_path,
-            'file_type', f.file_type,
-            'file_size', f.file_size
+            'id', pf.id,
+            'file_name', pf.file_name,
+            'file_path', pf.file_path,
+            'file_type', pf.file_type,
+            'file_size', pf.file_size
           )
-        ) FILTER (WHERE f.id IS NOT NULL) as files
+        ) FILTER (WHERE pf.id IS NOT NULL) as files
       FROM ojt_posts p
       LEFT JOIN ojt_post_files pf ON p.id = pf.post_id
-      LEFT JOIN forms_repository_files f ON pf.file_id = f.id
       WHERE p.deleted_at IS NOT NULL
       GROUP BY p.id
       ORDER BY p.deleted_at DESC
     `;
-    
+
     const result = await pool.query(postsQuery);
     res.json({ success: true, posts: result.rows });
   } catch (err) {
@@ -192,7 +164,7 @@ router.get('/trash', async (req, res) => {
 router.put('/trash/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     const result = await pool.query(
       'UPDATE ojt_posts SET deleted_at = NOW() WHERE id = $1 RETURNING *',
       [id]
@@ -213,7 +185,7 @@ router.put('/trash/:id', async (req, res) => {
 router.put('/restore/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     const result = await pool.query(
       'UPDATE ojt_posts SET deleted_at = NULL WHERE id = $1 RETURNING *',
       [id]
@@ -233,19 +205,16 @@ router.put('/restore/:id', async (req, res) => {
 // Permanent delete
 router.delete('/delete/:id', async (req, res) => {
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
 
     const { id } = req.params;
 
-    const filesQuery = `
-      SELECT f.id, f.file_path
-      FROM forms_repository_files f
-      JOIN ojt_post_files pf ON f.id = pf.file_id
-      WHERE pf.post_id = $1
-    `;
-    const filesResult = await client.query(filesQuery, [id]);
+    const filesResult = await client.query(
+      'SELECT file_path FROM ojt_post_files WHERE post_id = $1',
+      [id]
+    );
 
     for (const file of filesResult.rows) {
       const fullPath = path.join('./public', file.file_path);
@@ -254,11 +223,7 @@ router.delete('/delete/:id', async (req, res) => {
       }
     }
 
-    for (const file of filesResult.rows) {
-      await client.query('DELETE FROM forms_repository_files WHERE id = $1', [file.id]);
-    }
-
-    await client.query('DELETE FROM ojt_post_files WHERE post_id = $1', [id]);
+    // ojt_post_files rows are removed via ON DELETE CASCADE when the post goes.
     await client.query('DELETE FROM ojt_posts WHERE id = $1', [id]);
 
     await client.query('COMMIT');
@@ -275,45 +240,32 @@ router.delete('/delete/:id', async (req, res) => {
 // Empty trash (delete all trashed posts)
 router.delete('/empty-trash', async (req, res) => {
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
 
-    // Get all trashed posts
-    const trashedPosts = await client.query(
-      'SELECT id FROM ojt_posts WHERE deleted_at IS NOT NULL'
+    // Remove the physical files for every trashed post.
+    const filesResult = await client.query(
+      `SELECT pf.file_path
+       FROM ojt_post_files pf
+       JOIN ojt_posts p ON pf.post_id = p.id
+       WHERE p.deleted_at IS NOT NULL`
     );
 
-    for (const post of trashedPosts.rows) {
-      // Get files for this post
-      const filesQuery = `
-        SELECT f.id, f.file_path
-        FROM forms_repository_files f
-        JOIN ojt_post_files pf ON f.id = pf.file_id
-        WHERE pf.post_id = $1
-      `;
-      const filesResult = await client.query(filesQuery, [post.id]);
-
-      // Delete physical files
-      for (const file of filesResult.rows) {
-        const fullPath = path.join('./public', file.file_path);
-        if (fs.existsSync(fullPath)) {
-          fs.unlinkSync(fullPath);
-        }
-        await client.query('DELETE FROM forms_repository_files WHERE id = $1', [file.id]);
+    for (const file of filesResult.rows) {
+      const fullPath = path.join('./public', file.file_path);
+      if (fs.existsSync(fullPath)) {
+        fs.unlinkSync(fullPath);
       }
-
-      // Delete post_files entries
-      await client.query('DELETE FROM ojt_post_files WHERE post_id = $1', [post.id]);
     }
 
-    // Delete all trashed posts
+    // Junction rows cascade when the posts are deleted.
     const result = await client.query('DELETE FROM ojt_posts WHERE deleted_at IS NOT NULL');
 
     await client.query('COMMIT');
-    res.json({ 
-      success: true, 
-      message: `Trash emptied. ${result.rowCount} posts permanently deleted.` 
+    res.json({
+      success: true,
+      message: `Trash emptied. ${result.rowCount} posts permanently deleted.`
     });
   } catch (err) {
     await client.query('ROLLBACK');
@@ -326,18 +278,18 @@ router.delete('/empty-trash', async (req, res) => {
 
 router.put('/update/:id', upload.array('files', 3), async (req, res) => {
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
 
     const { id } = req.params;
-    const { title, content, adminid, keepFiles } = req.body;
+    const { title, content, keepFiles } = req.body;
 
     let filesToKeep = [];
     if (keepFiles) {
       try {
         const parsed = JSON.parse(keepFiles);
-        filesToKeep = parsed.map(id => parseInt(id, 10));
+        filesToKeep = parsed.map(fid => parseInt(fid, 10));
       } catch (e) {
         console.error('Error parsing keepFiles:', e);
       }
@@ -352,10 +304,7 @@ router.put('/update/:id', upload.array('files', 3), async (req, res) => {
     const result = await client.query(updateQuery, [title, content, id]);
 
     const existingFiles = await client.query(
-      `SELECT f.id, f.file_path
-       FROM forms_repository_files f
-       JOIN ojt_post_files pf ON f.id = pf.file_id
-       WHERE pf.post_id = $1`,
+      'SELECT id, file_path FROM ojt_post_files WHERE post_id = $1',
       [id]
     );
 
@@ -365,19 +314,13 @@ router.put('/update/:id', upload.array('files', 3), async (req, res) => {
         if (fs.existsSync(fullPath)) {
           fs.unlinkSync(fullPath);
         }
-        await client.query('DELETE FROM forms_repository_files WHERE id = $1', [file.id]);
+        await client.query('DELETE FROM ojt_post_files WHERE id = $1', [file.id]);
       }
     }
 
     if (req.files && req.files.length > 0) {
-      const ojtFolderId = await getOJTFolderId(adminid);
-
       for (const file of req.files) {
-        const savedFile = await saveFileToRepository(ojtFolderId, file, adminid);
-        await client.query(
-          'INSERT INTO ojt_post_files (post_id, file_id) VALUES ($1, $2)',
-          [id, savedFile.id]
-        );
+        await attachFileToPost(client, id, file);
       }
     }
 

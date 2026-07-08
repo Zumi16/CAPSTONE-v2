@@ -95,6 +95,14 @@
   border: 1px solid #991414;
 }
 .forms-repo-page .add-btn.empty-trash-btn:hover { background-color: #ff1313; }
+.forms-repo-page .add-btn.upload-btn {
+  background: #2797ec;
+  border: 1px solid #1f7dc4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.forms-repo-page .add-btn.upload-btn:hover { background: #2077b8; }
 
 /* Header wrapper + search + filters */
 .forms-repo-page .repository-header-wrapper {
@@ -283,9 +291,10 @@
 .forms-repo-page .dropdown-menu .delete-perm-btn:hover { background: #ffebee; color: #d32f2f; }
 
 /* ========================================
-   FILE PREVIEW MODAL (rendered at page root)
+   FILE PREVIEW / UPLOAD / EDIT-DETAILS MODALS (rendered at page root)
    ======================================== */
-.forms-repo-page #filePreviewModal {
+.forms-repo-page #filePreviewModal,
+.forms-repo-page .modal-root {
   position: fixed;
   inset: 0;
   z-index: 9999;
@@ -388,6 +397,39 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(41, 129, 196, 0.3);
 }
+.forms-repo-page .cancel-modal-btn { background: #eee; color: #333; }
+.forms-repo-page .cancel-modal-btn:hover { background: #ddd; }
+.forms-repo-page .modal-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Upload / Edit-details forms */
+.forms-repo-page .form-modal { max-width: 480px; }
+.forms-repo-page .form-modal-body { flex-direction: column; align-items: stretch; background: white; }
+.forms-repo-page .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+  text-align: left;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+}
+.forms-repo-page .form-field:last-of-type { margin-bottom: 0; }
+.forms-repo-page .form-field input[type="text"],
+.forms-repo-page .form-field input[type="file"],
+.forms-repo-page .form-field textarea {
+  font-weight: normal;
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+  resize: vertical;
+}
+.forms-repo-page .form-field input[type="text"]:focus,
+.forms-repo-page .form-field textarea:focus { border-color: #2797ec; }
+.forms-repo-page .form-error { color: #d32f2f; font-size: 0.9rem; margin: 10px 0 0; }
 
 /* Spreadsheet + text/json preview */
 .forms-repo-page .preview-table-wrap { width: 100%; }

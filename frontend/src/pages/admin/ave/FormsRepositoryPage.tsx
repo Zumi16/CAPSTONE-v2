@@ -9,8 +9,10 @@ import "@/styles/pages/admin/forms-repository.css";
 /**
  * adminAve → Forms Repository.
  *
- * A folder/file browser over the backend `/api/forms` store. Built-in folders
- * (those with no parent — OJT / Research & Extension / NSTP) cannot be deleted.
+ * Where the admin stores the forms shown on the public "Downloadable Forms"
+ * page. A folder/file browser over the backend `/api/forms` store. Built-in
+ * folders (those with no parent — OJT Forms / Proposal Forms / Other Student
+ * Forms) are the public categories and cannot be deleted.
  * Favorites and "trash" are kept client-side in localStorage exactly like the
  * legacy page; only *permanent* deletes hit the backend (DELETE /files/:id and
  * DELETE /folders/:id). Files preview in a modal (image / PDF / spreadsheet /
@@ -29,6 +31,7 @@ type RepoFile = {
   file_path: string;
   file_type?: string;
   folder_id: number | null;
+  description?: string | null;
   created_at?: string;
   uploaded_at?: string;
 };
@@ -64,6 +67,8 @@ export function FormsRepositoryPage() {
 
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [preview, setPreview] = useState<RepoFile | null>(null);
+  const [showUpload, setShowUpload] = useState(false);
+  const [editingFile, setEditingFile] = useState<RepoFile | null>(null);
 
   // ----- data -----
   const folderMap = useMemo(() => {
@@ -274,6 +279,30 @@ export function FormsRepositoryPage() {
     await fetchData();
   }
 
+  // ----- upload / edit details -----
+  function openUpload() {
+    if (currentFolderId == null) {
+      window.alert("Open a category folder (OJT Forms, Proposal Forms, or Other Student Forms) first, then upload into it.");
+      return;
+    }
+    setShowUpload(true);
+  }
+
+  async function uploadFile(file: File, description: string) {
+    if (currentFolderId == null) return;
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("folder_id", String(currentFolderId));
+    if (description.trim()) formData.append("description", description.trim());
+    await api.post(`${API_BASE}/files`, formData);
+    await fetchData();
+  }
+
+  async function saveFileDetails(id: number, file_name: string, description: string) {
+    await api.put(`${API_BASE}/files/${id}`, { file_name, description });
+    await fetchData();
+  }
+
   // ----- bulk actions -----
   function clearSelection() {
     setSelected(new Set());
@@ -307,7 +336,7 @@ export function FormsRepositoryPage() {
       return type === "folder" && isBuiltIn(Number(id));
     });
     if (hasBuiltIn) {
-      window.alert("Built-in folders (OJT, Research & Extension, NSTP) cannot be deleted.");
+      window.alert("Category folders (OJT Forms, Proposal Forms, Other Student Forms) cannot be deleted.");
       return;
     }
     if (!window.confirm(`Move ${selected.size} item(s) to trash?`)) return;
@@ -325,7 +354,7 @@ export function FormsRepositoryPage() {
       return type === "folder" && isBuiltIn(Number(id));
     });
     if (hasBuiltIn) {
-      window.alert("Built-in folders (OJT, Research & Extension, NSTP) cannot be deleted.");
+      window.alert("Category folders (OJT Forms, Proposal Forms, Other Student Forms) cannot be deleted.");
       return;
     }
     if (!window.confirm(`Permanently delete ${keys.length} item(s)? This action cannot be undone!`)) return;
@@ -375,6 +404,11 @@ export function FormsRepositoryPage() {
       <div className="repository-header-wrapper">
         <div className="repository-header">
           <div className="header-left-controls">
+            {filter === "all" && (
+              <button className="add-btn upload-btn" type="button" onClick={openUpload}>
+                <i className="fa fa-upload" /> Upload Form
+              </button>
+            )}
             {filter === "trash" && (
               <button className="add-btn empty-trash-btn" type="button" onClick={emptyTrashAll}>
                 Empty Trash
@@ -471,7 +505,12 @@ export function FormsRepositoryPage() {
                 onDoubleClick={() => onItemDoubleClick(item)}
               >
                 <i className={item.kind === "folder" ? "fa fa-folder" : "fa fa-file"} />
-                <span className="item-label" title={name}>{name}</span>
+                <span
+                  className="item-label"
+                  title={item.kind === "file" && item.data.description ? `${name}\n${item.data.description}` : name}
+                >
+                  {name}
+                </span>
 
                 <div
                   className="dot-menu"
@@ -537,6 +576,15 @@ export function FormsRepositoryPage() {
                       Download
                     </button>
                   )}
+
+                  {item.kind === "file" && filter !== "trash" && (
+                    <button
+                      className="edit-details-btn"
+                      onClick={() => { setEditingFile(item.data); setOpenMenu(null); }}
+                    >
+                      Rename / Edit Details
+                    </button>
+                  )}
                 </div>
               </div>
             );
@@ -545,6 +593,179 @@ export function FormsRepositoryPage() {
       </div>
 
       {preview && <FilePreviewModal file={preview} onClose={() => setPreview(null)} />}
+
+      {showUpload && currentFolderId != null && (
+        <UploadModal
+          folderName={folderMap.get(currentFolderId)?.name ?? "this folder"}
+          onClose={() => setShowUpload(false)}
+          onUpload={uploadFile}
+        />
+      )}
+
+      {editingFile && (
+        <EditDetailsModal
+          file={editingFile}
+          onClose={() => setEditingFile(null)}
+          onSave={saveFileDetails}
+        />
+      )}
+    </div>
+  );
+}
+
+/** Modal to upload a new form into the currently open folder. */
+function UploadModal({
+  folderName,
+  onClose,
+  onUpload,
+}: {
+  folderName: string;
+  onClose: () => void;
+  onUpload: (file: File, description: string) => Promise<void>;
+}) {
+  const [file, setFile] = useState<File | null>(null);
+  const [description, setDescription] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function submit() {
+    if (!file) {
+      setError("Please choose a file to upload.");
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    try {
+      await onUpload(file, description);
+      onClose();
+    } catch (err) {
+      console.error("Error uploading form:", err);
+      setError("Upload failed. Please try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="modal-root">
+    <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && !busy && onClose()}>
+      <div className="modal-container form-modal">
+        <div className="modal-header">
+          <h3>Upload Form — {folderName}</h3>
+          <button className="modal-close" onClick={onClose} disabled={busy}>
+            <i className="fa fa-times" />
+          </button>
+        </div>
+        <div className="modal-body form-modal-body">
+          <label className="form-field">
+            <span>File</span>
+            <input
+              type="file"
+              onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+              disabled={busy}
+            />
+          </label>
+          <label className="form-field">
+            <span>Description (what this form is for)</span>
+            <textarea
+              rows={4}
+              placeholder="e.g. Required waiver for OJT deployment, submit before start of internship."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              disabled={busy}
+            />
+          </label>
+          {error && <p className="form-error">{error}</p>}
+        </div>
+        <div className="modal-footer">
+          <button className="modal-btn cancel-modal-btn" onClick={onClose} disabled={busy}>
+            Cancel
+          </button>
+          <button className="modal-btn download-modal-btn" onClick={submit} disabled={busy}>
+            <i className="fa fa-upload" /> {busy ? "Uploading..." : "Upload"}
+          </button>
+        </div>
+      </div>
+    </div>
+    </div>
+  );
+}
+
+/** Modal to rename a file and/or edit its description. */
+function EditDetailsModal({
+  file,
+  onClose,
+  onSave,
+}: {
+  file: RepoFile;
+  onClose: () => void;
+  onSave: (id: number, file_name: string, description: string) => Promise<void>;
+}) {
+  const [name, setName] = useState(file.file_name);
+  const [description, setDescription] = useState(file.description ?? "");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function submit() {
+    if (!name.trim()) {
+      setError("File name cannot be empty.");
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    try {
+      await onSave(file.id, name.trim(), description);
+      onClose();
+    } catch (err) {
+      console.error("Error saving file details:", err);
+      setError("Save failed. Please try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="modal-root">
+    <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && !busy && onClose()}>
+      <div className="modal-container form-modal">
+        <div className="modal-header">
+          <h3>Edit Details</h3>
+          <button className="modal-close" onClick={onClose} disabled={busy}>
+            <i className="fa fa-times" />
+          </button>
+        </div>
+        <div className="modal-body form-modal-body">
+          <label className="form-field">
+            <span>File name</span>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              disabled={busy}
+            />
+          </label>
+          <label className="form-field">
+            <span>Description (what this form is for)</span>
+            <textarea
+              rows={4}
+              placeholder="e.g. Required waiver for OJT deployment, submit before start of internship."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              disabled={busy}
+            />
+          </label>
+          {error && <p className="form-error">{error}</p>}
+        </div>
+        <div className="modal-footer">
+          <button className="modal-btn cancel-modal-btn" onClick={onClose} disabled={busy}>
+            Cancel
+          </button>
+          <button className="modal-btn download-modal-btn" onClick={submit} disabled={busy}>
+            <i className="fa fa-save" /> {busy ? "Saving..." : "Save"}
+          </button>
+        </div>
+      </div>
+    </div>
     </div>
   );
 }

@@ -26,6 +26,7 @@ export const PATHS = {
     scholarships: "/students/scholarships",
     careers: "/students/careers",
     certificateRequest: "/students/certificate-request",
+    downloadableForms: "/students/downloadable-forms",
   },
 
   campusLife: "/campus-life",

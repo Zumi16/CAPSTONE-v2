@@ -95,6 +95,11 @@ export function Footer() {
                   PUP Student Portal
                 </a>
               </li>
+              <li>
+                <Link to={PATHS.students.downloadableForms}>
+                  Downloadable Forms
+                </Link>
+              </li>
             </ul>
           </div>
 
