@@ -161,7 +161,7 @@
   font-weight: 400;
   font-size: 0.85rem;
 }
-.alumni-page .form-group input[type="text"], .alumni-page .form-group select {
+.alumni-page .form-group input[type="text"], .alumni-page .form-group input[type="date"], .alumni-page .form-group select {
   width: 100%;
   padding: 12px 15px;
   border: 2px solid #ddd;
@@ -188,10 +188,32 @@
   color: #999;
   opacity: 1;
 }
-.alumni-page .form-group input[type="text"]:focus, .alumni-page .form-group select:focus {
+.alumni-page .form-group input[type="text"]:focus, .alumni-page .form-group input[type="date"]:focus, .alumni-page .form-group select:focus {
   outline: none;
   border-color: #8b1538;
   box-shadow: 0 0 0 3px rgba(139, 21, 56, 0.1);
+}
+.alumni-page .checkbox-option {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 0;
+  font-size: 0.85rem !important;
+  font-weight: 400 !important;
+  color: #555 !important;
+  cursor: pointer;
+}
+.alumni-page .checkbox-option input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #8b1538;
+}
+.alumni-page .field-hint {
+  font-size: 0.82rem;
+  color: #8b1538;
+  margin-top: 8px;
+  font-style: italic;
 }
 .alumni-page .form-group select {
   cursor: pointer;

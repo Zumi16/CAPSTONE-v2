@@ -24,7 +24,7 @@ const WELCOME_MESSAGE: ChatMessage = {
 };
 
 const CONNECTION_ERROR =
-  "Sorry, I'm having trouble connecting right now. Please try again later or contact us directly at (02) 8839-0432.";
+  "Sorry, I'm having trouble connecting right now. Please try again later or contact us directly at (63 2) 553-8623.";
 
 /**
  * Floating help chatbot, shown on the public pages.

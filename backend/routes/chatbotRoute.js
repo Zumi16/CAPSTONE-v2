@@ -32,12 +32,12 @@ router.post('/', async (req, res) => {
     
     if (error.code === 'ECONNREFUSED') {
       return res.status(503).json({ 
-        reply: 'The chatbot service is currently unavailable. Please try again later or contact us directly at (02) 8839-0432.' 
+        reply: 'The chatbot service is currently unavailable. Please try again later or contact us directly at (63 2) 553-8623.'
       });
     }
 
     res.status(500).json({ 
-      reply: 'I apologize, but I encountered an error. Please contact our office at (02) 8839-0432 for assistance.' 
+      reply: 'I apologize, but I encountered an error. Please contact our office at (63 2) 553-8623 for assistance.'
     });
   }
 });
