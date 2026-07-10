@@ -265,7 +265,7 @@ export function ScholarshipsPage() {
   const fmtDate = (d?: string) => (d ? new Date(d).toLocaleDateString() : "");
 
   return (
-    <div className="scholarships-page">
+    <div className="scholarships-admin-page">
       <div className="scholarship-filters">
         {FILTERS.map((f) => (
           <button key={f} className={cx("filter-tab", filter === f && "active")} onClick={() => setFilter(f)}>

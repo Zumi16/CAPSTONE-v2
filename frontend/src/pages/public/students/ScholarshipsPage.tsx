@@ -165,14 +165,14 @@ function ScholarshipModal({
   return (
     <div className="modal active" id="scholarshipModal" style={{ display: "flex" }}>
       <div className="modal-overlay" onClick={onClose} />
-      <div className="modal-container">
+      <div className="modal-content">
         <button className="modal-close" id="closeModal" onClick={onClose}>
           <i className="fas fa-times" />
         </button>
         <div className="modal-body" id="modalBody">
           <div className="modal-header">
-            <h2>{scholarship.title}</h2>
-            <p className="card-provider">
+            <h2 className="modal-title">{scholarship.title}</h2>
+            <p className="modal-provider">
               <i className="fas fa-building" /> {scholarship.provider}
             </p>
             <span className={cx("badge badge-status", scholarship.status.toLowerCase())}>
