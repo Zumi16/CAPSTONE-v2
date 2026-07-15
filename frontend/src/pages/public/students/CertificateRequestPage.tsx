@@ -16,9 +16,16 @@ const YEAR_LEVELS = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
 
 const CERTIFICATE_TYPES = [
   ["no_id", "Certificate of No ID"],
-  ["clearance", "Clearance from Admin"],
-  ["gres_form", "GRES Form"],
   ["no_pending_obligation", "Certificate of No Pending Obligation"],
+];
+
+const PURPOSE_OPTIONS = [
+  ["scholarship", "Scholarship"],
+  ["employment", "Employment"],
+  ["legal", "Legal/Court Proceedings"],
+  ["government", "Government Agency/Official"],
+  ["personal", "Personal Use"],
+  ["other", "Other (Please Specify)"],
 ];
 
 const EMPTY_FORM = {
@@ -28,6 +35,7 @@ const EMPTY_FORM = {
   yearLevel: "",
   section: "",
   certificateType: "",
+  certificatePurpose: "",
   reason: "",
   contactEmail: "",
   contactNumber: "",
@@ -109,6 +117,7 @@ export function CertificateRequestPage() {
       !form.course ||
       !form.yearLevel ||
       !form.certificateType ||
+      !form.certificatePurpose ||
       !form.reason
     ) {
       window.alert("Please fill in all required fields");
@@ -300,6 +309,21 @@ export function CertificateRequestPage() {
                 </select>
               </div>
               <div className="form-group">
+                <label htmlFor="certificatePurpose">Purpose of Certificate *</label>
+                <select
+                  id="certificatePurpose"
+                  value={form.certificatePurpose}
+                  onChange={(e) => update("certificatePurpose", e.target.value)}
+                >
+                  <option value="">Select Purpose</option>
+                  {PURPOSE_OPTIONS.map(([value, label]) => (
+                    <option value={value} key={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
                 <label htmlFor="reason">Reason for Request *</label>
                 <textarea
                   id="reason"
@@ -397,6 +421,12 @@ export function CertificateRequestPage() {
                   <Detail label="Request Number">
                     <strong>{result.request.request_number}</strong>
                   </Detail>
+                  <Detail label="Control Number">
+                    <strong style={{ color: "#0c5460" }}>{result.request.control_number}</strong>
+                    <small style={{ display: "block", color: "#666", marginTop: "5px" }}>
+                      For verification and authenticity
+                    </small>
+                  </Detail>
                   <Detail label="Date Submitted">
                     {formatLongDate(result.request.created_at)}
                   </Detail>
@@ -406,6 +436,9 @@ export function CertificateRequestPage() {
                   </Detail>
                   <Detail label="Certificate Type">
                     {certificateTypeLabel(result.request.certificate_type)}
+                  </Detail>
+                  <Detail label="Certificate Purpose">
+                    {result.request.certificate_purpose}
                   </Detail>
                   <Detail label="Current Status">{result.request.status}</Detail>
                   <div className="status-detail-item status-detail-full">
@@ -456,6 +489,20 @@ export function CertificateRequestPage() {
                   }}
                 >
                   {statusMessage(result.request.status)}
+
+                  {(result.request.status === 'generated' || result.request.status === 'released') &&
+                    result.request.certificate_file_path && (
+                    <div style={{ marginTop: 20 }}>
+                      <a
+                        href={result.request.certificate_file_path}
+                        download
+                        className="btn btn-primary"
+                        style={{ textDecoration: 'none', display: 'inline-block' }}
+                      >
+                        <i className="fa-solid fa-download" /> Download Certificate
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

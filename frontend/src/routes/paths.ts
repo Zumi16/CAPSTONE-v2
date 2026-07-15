@@ -22,6 +22,7 @@ export const PATHS = {
     index: "/students",
     nstp: "/students/nstp",
     ojt: "/students/ojt",
+    internship: "/students/internship",
     feedback: "/students/feedback",
     scholarships: "/students/scholarships",
     careers: "/students/careers",
@@ -77,10 +78,11 @@ export const PATHS = {
       fileRepository: "/admin/enierga/file-repository",
     },
 
-    /** adminAve portal: OJT / NSTP / Research & Extension / Forms. */
+    /** adminAve portal: OJT / Internship / NSTP / Research & Extension / Forms. */
     ave: {
       dashboard: "/admin/ave",
       ojt: "/admin/ave/ojt",
+      internship: "/admin/ave/internship",
       research: "/admin/ave/research-extension",
       nstp: "/admin/ave/nstp",
       forms: "/admin/ave/forms-repository",

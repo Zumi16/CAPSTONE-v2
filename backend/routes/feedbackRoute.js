@@ -1,5 +1,5 @@
 // backend/routes/feedbackRoute.js
-// Transaction-Based Feedback & Satisfaction Rating System
+// General Feedback & Satisfaction Rating System (Students & Visitors)
 
 import express from "express";
 import pool from "../db.js";
@@ -10,62 +10,15 @@ console.log('✅ Feedback routes file loaded');
 // PUBLIC ENDPOINTS (Student & Visitor Side)
 // ============================================
 
-// POST - Validate transaction before feedback (STUDENT)
-router.post("/feedback/validate", async (req, res) => {
-  console.log('🔍 POST /feedback/validate hit');
-  const { transaction_id, student_number, department } = req.body;
-  
-  if (!transaction_id || !student_number || !department) {
-    return res.status(400).json({
-      success: false,
-      message: "Missing required fields"
-    });
-  }
-  
-  try {
-    const query = `
-      SELECT t.*, d.department_name, d.department_id
-      FROM transactions t
-      JOIN departments d ON t.department_id = d.department_id
-      WHERE t.transaction_id = $1 
-        AND t.student_number = $2 
-        AND d.department_name = $3
-        AND t.status = 'Completed'
-        AND NOT EXISTS (
-          SELECT 1 FROM feedback f WHERE f.transaction_id = t.transaction_id
-        )
-    `;
-    
-    const result = await pool.query(query, [transaction_id, student_number, department]);
-    
-    if (result.rows.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "Transaction not found, already has feedback, or is not eligible"
-      });
-    }
-    
-    res.json({
-      success: true,
-      transaction: result.rows[0]
-    });
-  } catch (err) {
-    console.error("Transaction validation error:", err);
-    res.status(500).json({
-      success: false,
-      message: "Failed to validate transaction"
-    });
-  }
-});
-
-// POST - Submit feedback (STUDENT)
+// POST - Submit feedback (STUDENT & GENERAL)
 router.post("/feedback", async (req, res) => {
-  console.log('🔍 POST /feedback (STUDENT) hit');
+  console.log('🔍 POST /feedback hit');
   console.log('📦 Request body:', req.body);
-  
+
   const {
-    transaction_id,
-    student_number,
+    submitter_name,
+    submitter_email,
+    submitter_phone,
     department_id,
     overall_rating,
     processing_time,
@@ -73,20 +26,29 @@ router.post("/feedback", async (req, res) => {
     clarity,
     facility,
     comments,
-    is_anonymous
+    is_anonymous,
+    user_type
   } = req.body;
-  
-  // Validation
-  if (!transaction_id || !student_number || !department_id || 
-      !overall_rating || !processing_time || !staff_assistance || 
-      !clarity || !facility) {
+
+  // Validation - ratings are required
+  if (!department_id || !overall_rating || !processing_time ||
+      !staff_assistance || !clarity || !facility) {
     console.log('❌ Missing required fields');
     return res.status(400).json({
       success: false,
       message: "Missing required fields"
     });
   }
-  
+
+  // If not anonymous, require name
+  if (!is_anonymous && !submitter_name) {
+    console.log('❌ Name required for non-anonymous submission');
+    return res.status(400).json({
+      success: false,
+      message: "Name is required for non-anonymous submission"
+    });
+  }
+
   // Validate ratings are between 1-5
   const ratings = [overall_rating, processing_time, staff_assistance, clarity, facility];
   if (ratings.some(r => r < 1 || r > 5)) {
@@ -96,25 +58,14 @@ router.post("/feedback", async (req, res) => {
       message: "Invalid rating values. Must be between 1 and 5"
     });
   }
-  
+
   try {
-    // Check if feedback already exists
-    const checkQuery = `SELECT feedback_id FROM feedback WHERE transaction_id = $1`;
-    const checkResult = await pool.query(checkQuery, [transaction_id]);
-    
-    if (checkResult.rows.length > 0) {
-      console.log('❌ Feedback already exists for this transaction');
-      return res.status(409).json({
-        success: false,
-        message: "Feedback already submitted for this transaction"
-      });
-    }
-    
-    // Insert feedback with user_type = 'student'
+    // Insert feedback
     const insertQuery = `
       INSERT INTO feedback (
-        transaction_id,
-        student_number,
+        submitter_name,
+        submitter_email,
+        submitter_phone,
         department_id,
         overall_rating,
         processing_time,
@@ -125,13 +76,14 @@ router.post("/feedback", async (req, res) => {
         is_anonymous,
         user_type,
         created_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 'student', NOW())
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NOW())
       RETURNING feedback_id, created_at
     `;
-    
+
     const values = [
-      transaction_id,
-      student_number,
+      is_anonymous ? null : submitter_name,
+      is_anonymous ? null : submitter_email || null,
+      is_anonymous ? null : submitter_phone || null,
       department_id,
       overall_rating,
       processing_time,
@@ -139,19 +91,20 @@ router.post("/feedback", async (req, res) => {
       clarity,
       facility,
       comments || null,
-      is_anonymous || false
+      is_anonymous || false,
+      user_type || 'general'
     ];
-    
+
     const result = await pool.query(insertQuery, values);
     const feedback = result.rows[0];
-    
-    console.log('✅ Student feedback saved successfully:', feedback);
-    
+
+    console.log('✅ Feedback saved successfully:', feedback);
+
     // Send notification if rating is 2 or below
     if (overall_rating <= 2) {
-      await sendLowRatingNotification(department_id, feedback.feedback_id, 'student');
+      await sendLowRatingNotification(department_id, feedback.feedback_id, user_type || 'general');
     }
-    
+
     res.status(201).json({
       success: true,
       message: "Feedback submitted successfully",
@@ -167,108 +120,6 @@ router.post("/feedback", async (req, res) => {
   }
 });
 
-// POST - Submit feedback (VISITOR)
-router.post("/feedback/visitor", async (req, res) => {
-  console.log('🔍 POST /feedback/visitor hit');
-  console.log('📦 Request body:', req.body);
-  
-  const {
-    visitor_name,
-    visitor_email,
-    visitor_phone,
-    department_id,
-    service_type,
-    visit_date,
-    overall_rating,
-    processing_time,
-    staff_assistance,
-    clarity,
-    facility,
-    comments
-  } = req.body;
-  
-  // Validation
-  if (!visitor_name || !department_id || !service_type || !visit_date ||
-      !overall_rating || !processing_time || !staff_assistance || 
-      !clarity || !facility) {
-    console.log('❌ Missing required fields');
-    return res.status(400).json({
-      success: false,
-      message: "Missing required fields"
-    });
-  }
-  
-  // Validate ratings are between 1-5
-  const ratings = [overall_rating, processing_time, staff_assistance, clarity, facility];
-  if (ratings.some(r => r < 1 || r > 5)) {
-    console.log('❌ Invalid rating values');
-    return res.status(400).json({
-      success: false,
-      message: "Invalid rating values. Must be between 1 and 5"
-    });
-  }
-  
-  try {
-    // Insert visitor feedback
-    const insertQuery = `
-      INSERT INTO feedback (
-        visitor_name,
-        visitor_email,
-        visitor_phone,
-        department_id,
-        service_type,
-        visit_date,
-        overall_rating,
-        processing_time,
-        staff_assistance,
-        clarity,
-        facility,
-        comments,
-        user_type,
-        created_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, 'visitor', NOW())
-      RETURNING feedback_id, created_at
-    `;
-    
-    const values = [
-      visitor_name,
-      visitor_email || null,
-      visitor_phone || null,
-      department_id,
-      service_type,
-      visit_date,
-      overall_rating,
-      processing_time,
-      staff_assistance,
-      clarity,
-      facility,
-      comments || null
-    ];
-    
-    const result = await pool.query(insertQuery, values);
-    const feedback = result.rows[0];
-    
-    console.log('✅ Visitor feedback saved successfully:', feedback);
-    
-    // Send notification if rating is 2 or below
-    if (overall_rating <= 2) {
-      await sendLowRatingNotification(department_id, feedback.feedback_id, 'visitor');
-    }
-    
-    res.status(201).json({
-      success: true,
-      message: "Feedback submitted successfully",
-      feedback_id: `FB-V-${feedback.feedback_id}`,
-      submitted_at: feedback.created_at
-    });
-  } catch (err) {
-    console.error("❌ Visitor feedback submission error:", err);
-    res.status(500).json({
-      success: false,
-      message: "Failed to submit feedback"
-    });
-  }
-});
 
 // ============================================
 // ADMIN ENDPOINTS (Department Staff)
@@ -279,25 +130,25 @@ router.get("/feedback/department/:department_id", async (req, res) => {
   console.log('🔍 GET /feedback/department/:id hit');
   const { department_id } = req.params;
   const { start_date, end_date, min_rating, max_rating, user_type } = req.query;
-  
+  const isSuperAdmin = req.user?.role === 'super_admin'; // Assumes auth middleware sets req.user
+
   try {
     let query = `
-      SELECT 
+      SELECT
         f.feedback_id,
-        f.transaction_id,
         f.user_type,
-        CASE 
-          WHEN f.user_type = 'student' THEN
-            CASE 
-              WHEN f.is_anonymous = true THEN 'Anonymous Student'
-              ELSE f.student_number
-            END
-          WHEN f.user_type = 'visitor' THEN f.visitor_name
+        CASE
+          WHEN f.is_anonymous = true THEN 'Anonymous'
+          ELSE COALESCE(f.submitter_name, 'Not Specified')
         END as user_identifier,
-        f.visitor_email,
-        f.visitor_phone,
-        f.service_type,
-        f.visit_date,
+        CASE
+          WHEN f.is_anonymous = true OR NOT $1::boolean THEN NULL
+          ELSE f.submitter_email
+        END as submitter_email,
+        CASE
+          WHEN f.is_anonymous = true OR NOT $1::boolean THEN NULL
+          ELSE f.submitter_phone
+        END as submitter_phone,
         f.overall_rating,
         f.processing_time,
         f.staff_assistance,
@@ -305,52 +156,50 @@ router.get("/feedback/department/:department_id", async (req, res) => {
         f.facility,
         f.comments,
         f.created_at,
-        t.transaction_type,
-        t.transaction_date
+        f.is_anonymous
       FROM feedback f
-      LEFT JOIN transactions t ON f.transaction_id = t.transaction_id
-      WHERE f.department_id = $1
+      WHERE f.department_id = $2
     `;
-    
-    const params = [department_id];
-    let paramIndex = 2;
-    
+
+    const params = [isSuperAdmin, department_id];
+    let paramIndex = 3;
+
     if (user_type) {
       query += ` AND f.user_type = $${paramIndex}`;
       params.push(user_type);
       paramIndex++;
     }
-    
+
     if (start_date) {
       query += ` AND f.created_at >= $${paramIndex}`;
       params.push(start_date);
       paramIndex++;
     }
-    
+
     if (end_date) {
       query += ` AND f.created_at <= $${paramIndex}`;
       params.push(end_date);
       paramIndex++;
     }
-    
+
     if (min_rating) {
       query += ` AND f.overall_rating >= $${paramIndex}`;
       params.push(min_rating);
       paramIndex++;
     }
-    
+
     if (max_rating) {
       query += ` AND f.overall_rating <= $${paramIndex}`;
       params.push(max_rating);
       paramIndex++;
     }
-    
+
     query += ` ORDER BY f.created_at DESC`;
-    
+
     const result = await pool.query(query, params);
-    
+
     console.log(`✅ Found ${result.rows.length} feedback items for department ${department_id}`);
-    
+
     res.json({
       success: true,
       feedback: result.rows,
