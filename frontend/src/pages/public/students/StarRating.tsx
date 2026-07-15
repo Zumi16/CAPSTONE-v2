@@ -1,7 +1,8 @@
+import { useState } from "react";
+
 /**
- * A 5-star rating built the same way as the old site: radio inputs in 5→1
- * order so the existing CSS (`:checked ~ label`) can fill the stars. The
- * component is controlled — pass the current `value` and an `onChange`.
+ * A 5-star rating with proper hover state support.
+ * The component is controlled — pass the current `value` and an `onChange`.
  */
 type StarRatingProps = {
   name: string;
@@ -12,11 +13,13 @@ type StarRatingProps = {
 };
 
 export function StarRating({ name, value, onChange, size = "large" }: StarRatingProps) {
+  const [hoveredRating, setHoveredRating] = useState<number | null>(null);
   const wrapperClass = size === "large" ? "star-rating" : "star-rating-small";
   const starClass = size === "large" ? "star" : "star-small";
+  const displayRating = hoveredRating ?? value;
 
   return (
-    <div className={wrapperClass}>
+    <div className={wrapperClass} onMouseLeave={() => setHoveredRating(null)}>
       {[5, 4, 3, 2, 1].map((star) => (
         <span key={star} style={{ display: "contents" }}>
           <input
@@ -26,8 +29,16 @@ export function StarRating({ name, value, onChange, size = "large" }: StarRating
             value={star}
             checked={value === star}
             onChange={() => onChange(star)}
+            aria-label={`${star} stars`}
           />
-          <label htmlFor={`${name}_${star}`} className={starClass}>
+          <label
+            htmlFor={`${name}_${star}`}
+            className={starClass}
+            onMouseEnter={() => setHoveredRating(star)}
+            style={{
+              color: displayRating !== null && star <= displayRating ? "#ffd700" : "#ddd",
+            }}
+          >
             ★
           </label>
         </span>
