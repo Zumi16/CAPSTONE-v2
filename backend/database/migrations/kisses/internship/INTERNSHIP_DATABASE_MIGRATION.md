@@ -21,11 +21,11 @@ CREATE TABLE IF NOT EXISTS internship_posts (
   id SERIAL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   content TEXT NOT NULL,
-  adminid VARCHAR(100),
+  adminid VARCHAR(50),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   deleted_at TIMESTAMP,
-  FOREIGN KEY (adminid) REFERENCES users(id) ON DELETE SET NULL
+  FOREIGN KEY (adminid) REFERENCES admin_accounts(adminid) ON DELETE SET NULL
 );
 
 CREATE INDEX idx_internship_posts_created_at ON internship_posts(created_at DESC);
@@ -72,22 +72,28 @@ CREATE INDEX idx_internship_post_files_file_id ON internship_post_files(file_id)
 
 ## Installation Steps
 
+Before running any command below, export your local Postgres password from
+`backend/.env` into your shell:
+```bash
+export PG_PASSWORD=$(grep PG_PASSWORD backend/.env | cut -d '=' -f2)
+```
+
 ### Step 1: Run Database Migration
 
 Execute this SQL to create the required tables:
 
 ```bash
-PGPASSWORD=Kisses123 psql -h localhost -U postgres -d capstone_db << 'EOF'
+PGPASSWORD=$PG_PASSWORD psql -h localhost -U postgres -d capstone_db << 'EOF'
 -- Create internship_posts table
 CREATE TABLE IF NOT EXISTS internship_posts (
   id SERIAL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   content TEXT NOT NULL,
-  adminid VARCHAR(100),
+  adminid VARCHAR(50),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   deleted_at TIMESTAMP,
-  FOREIGN KEY (adminid) REFERENCES users(id) ON DELETE SET NULL
+  FOREIGN KEY (adminid) REFERENCES admin_accounts(adminid) ON DELETE SET NULL
 );
 
 CREATE INDEX IF NOT EXISTS idx_internship_posts_created_at ON internship_posts(created_at DESC);
@@ -116,7 +122,7 @@ EOF
 Check that the tables were created:
 
 ```bash
-PGPASSWORD=Kisses123 psql -h localhost -U postgres -d capstone_db -c "\dt internship*"
+PGPASSWORD=$PG_PASSWORD psql -h localhost -U postgres -d capstone_db -c "\dt internship*"
 ```
 
 You should see:
@@ -221,7 +227,7 @@ GET /admin/ave/internship
 
 ### 1. Verify Database Tables
 ```bash
-PGPASSWORD=Kisses123 psql -h localhost -U postgres -d capstone_db << 'EOF'
+PGPASSWORD=$PG_PASSWORD psql -h localhost -U postgres -d capstone_db << 'EOF'
 SELECT * FROM internship_posts;
 SELECT * FROM internship_post_files;
 EOF
