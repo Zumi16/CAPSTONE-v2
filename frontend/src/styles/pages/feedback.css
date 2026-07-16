@@ -207,11 +207,7 @@
 }
 .feedback-page .star-rating .star {
     cursor: pointer;
-    color: #ddd;
     transition: color 0.2s ease;
-}
-.feedback-page .star-rating .star:hover, .feedback-page .star-rating .star:hover ~ .star, .feedback-page .star-rating input[type="radio"]:checked ~ .star {
-    color: #ffd700;
 }
 .feedback-page .rating-text {
     text-align: center;
@@ -264,11 +260,7 @@
 }
 .feedback-page .star-rating-small .star-small {
     cursor: pointer;
-    color: #ddd;
     transition: color 0.2s ease;
-}
-.feedback-page .star-rating-small .star-small:hover, .feedback-page .star-rating-small .star-small:hover ~ .star-small, .feedback-page .star-rating-small input[type="radio"]:checked ~ .star-small {
-    color: #ffd700;
 }
 .feedback-page .checkbox-wrapper {
     display: flex;

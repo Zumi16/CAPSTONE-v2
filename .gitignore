@@ -31,3 +31,14 @@ venv/
 
 .claude/
 .claude*
+
+# Setup guides and instructions (only for local reference)
+BACKEND_MIGRATION_GUIDE.md
+FEEDBACK_SYSTEM_REVISIONS.md
+CERTIFICATE_REVISIONS_DATABASE.md
+CERTIFICATE_FEATURES_SETUP.md
+CHANGES_SUMMARY.md
+SETUP_INSTRUCTIONS.txt
+
+# Database migrations (to avoid conflicts during development)
+backend/migrations/

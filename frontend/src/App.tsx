@@ -13,6 +13,7 @@ import { AdmissionPage } from "./pages/public/AdmissionPage";
 import { StudentsPage } from "./pages/public/students/StudentsPage";
 import { NstpPage } from "./pages/public/students/NstpPage";
 import { OjtPage } from "./pages/public/students/OjtPage";
+import { InternshipPage } from "./pages/public/students/InternshipPage";
 import { FeedbackPage } from "./pages/public/students/FeedbackPage";
 import { ScholarshipsPage } from "./pages/public/students/ScholarshipsPage";
 import { CareersPage } from "./pages/public/students/CareersPage";
@@ -34,6 +35,7 @@ import { FileRepositoryPage } from "./pages/admin/enierga/FileRepositoryPage";
 import { AnalyticsReportPage } from "./pages/admin/enierga/AnalyticsReportPage";
 import { AveDashboardPage } from "./pages/admin/ave/AveDashboardPage";
 import { OjtPage as AveOjtPage } from "./pages/admin/ave/OjtPage";
+import { InternshipPage as AveInternshipPage } from "./pages/admin/ave/InternshipPage";
 import { NstpPage as AveNstpPage } from "./pages/admin/ave/NstpPage";
 import { ResearchExtensionPage as AveResearchExtensionPage } from "./pages/admin/ave/ResearchExtensionPage";
 import { FormsRepositoryPage as AveFormsRepositoryPage } from "./pages/admin/ave/FormsRepositoryPage";
@@ -90,6 +92,7 @@ export function App() {
         <Route path={PATHS.students.index} element={<StudentsPage />} />
         <Route path={PATHS.students.nstp} element={<NstpPage />} />
         <Route path={PATHS.students.ojt} element={<OjtPage />} />
+        <Route path={PATHS.students.internship} element={<InternshipPage />} />
         <Route path={PATHS.students.feedback} element={<FeedbackPage />} />
         <Route
           path={PATHS.students.scholarships}
@@ -140,6 +143,7 @@ export function App() {
       <Route path={PATHS.admin.ave.dashboard} element={<PortalRoute portal="ave" />}>
         <Route index element={<AveDashboardPage />} />
         <Route path="ojt" element={<AveOjtPage />} />
+        <Route path="internship" element={<AveInternshipPage />} />
         <Route path="research-extension" element={<AveResearchExtensionPage />} />
         <Route path="nstp" element={<AveNstpPage />} />
         <Route path="forms-repository" element={<AveFormsRepositoryPage />} />

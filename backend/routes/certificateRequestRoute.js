@@ -1,10 +1,10 @@
 import express from "express";
-
-// certificateRequestRoute.js
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import { Pool } from "pg";   // ✅ ADD THIS
+import { Pool } from "pg";
+import { sendCertificateEmail } from "../services/emailService.js";
+import { generateCertificatePDF } from "../services/certificateGenerator.js";
 
 const router = express.Router();
 
@@ -21,10 +21,19 @@ const pool = new Pool({
 // PUBLIC ENDPOINTS
 // ========================
 
+// Helper function to generate control number
+function generateControlNumber() {
+  const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  const random = Array.from({ length: 6 }, () =>
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[Math.floor(Math.random() * 36)]
+  ).join('');
+  return `CTRL-${date}-${random}`;
+}
+
 // Submit new certificate request (PUBLIC - No auth required)
 router.post('/submit', async (req, res) => {
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
 
@@ -36,28 +45,33 @@ router.post('/submit', async (req, res) => {
       section,
       campus,
       certificateType,
+      certificatePurpose,
       reason,
       contactEmail,
       contactNumber
     } = req.body;
 
     // Validate required fields
-    if (!fullName || !studentNumber || !course || !yearLevel || !certificateType || !reason) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Missing required fields' 
+    if (!fullName || !studentNumber || !course || !yearLevel || !certificateType || !certificatePurpose || !reason) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing required fields'
       });
     }
+
+    // Generate control number
+    const controlNumber = generateControlNumber();
 
     // Insert certificate request
     const insertQuery = `
       INSERT INTO certificate_requests (
         full_name, student_number, course, year_level, section, campus,
-        certificate_type, reason, contact_email, contact_number, status
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 'pending')
+        certificate_type, certificate_purpose, reason, contact_email, contact_number,
+        control_number, status
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, 'pending')
       RETURNING *;
     `;
-    
+
     const result = await client.query(insertQuery, [
       fullName,
       studentNumber,
@@ -66,9 +80,11 @@ router.post('/submit', async (req, res) => {
       section || null,
       campus || 'PUP Parañaque',
       certificateType,
+      certificatePurpose,
       reason,
       contactEmail || null,
-      contactNumber || null
+      contactNumber || null,
+      controlNumber
     ]);
 
     const request = result.rows[0];
@@ -77,24 +93,25 @@ router.post('/submit', async (req, res) => {
     await client.query(
       `INSERT INTO certificate_activity_logs (request_id, action, performed_by, remarks)
        VALUES ($1, $2, $3, $4)`,
-      [request.id, 'submitted', 'Student', `Request submitted: ${certificateType}`]
+      [request.id, 'submitted', 'Student', `Request submitted: ${certificateType} | Purpose: ${certificatePurpose} | Control: ${controlNumber}`]
     );
 
     await client.query('COMMIT');
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: 'Certificate request submitted successfully',
       requestNumber: request.request_number,
+      controlNumber: controlNumber,
       request
     });
 
   } catch (err) {
     await client.query('ROLLBACK');
     console.error('Error submitting certificate request:', err);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Failed to submit certificate request' 
+    res.status(500).json({
+      success: false,
+      message: 'Failed to submit certificate request'
     });
   } finally {
     client.release();
@@ -107,9 +124,10 @@ router.get('/status/:requestNumber', async (req, res) => {
     const { requestNumber } = req.params;
 
     const query = `
-      SELECT 
-        id, request_number, full_name, student_number, 
-        certificate_type, status, reason,
+      SELECT
+        id, request_number, full_name, student_number,
+        certificate_type, certificate_purpose, control_number,
+        status, reason, certificate_file_path,
         created_at, generated_at, printed_at, released_at,
         admin_remarks
       FROM certificate_requests
@@ -119,9 +137,9 @@ router.get('/status/:requestNumber', async (req, res) => {
     const result = await pool.query(query, [requestNumber]);
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ 
-        success: false, 
-        message: 'Request not found' 
+      return res.status(404).json({
+        success: false,
+        message: 'Request not found'
       });
     }
 
@@ -134,17 +152,74 @@ router.get('/status/:requestNumber', async (req, res) => {
     `;
     const logs = await pool.query(logsQuery, [result.rows[0].id]);
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       request: result.rows[0],
       activityLogs: logs.rows
     });
 
   } catch (err) {
     console.error('Error checking request status:', err);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Failed to check request status' 
+    res.status(500).json({
+      success: false,
+      message: 'Failed to check request status'
+    });
+  }
+});
+
+// Download certificate (PUBLIC)
+router.get('/download/:requestNumber', async (req, res) => {
+  try {
+    const { requestNumber } = req.params;
+
+    const query = `
+      SELECT certificate_file_path, full_name, request_number, status
+      FROM certificate_requests
+      WHERE request_number = $1
+    `;
+
+    const result = await pool.query(query, [requestNumber]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Request not found'
+      });
+    }
+
+    const request = result.rows[0];
+
+    // Check if certificate is ready for download
+    if (!request.certificate_file_path || (request.status !== 'generated' && request.status !== 'released')) {
+      return res.status(400).json({
+        success: false,
+        message: 'Certificate is not yet available for download'
+      });
+    }
+
+    // Build full file path
+    const filePath = path.join(__dirname, '../../backend', request.certificate_file_path);
+
+    // Check if file exists
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({
+        success: false,
+        message: 'Certificate file not found'
+      });
+    }
+
+    // Send file for download
+    res.download(filePath, `Certificate-${request.request_number}.pdf`, (err) => {
+      if (err) {
+        console.error('Error downloading certificate:', err);
+      }
+    });
+
+  } catch (err) {
+    console.error('Error downloading certificate:', err);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to download certificate'
     });
   }
 });
@@ -255,46 +330,86 @@ router.get('/admin/request/:id', async (req, res) => {
 // Generate certificate (ADMIN)
 router.post('/admin/generate/:id', async (req, res) => {
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
 
     const { id } = req.params;
     const { adminId, adminName } = req.body;
 
-    // Update request status
+    // Fetch request details first
+    const fetchQuery = `
+      SELECT * FROM certificate_requests WHERE id = $1
+    `;
+    const fetchResult = await client.query(fetchQuery, [id]);
+
+    if (fetchResult.rows.length === 0) {
+      await client.query('ROLLBACK');
+      return res.status(404).json({
+        success: false,
+        message: 'Request not found'
+      });
+    }
+
+    const requestData = fetchResult.rows[0];
+
+    // Generate PDF certificate
+    let certificateFilePath = null;
+    try {
+      certificateFilePath = await generateCertificatePDF(requestData);
+      console.log('✅ PDF generated:', certificateFilePath);
+    } catch (pdfError) {
+      console.error('⚠️ PDF generation failed:', pdfError);
+      // Continue even if PDF generation fails
+    }
+
+    // Update request status with certificate file path
     const updateQuery = `
       UPDATE certificate_requests
-      SET 
+      SET
         status = 'generated',
         certificate_issued_date = CURRENT_DATE,
         generated_at = CURRENT_TIMESTAMP,
-        processed_by_admin = $1
-      WHERE id = $2
+        processed_by_admin = $1,
+        certificate_file_path = $2
+      WHERE id = $3
       RETURNING *
     `;
 
-    const result = await client.query(updateQuery, [adminId, id]);
-
-    if (result.rows.length === 0) {
-      await client.query('ROLLBACK');
-      return res.status(404).json({ 
-        success: false, 
-        message: 'Request not found' 
-      });
-    }
+    const result = await client.query(updateQuery, [adminId, certificateFilePath, id]);
 
     // Log activity
     await client.query(
       `INSERT INTO certificate_activity_logs (request_id, action, performed_by, admin_id, remarks)
        VALUES ($1, $2, $3, $4, $5)`,
-      [id, 'generated', adminName, adminId, 'Certificate generated and ready for printing']
+      [id, 'generated', adminName, adminId, 'Certificate generated and ready for printing. PDF created.']
     );
 
     await client.query('COMMIT');
 
-    res.json({ 
-      success: true, 
+    // Send email notification (non-blocking)
+    if (requestData.contact_email) {
+      sendCertificateEmail(
+        requestData.contact_email,
+        requestData.full_name,
+        requestData.request_number,
+        requestData.control_number,
+        requestData.certificate_purpose,
+        requestData.certificate_type,
+        'generated'
+      ).then(success => {
+        if (success) {
+          // Update email sent status
+          pool.query(
+            `UPDATE certificate_requests SET email_sent = true, email_sent_at = CURRENT_TIMESTAMP WHERE id = $1`,
+            [id]
+          ).catch(err => console.error('Error updating email status:', err));
+        }
+      });
+    }
+
+    res.json({
+      success: true,
       message: 'Certificate generated successfully',
       request: result.rows[0]
     });
@@ -302,9 +417,9 @@ router.post('/admin/generate/:id', async (req, res) => {
   } catch (err) {
     await client.query('ROLLBACK');
     console.error('Error generating certificate:', err);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Failed to generate certificate' 
+    res.status(500).json({
+      success: false,
+      message: 'Failed to generate certificate'
     });
   } finally {
     client.release();
@@ -370,16 +485,32 @@ router.post('/admin/print/:id', async (req, res) => {
 // Mark as released (ADMIN)
 router.post('/admin/release/:id', async (req, res) => {
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
 
     const { id } = req.params;
     const { adminId, adminName, remarks } = req.body;
 
+    // Fetch request details first
+    const fetchQuery = `
+      SELECT * FROM certificate_requests WHERE id = $1
+    `;
+    const fetchResult = await client.query(fetchQuery, [id]);
+
+    if (fetchResult.rows.length === 0) {
+      await client.query('ROLLBACK');
+      return res.status(404).json({
+        success: false,
+        message: 'Request not found'
+      });
+    }
+
+    const requestData = fetchResult.rows[0];
+
     const updateQuery = `
       UPDATE certificate_requests
-      SET 
+      SET
         status = 'released',
         released_at = CURRENT_TIMESTAMP,
         admin_remarks = $1
@@ -388,14 +519,6 @@ router.post('/admin/release/:id', async (req, res) => {
     `;
 
     const result = await client.query(updateQuery, [remarks || null, id]);
-
-    if (result.rows.length === 0) {
-      await client.query('ROLLBACK');
-      return res.status(404).json({ 
-        success: false, 
-        message: 'Request not found' 
-      });
-    }
 
     // Log activity
     await client.query(
@@ -406,8 +529,29 @@ router.post('/admin/release/:id', async (req, res) => {
 
     await client.query('COMMIT');
 
-    res.json({ 
-      success: true, 
+    // Send email notification (non-blocking)
+    if (requestData.contact_email) {
+      sendCertificateEmail(
+        requestData.contact_email,
+        requestData.full_name,
+        requestData.request_number,
+        requestData.control_number,
+        requestData.certificate_purpose,
+        requestData.certificate_type,
+        'released'
+      ).then(success => {
+        if (success) {
+          // Update email sent status
+          pool.query(
+            `UPDATE certificate_requests SET email_sent = true, email_sent_at = CURRENT_TIMESTAMP WHERE id = $1`,
+            [id]
+          ).catch(err => console.error('Error updating email status:', err));
+        }
+      });
+    }
+
+    res.json({
+      success: true,
       message: 'Certificate marked as released',
       request: result.rows[0]
     });
@@ -415,9 +559,9 @@ router.post('/admin/release/:id', async (req, res) => {
   } catch (err) {
     await client.query('ROLLBACK');
     console.error('Error marking certificate as released:', err);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Failed to mark certificate as released' 
+    res.status(500).json({
+      success: false,
+      message: 'Failed to mark certificate as released'
     });
   } finally {
     client.release();
