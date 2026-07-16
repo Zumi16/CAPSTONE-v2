@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
+import { PY_API_BASE } from "@/lib/config";
 import "@/styles/pages/admin/analytics-dashboard.css";
 
 /**
@@ -13,10 +14,14 @@ import "@/styles/pages/admin/analytics-dashboard.css";
  * and a details modal. Degrades gracefully when the Python API is unavailable.
  *
  * Node:   GET /api/files/data, /api/files/interpretation/:id, /api/activity-logs
- * Python: POST http://localhost:5000/api/analytics/process
+ * Python: POST {PY_API_BASE}/analytics/process  (proxied to :5000 in dev)
  */
 
-const PY = "http://localhost:5000/api";
+// Uses PY_API_BASE ("/pyapi/api" same-origin proxy) so analytics work locally
+// AND through one ngrok tunnel. For a direct local-only setup (no proxy / no
+// ngrok), comment the line below and uncomment the original:
+// const PY = "http://localhost:5000/api";
+const PY = PY_API_BASE;
 
 const ADMIN_NAMES: Record<string, string> = {
   "1": "adminEnierga", "2": "adminAve", admin1: "adminEnierga", admin2: "adminAve",
