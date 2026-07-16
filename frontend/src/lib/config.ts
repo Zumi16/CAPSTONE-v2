@@ -13,6 +13,22 @@ export const API_BASE: string = (import.meta.env.VITE_API_BASE ?? "").replace(
 );
 
 /**
+ * Base URL for the Python analytics API.
+ *
+ * Defaults to "/pyapi/api" — a same-origin path that Vite's dev proxy forwards
+ * to the Python server on :5000 (see vite.config.ts). Using a same-origin path
+ * (instead of a hardcoded http://localhost:5000) means the analytics features
+ * work both locally AND when the whole app is exposed through a single tunnel
+ * (e.g. `ngrok http 5173`), with no CORS. In production, point this at the
+ * deployed Python URL via VITE_PY_API_BASE.
+ */
+export const PY_API_BASE: string = (
+  import.meta.env.VITE_PY_API_BASE ?? "/pyapi/api"
+).replace(/\/$/, "");
+// LOCAL-ONLY alternative (direct to the Python server, no Vite proxy / no ngrok):
+// export const PY_API_BASE = "http://localhost:5000/api";
+
+/**
  * Build a full API URL from a path.
  *   apiUrl("/api/news/posts") -> "/api/news/posts"            (dev, via proxy)
  *   apiUrl("/api/news/posts") -> "https://api.example.com/api/news/posts"

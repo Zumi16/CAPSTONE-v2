@@ -2,9 +2,15 @@ import { useCallback, useEffect, useState } from "react";
 
 import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
+import { PY_API_BASE } from "@/lib/config";
 import "@/styles/pages/admin/analytics-report.css";
 
-const PY = "http://localhost:5000/api";
+// Python analytics API base. Uses PY_API_BASE ("/pyapi/api" same-origin proxy)
+// so it works both locally AND through one ngrok tunnel.
+// To go back to a direct local-only setup (no proxy / no ngrok), comment the
+// line below and uncomment the original:
+// const PY = "http://localhost:5000/api";
+const PY = PY_API_BASE;
 
 type Stats = {
   count: number;
