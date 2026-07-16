@@ -22,9 +22,10 @@ backend/package-lock.json
 
 backend/package.json
 
-database
+backend/database/*.sql
 
 README.md
+!backend/database/migrations/**/README.md
 
 venv/
 .env
@@ -39,6 +40,3 @@ CERTIFICATE_REVISIONS_DATABASE.md
 CERTIFICATE_FEATURES_SETUP.md
 CHANGES_SUMMARY.md
 SETUP_INSTRUCTIONS.txt
-
-# Database migrations (to avoid conflicts during development)
-backend/migrations/

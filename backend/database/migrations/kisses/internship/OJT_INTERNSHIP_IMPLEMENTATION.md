@@ -181,10 +181,15 @@ DELETE /api/internship/empty-trash    - Empty trash
 
 ### Database Setup
 
+Export your local Postgres password from `backend/.env` first:
+```bash
+export PG_PASSWORD=$(grep PG_PASSWORD backend/.env | cut -d '=' -f2)
+```
+
 Run the migration to create the internship tables:
 
 ```bash
-PGPASSWORD=Kisses123 psql -h localhost -U postgres -d capstone_db -f backend/migrations/004_create_internship_tables.sql
+PGPASSWORD=$PG_PASSWORD psql -h localhost -U postgres -d capstone_db -f backend/migrations/004_create_internship_tables.sql
 ```
 
 ### Backend Setup

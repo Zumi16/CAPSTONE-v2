@@ -201,9 +201,13 @@ SETUP_INSTRUCTIONS.txt
 ## How to Deploy
 
 ### 1. Database Setup
+Export your local Postgres password from `backend/.env` first:
+```bash
+export PG_PASSWORD=$(grep PG_PASSWORD backend/.env | cut -d '=' -f2)
+```
 Partner runs this migration:
 ```bash
-PGPASSWORD=Kisses123 psql -h localhost -U postgres -d capstone_db -f backend/migrations/004_create_internship_tables.sql
+PGPASSWORD=$PG_PASSWORD psql -h localhost -U postgres -d capstone_db -f backend/migrations/004_create_internship_tables.sql
 ```
 
 ### 2. Backend Installation
@@ -339,7 +343,7 @@ Project Root
 ### Issue: Database migration fails
 **Solution:**
 1. Verify PostgreSQL is running
-2. Check credentials: Kisses123
+2. Check credentials in `backend/.env`
 3. Ensure users table exists (required for foreign key)
 4. Check for existing tables: `psql -h localhost -U postgres -d capstone_db -c "\dt internship*"`
 
