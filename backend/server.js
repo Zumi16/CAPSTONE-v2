@@ -15,6 +15,7 @@ const __dirname = path.dirname(__filename);
 // mga routes 
 import loginRoute from './routes/loginRoute.js';
 import ojtRoute from './routes/ojtRoute.js';
+import internshipRoute from './routes/internshipRoute.js';
 import researchextensionRoute from './routes/research&extensionRoute.js';
 import nstpRoute from './routes/nstpRoute.js';
 import recentUploadsRoute from "./routes/recentUploadsRoute.js";
@@ -57,6 +58,7 @@ app.use('/public', express.static(path.join(__dirname, '../public')));
 app.use('/api/login', loginRoute);
 app.use('/api/chatbot', chatbotRoute);
 app.use('/api/ojt', ojtRoute);
+app.use('/api/internship', internshipRoute);
 app.use('/api/researchextension', researchextensionRoute);
 app.use('/api/nstp', nstpRoute);
 app.use("/api/recent-uploads", recentUploadsRoute);
