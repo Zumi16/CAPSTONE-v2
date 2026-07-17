@@ -40,8 +40,8 @@ import searchRoute from './routes/searchRoute.js';
 import adminActivityLogsRoute from './routes/adminActivityLogsRoute.js';
 import facultyManagementRoute from './routes/facultyManagementRoute.js';
 
-// initialize 
-dotenv.config();
+// initialize
+dotenv.config({ path: path.join(__dirname, '.env') });
 const app = express();
 const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173'];
 

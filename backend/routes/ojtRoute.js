@@ -99,15 +99,16 @@ router.get('/posts', async (req, res) => {
         p.*,
         json_agg(
           json_build_object(
-            'id', pf.id,
-            'file_name', pf.file_name,
-            'file_path', pf.file_path,
-            'file_type', pf.file_type,
-            'file_size', pf.file_size
+            'id', f.id,
+            'file_name', f.file_name,
+            'file_path', f.file_path,
+            'file_type', f.file_type,
+            'file_size', f.file_size
           )
-        ) FILTER (WHERE pf.id IS NOT NULL) as files
+        ) FILTER (WHERE f.id IS NOT NULL) as files
       FROM ojt_posts p
       LEFT JOIN ojt_post_files pf ON p.id = pf.post_id
+      LEFT JOIN forms_repository_files f ON pf.file_id = f.id
       WHERE p.deleted_at IS NULL
       GROUP BY p.id
       ORDER BY p.created_at DESC
@@ -129,15 +130,16 @@ router.get('/trash', async (req, res) => {
         p.*,
         json_agg(
           json_build_object(
-            'id', pf.id,
-            'file_name', pf.file_name,
-            'file_path', pf.file_path,
-            'file_type', pf.file_type,
-            'file_size', pf.file_size
+            'id', f.id,
+            'file_name', f.file_name,
+            'file_path', f.file_path,
+            'file_type', f.file_type,
+            'file_size', f.file_size
           )
-        ) FILTER (WHERE pf.id IS NOT NULL) as files
+        ) FILTER (WHERE f.id IS NOT NULL) as files
       FROM ojt_posts p
       LEFT JOIN ojt_post_files pf ON p.id = pf.post_id
+      LEFT JOIN forms_repository_files f ON pf.file_id = f.id
       WHERE p.deleted_at IS NOT NULL
       GROUP BY p.id
       ORDER BY p.deleted_at DESC

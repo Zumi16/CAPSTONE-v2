@@ -91,18 +91,19 @@ router.get('/posts', async (req, res) => {
         p.*,
         json_agg(
           json_build_object(
-            'id', pf.id,
-            'file_name', pf.file_name,
-            'file_path', pf.file_path,
-            'file_type', pf.file_type,
-            'file_size', pf.file_size
-          ) ORDER BY pf.id
-        ) FILTER (WHERE pf.id IS NOT NULL) as files,
-        (array_agg(pf.id ORDER BY pf.id) FILTER (WHERE pf.id IS NOT NULL))[1] as thumbnail_id,
-        (array_agg(pf.file_path ORDER BY pf.id) FILTER (WHERE pf.id IS NOT NULL))[1] as thumbnail_path,
-        (array_agg(pf.file_name ORDER BY pf.id) FILTER (WHERE pf.id IS NOT NULL))[1] as thumbnail_name
+            'id', f.id,
+            'file_name', f.file_name,
+            'file_path', f.file_path,
+            'file_type', f.file_type,
+            'file_size', f.file_size
+          ) ORDER BY f.id
+        ) FILTER (WHERE f.id IS NOT NULL) as files,
+        (array_agg(f.id ORDER BY f.id) FILTER (WHERE f.id IS NOT NULL))[1] as thumbnail_id,
+        (array_agg(f.file_path ORDER BY f.id) FILTER (WHERE f.id IS NOT NULL))[1] as thumbnail_path,
+        (array_agg(f.file_name ORDER BY f.id) FILTER (WHERE f.id IS NOT NULL))[1] as thumbnail_name
       FROM researchextension_posts p
       LEFT JOIN researchextension_post_files pf ON p.id = pf.post_id
+      LEFT JOIN forms_repository_files f ON pf.file_id = f.id
       WHERE p.deleted_at IS NULL
       GROUP BY p.id
       ORDER BY p.created_at DESC
@@ -124,18 +125,19 @@ router.get('/trash', async (req, res) => {
         p.*,
         json_agg(
           json_build_object(
-            'id', pf.id,
-            'file_name', pf.file_name,
-            'file_path', pf.file_path,
-            'file_type', pf.file_type,
-            'file_size', pf.file_size
-          ) ORDER BY pf.id
-        ) FILTER (WHERE pf.id IS NOT NULL) as files,
-        (array_agg(pf.id ORDER BY pf.id) FILTER (WHERE pf.id IS NOT NULL))[1] as thumbnail_id,
-        (array_agg(pf.file_path ORDER BY pf.id) FILTER (WHERE pf.id IS NOT NULL))[1] as thumbnail_path,
-        (array_agg(pf.file_name ORDER BY pf.id) FILTER (WHERE pf.id IS NOT NULL))[1] as thumbnail_name
+            'id', f.id,
+            'file_name', f.file_name,
+            'file_path', f.file_path,
+            'file_type', f.file_type,
+            'file_size', f.file_size
+          ) ORDER BY f.id
+        ) FILTER (WHERE f.id IS NOT NULL) as files,
+        (array_agg(f.id ORDER BY f.id) FILTER (WHERE f.id IS NOT NULL))[1] as thumbnail_id,
+        (array_agg(f.file_path ORDER BY f.id) FILTER (WHERE f.id IS NOT NULL))[1] as thumbnail_path,
+        (array_agg(f.file_name ORDER BY f.id) FILTER (WHERE f.id IS NOT NULL))[1] as thumbnail_name
       FROM researchextension_posts p
       LEFT JOIN researchextension_post_files pf ON p.id = pf.post_id
+      LEFT JOIN forms_repository_files f ON pf.file_id = f.id
       WHERE p.deleted_at IS NOT NULL
       GROUP BY p.id
       ORDER BY p.deleted_at DESC
