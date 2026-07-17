@@ -3,20 +3,11 @@
 // in /uploads/posts and their metadata lives directly on ojt_post_files.
 import express from 'express';
 import multer from 'multer';
-import pkg from 'pg';
 import path from 'path';
 import fs from 'fs';
+import pool from '../db.js';
 
 const router = express.Router();
-const { Pool } = pkg;
-
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'capstone_db',
-  password: 'Kisses123',
-  port: 5432
-});
 
 const uploadDir = './public/uploads/posts';
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
