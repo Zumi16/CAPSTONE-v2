@@ -50,22 +50,10 @@ const INFO_CARDS = [
     title: "Regular Updates",
     text: "Our partner directory is regularly updated to ensure accuracy and relevance.",
   },
-];
-
-const EXTERNAL_RESOURCES = [
   {
     icon: "fa-briefcase",
-    title: "PESO - Public Employment Service Office",
-    description: "Browse job opportunities, career guidance, and employment services provided by PESO.",
-    website: "https://www.peso.gov.ph",
-    label: "Visit PESO",
-  },
-  {
-    icon: "fa-building",
-    title: "DOLE NCR - Department of Labor and Employment",
-    description: "Explore labor information, job listings, and employment programs in the National Capital Region.",
-    website: "https://ncr.dole.gov.ph",
-    label: "Visit DOLE NCR",
+    title: "Additional Employment Resources",
+    text: "Explore government employment service offices like PESO and DOLE NCR for additional job opportunities and career support.",
   },
 ];
 
@@ -199,36 +187,6 @@ export function CareersPage() {
                 <h3>{card.title}</h3>
                 <p>{card.text}</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="external-resources-section">
-        <div className="container">
-          <h2 className="section-title">Additional Employment Resources</h2>
-          <p className="section-description">
-            Explore these government employment service offices for additional job opportunities and career support:
-          </p>
-          <div className="resources-grid">
-            {EXTERNAL_RESOURCES.map((resource) => (
-              <a
-                key={resource.title}
-                href={resource.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="resource-card"
-              >
-                <div className="resource-icon">
-                  <i className={cx("fas", resource.icon)} />
-                </div>
-                <h3 className="resource-title">{resource.title}</h3>
-                <p className="resource-description">{resource.description}</p>
-                <div className="resource-link">
-                  <span>{resource.label}</span>
-                  <i className="fas fa-external-link-alt" />
-                </div>
-              </a>
             ))}
           </div>
         </div>

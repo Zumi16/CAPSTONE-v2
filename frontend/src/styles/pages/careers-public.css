@@ -101,76 +101,6 @@
 .careers-page .disclaimer-text strong {
   font-weight: 700;
 }
-.careers-page .external-resources-section {
-  background: linear-gradient(135deg, #e8f4f8 0%, #f0e8f8 100%);
-  padding: 60px 20px 40px;
-  margin-top: 40px;
-}
-.careers-page .external-resources-section .section-title {
-  text-align: center;
-  margin-bottom: 15px;
-}
-.careers-page .external-resources-section .section-description {
-  text-align: center;
-  margin-bottom: 40px;
-}
-.careers-page .resources-grid {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 25px;
-}
-.careers-page .resource-card {
-  background: white;
-  border-radius: 12px;
-  padding: 30px;
-  text-decoration: none;
-  color: inherit;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  border-left: 5px solid #800000;
-}
-.careers-page .resource-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 28px rgba(128, 0, 0, 0.15);
-  border-left-color: #600000;
-}
-.careers-page .resource-icon {
-  font-size: 40px;
-  color: #800000;
-}
-.careers-page .resource-title {
-  font-size: 1.2rem;
-  color: #800000;
-  font-weight: 700;
-  line-height: 1.4;
-}
-.careers-page .resource-description {
-  font-size: 0.9rem;
-  color: #666;
-  line-height: 1.6;
-  flex: 1;
-}
-.careers-page .resource-link {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #800000;
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-.careers-page .resource-link i {
-  font-size: 12px;
-  transition: transform 0.3s ease;
-}
-.careers-page .resource-card:hover .resource-link i {
-  transform: translateX(3px);
-}
-
 .careers-page .filter-section {
   background: #f8f9fa;
   padding: 30px 20px;
@@ -326,10 +256,11 @@
   line-height: 1.7;
 }
 .careers-page .org-actions {
-  padding: 0 25px 25px;
+  padding: 15px 25px 25px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  margin-top: auto;
 }
 .careers-page .org-btn {
   display: flex;
@@ -343,6 +274,8 @@
   font-weight: 600;
   font-family: 'Georgia', serif;
   transition: all 0.3s ease;
+  min-height: 44px;
+  white-space: nowrap;
 }
 .careers-page .org-btn i:first-child {
   font-size: 14px;
@@ -473,9 +406,6 @@
 .careers-page .info-grid {
     grid-template-columns: 1fr;
     gap: 20px;
-  }
-.careers-page .resources-grid {
-    grid-template-columns: 1fr;
   }
 }
 @media (max-width: 768px) {.careers-page .hero-banner {
