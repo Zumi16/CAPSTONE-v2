@@ -50,10 +50,26 @@ const INFO_CARDS = [
     title: "Regular Updates",
     text: "Our partner directory is regularly updated to ensure accuracy and relevance.",
   },
+];
+
+const ADDITIONAL_RESOURCES: Organization[] = [
   {
-    icon: "fa-briefcase",
-    title: "Additional Employment Resources",
-    text: "Explore government employment service offices like PESO and DOLE NCR for additional job opportunities and career support.",
+    id: 99001,
+    name: "PESO - Public Employment Service Office",
+    description: "Browse job opportunities, career guidance, and employment services provided by PESO.",
+    category: "Government",
+    logo_url: null,
+    website_url: "https://www.peso.gov.ph",
+    careers_page_url: null,
+  },
+  {
+    id: 99002,
+    name: "DOLE NCR - Department of Labor and Employment",
+    description: "Explore labor information, job listings, and employment programs in the National Capital Region.",
+    category: "Government",
+    logo_url: null,
+    website_url: "https://ncr.dole.gov.ph",
+    careers_page_url: null,
   },
 ];
 
@@ -132,7 +148,8 @@ export function CareersPage() {
 
   const filtered = useMemo(() => {
     const term = search.toLowerCase().trim();
-    return organizations.filter((org) => {
+    const allOrgs = [...organizations, ...ADDITIONAL_RESOURCES];
+    return allOrgs.filter((org) => {
       const matchesCategory = category === "all" || org.category === category;
       const matchesSearch =
         !term ||

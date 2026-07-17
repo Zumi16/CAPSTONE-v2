@@ -194,6 +194,7 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 .careers-page .org-card:hover {
   transform: translateY(-8px);
@@ -293,7 +294,7 @@
   transform: translateX(3px);
 }
 .careers-page .org-btn-secondary {
-  background: white;
+  background: #f8f9fa;
   border: 2px solid #800000;
   color: #800000;
 }
@@ -301,6 +302,7 @@
   background: #800000;
   color: white;
   transform: translateX(3px);
+  border-color: #600000;
 }
 .careers-page .empty-state {
   display: flex;
