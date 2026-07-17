@@ -53,6 +53,8 @@ export function resolveAdminDashboard(data: AdminLoginResponse): string | null {
       return dashboards.adminSerrano;
     case "adminCMO":
       return dashboards.adminCMO;
+    case "adminLy":
+      return dashboards.adminLy;
     default:
       return null;
   }

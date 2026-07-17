@@ -1,0 +1,283 @@
+/* Ms. Ly's Live Chat inbox — scoped under .live-chat-page. */
+.live-chat-page {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+  height: calc(100vh - 140px);
+  min-height: 500px;
+}
+
+.lc-panel {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* --- Feedback summary (adminLy dashboard) --- */
+.lc-feedback-summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 13px;
+  color: #6b7280;
+}
+.lc-feedback-summary .fa-star {
+  color: #f5b301;
+}
+.lc-feedback-avg {
+  font-weight: 700;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+/* --- Session list --- */
+.lc-tabs {
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
+}
+.lc-tab {
+  flex: 1;
+  padding: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  border-bottom: 2px solid transparent;
+}
+.lc-tab.active {
+  color: #8B0000;
+  border-bottom-color: #8B0000;
+}
+
+.lc-session-list {
+  flex: 1;
+  overflow-y: auto;
+}
+.lc-empty {
+  padding: 24px 16px;
+  color: #9ca3af;
+  font-size: 13px;
+  text-align: center;
+}
+
+.lc-session-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #f1f1f1;
+  padding: 12px 14px;
+  cursor: pointer;
+  position: relative;
+}
+.lc-session-item:hover {
+  background: #fafafa;
+}
+.lc-session-item.active {
+  background: #fdf1f1;
+}
+.lc-session-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.lc-session-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #1f2937;
+}
+.lc-session-time {
+  font-size: 11px;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+.lc-session-preview {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #6b7280;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lc-claim-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #8B0000 0%, #A52A2A 100%);
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+.lc-delete-btn {
+  background: #6b7280;
+}
+.lc-claim-btn:hover {
+  opacity: 0.9;
+}
+
+/* --- Thread panel --- */
+.lc-thread-empty {
+  margin: auto;
+  text-align: center;
+  color: #9ca3af;
+}
+.lc-thread-empty i {
+  font-size: 40px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.lc-thread-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid #e5e7eb;
+}
+.lc-thread-header h2 {
+  margin: 0;
+  font-size: 16px;
+  color: #1f2937;
+}
+.lc-thread-email {
+  font-size: 12px;
+  color: #9ca3af;
+}
+.lc-close-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1px solid #dc2626;
+  color: #dc2626;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+.lc-close-btn:hover {
+  background: #dc2626;
+  color: #fff;
+}
+
+.lc-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #f8f9fa;
+}
+.lc-message {
+  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+.lc-message strong {
+  display: block;
+  font-size: 11px;
+  margin-bottom: 4px;
+  opacity: 0.75;
+}
+.lc-message p {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.lc-message-time {
+  display: block;
+  font-size: 10px;
+  opacity: 0.6;
+  margin-top: 4px;
+}
+.lc-message.visitor {
+  align-self: flex-start;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  color: #1f2937;
+}
+.lc-message.agent {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #8B0000 0%, #A52A2A 100%);
+  color: #fff;
+}
+
+.lc-closed-notice {
+  padding: 14px;
+  text-align: center;
+  font-size: 13px;
+  color: #9ca3af;
+  border-top: 1px solid #e5e7eb;
+}
+
+.lc-feedback-block {
+  margin-top: 10px;
+}
+.lc-feedback-block-stars {
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+  font-size: 16px;
+  color: #f5b301;
+}
+.lc-feedback-block p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: #4b5563;
+  font-style: italic;
+}
+
+.lc-reply-bar {
+  display: flex;
+  gap: 10px;
+  padding: 14px;
+  border-top: 1px solid #e5e7eb;
+}
+.lc-reply-bar input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+.lc-reply-bar input:focus {
+  border-color: #8B0000;
+}
+.lc-reply-bar button {
+  background: linear-gradient(135deg, #8B0000 0%, #A52A2A 100%);
+  color: #fff;
+  border: none;
+  padding: 0 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.lc-reply-bar button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 900px) {
+  .live-chat-page {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .lc-sessions {
+    max-height: 300px;
+  }
+}
