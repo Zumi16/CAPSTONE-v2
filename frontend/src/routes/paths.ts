@@ -55,6 +55,7 @@ export const PATHS = {
       adminLlave: "/admin/llave",
       adminSerrano: "/admin/serrano",
       adminCMO: "/admin/cmo",
+      adminLy: "/admin/ly",
     },
     accreditation: {
       /** Accreditation Area Head portal: dashboard + activity log + reports. */
@@ -137,6 +138,11 @@ export const PATHS = {
     cmo: {
       dashboard: "/admin/cmo",
       news: "/admin/cmo/news",
+    },
+
+    /** adminLy portal: Live Chat Support — handles "Chat with an Agent". */
+    ly: {
+      dashboard: "/admin/ly",
     },
   },
 } as const;

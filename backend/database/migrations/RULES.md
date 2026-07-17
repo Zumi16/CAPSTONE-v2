@@ -103,3 +103,4 @@ backend/database/migrations/
 - `kisses/career-ojt/` — docs only, no migration file
 - `zumi/forms-repository/` — last used: `007`
 - `zumi/alumni-employment/` — last used: `008`
+- `zumi/live-chat/` — last used: `003`

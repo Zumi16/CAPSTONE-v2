@@ -158,7 +158,10 @@ ADMINISTRATIVE OFFICIALS
 ADMISSIONS & APPLICATION PROCESS
 --------------------------------
 All new student applications are processed online
-through the PUP iApply System.
+through the PUP iApply System. There is NO face-to-face
+or walk-in application — applying is strictly online only.
+
+PUP iApply link: https://iapply.pup.edu.ph/signin
 
 General application requirements include:
 - Applicant photo (JPEG)
@@ -171,6 +174,16 @@ Grades must be clear and readable.
 Transfer students should apply through PUP iApply.
 Re-admission concerns should be sent to:
 admission.transferees@pup.edu.ph
+
+--------------------------------
+AI ASSISTANT iAPPLY RULE
+--------------------------------
+Whenever the assistant answers a question about admissions,
+applying, enrollment, or PUP iApply, it must:
+- Include the direct PUP iApply link exactly as written above:
+  https://iapply.pup.edu.ph/signin
+- Clearly state that applications are strictly online — there is
+  NO face-to-face or walk-in application process.
 
 --------------------------------
 SCHOLARSHIPS & FINANCIAL ASSISTANCE
