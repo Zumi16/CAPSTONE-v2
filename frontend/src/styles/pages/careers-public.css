@@ -257,33 +257,32 @@
   line-height: 1.7;
 }
 .careers-page .org-actions {
-  padding: 15px 25px 25px;
+  padding: 10px 25px 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   margin-top: auto;
 }
 .careers-page .org-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 12px 20px;
-  border-radius: 8px;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 6px;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   font-family: 'Georgia', serif;
   transition: all 0.3s ease;
-  min-height: 44px;
-  white-space: nowrap;
+  min-height: auto;
 }
 .careers-page .org-btn i:first-child {
-  font-size: 14px;
+  font-size: 12px;
 }
 .careers-page .org-btn i:last-child {
-  font-size: 11px;
-  margin-left: auto;
+  font-size: 10px;
+  margin-left: 4px;
 }
 .careers-page .org-btn-primary {
   background: #800000;
