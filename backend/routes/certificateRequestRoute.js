@@ -165,7 +165,7 @@ router.get('/status/:requestNumber', async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).json({
         success: false,
-        message: 'Request not found'
+        error: 'Request not found'
       });
     }
 
@@ -188,7 +188,7 @@ router.get('/status/:requestNumber', async (req, res) => {
     console.error('Error checking request status:', err);
     res.status(500).json({
       success: false,
-      message: 'Failed to check request status'
+      error: 'Failed to check request status'
     });
   }
 });

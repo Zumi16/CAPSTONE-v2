@@ -162,9 +162,14 @@ export function CertificateRequestPage() {
     try {
       const data = await api.get<{
         success: boolean;
-        request: RequestRecord;
-        activityLogs: ActivityLog[];
+        request?: RequestRecord;
+        activityLogs?: ActivityLog[];
+        message?: string;
       }>(`/api/certificate-requests/status/${trackNumber.trim()}`);
+      if (!data.success || !data.request || !data.activityLogs) {
+        window.alert(data.message || "Request not found");
+        return;
+      }
       setResult({ request: data.request, activityLogs: data.activityLogs });
     } catch (error) {
       const message =
