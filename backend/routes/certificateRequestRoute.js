@@ -163,9 +163,10 @@ router.get('/status/:requestNumber', async (req, res) => {
 router.get('/download/:requestNumber', async (req, res) => {
   try {
     const { requestNumber } = req.params;
+    console.log('📥 Download request for:', requestNumber);
 
     const query = `
-      SELECT certificate_file_path, full_name, request_number, status
+      SELECT id, certificate_file_path, full_name, request_number, status, created_at
       FROM certificate_requests
       WHERE request_number = $1
     `;
@@ -173,53 +174,77 @@ router.get('/download/:requestNumber', async (req, res) => {
     const result = await pool.query(query, [requestNumber]);
 
     if (result.rows.length === 0) {
+      console.log('❌ Request not found:', requestNumber);
       return res.status(404).json({
         success: false,
-        message: 'Request not found'
+        message: 'Request not found',
+        requestNumber
       });
     }
 
     const request = result.rows[0];
+    console.log('✅ Request found:', {
+      id: request.id,
+      status: request.status,
+      certificate_file_path: request.certificate_file_path
+    });
 
     // Check if certificate is ready for download
-    if (!request.certificate_file_path || (request.status !== 'generated' && request.status !== 'printed' && request.status !== 'released')) {
+    if (!request.certificate_file_path) {
+      console.log('❌ Certificate file path is null/empty');
       return res.status(400).json({
         success: false,
-        message: 'Certificate is not yet available for download'
+        message: 'Certificate has not been generated yet',
+        status: request.status
+      });
+    }
+
+    if (request.status !== 'generated' && request.status !== 'printed' && request.status !== 'released') {
+      console.log('❌ Invalid status for download:', request.status);
+      return res.status(400).json({
+        success: false,
+        message: 'Certificate is not ready for download',
+        currentStatus: request.status,
+        allowedStatuses: ['generated', 'printed', 'released']
       });
     }
 
     // Build full file path - certificate_file_path is like "/public/uploads/certificates/CERT-xxx.pdf"
     const filePath = path.join(__dirname, '../../', request.certificate_file_path.replace(/^\//, ''));
 
-    console.log('📥 Attempting to download certificate:');
+    console.log('📁 File path info:');
     console.log('  Stored path:', request.certificate_file_path);
     console.log('  Full path:', filePath);
     console.log('  File exists:', fs.existsSync(filePath));
 
     // Check if file exists
     if (!fs.existsSync(filePath)) {
+      console.log('❌ File does not exist:', filePath);
       return res.status(404).json({
         success: false,
-        message: 'Certificate file not found on disk',
-        debugInfo: { storedPath: request.certificate_file_path, fullPath: filePath }
+        message: 'Certificate file not found on server',
+        storedPath: request.certificate_file_path,
+        expectedPath: filePath,
+        fileExists: false
       });
     }
 
+    console.log('✅ Sending file:', filePath);
     // Send file for download
     res.download(filePath, `Certificate-${request.request_number}.pdf`, (err) => {
       if (err) {
-        console.error('❌ Error downloading certificate:', err);
+        console.error('❌ Error during download:', err.message);
       } else {
         console.log('✅ Certificate downloaded successfully');
       }
     });
 
   } catch (err) {
-    console.error('Error downloading certificate:', err);
+    console.error('❌ Error in download handler:', err);
     res.status(500).json({
       success: false,
-      message: 'Failed to download certificate'
+      message: 'Failed to download certificate',
+      error: err.message
     });
   }
 });
