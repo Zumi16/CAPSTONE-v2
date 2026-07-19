@@ -62,7 +62,7 @@ function statusMessage(status: string) {
     printed: (
       <p style={{ color: "#004085" }}>
         <i className="fa-solid fa-print" /> Your certificate has been printed and
-        is being prepared for release.
+        is ready for download. Pick it up from the office.
       </p>
     ),
     released: (
@@ -493,7 +493,7 @@ export function CertificateRequestPage() {
                 >
                   {statusMessage(result.request.status)}
 
-                  {(result.request.status === 'generated' || result.request.status === 'released') &&
+                  {(result.request.status === 'generated' || result.request.status === 'printed' || result.request.status === 'released') &&
                     result.request.certificate_file_path && (
                     <div style={{ marginTop: 25, padding: '20px', backgroundColor: '#e8f5e9', borderRadius: '8px', border: '2px solid #4caf50' }}>
                       <p style={{ marginBottom: '15px', color: '#2e7d32', fontSize: '14px', fontWeight: '500' }}>
