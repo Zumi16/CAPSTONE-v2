@@ -501,7 +501,7 @@ export function CertificateRequestPage() {
                         Your certificate is ready! Download it below.
                       </p>
                       <a
-                        href={result.request.certificate_file_path}
+                        href={`/api/certificate-requests/download/${result.request.request_number}`}
                         download
                         className="btn btn-primary"
                         style={{

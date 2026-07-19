@@ -190,7 +190,7 @@ router.get('/download/:requestNumber', async (req, res) => {
     const request = result.rows[0];
 
     // Check if certificate is ready for download
-    if (!request.certificate_file_path || (request.status !== 'generated' && request.status !== 'released')) {
+    if (!request.certificate_file_path || (request.status !== 'generated' && request.status !== 'printed' && request.status !== 'released')) {
       return res.status(400).json({
         success: false,
         message: 'Certificate is not yet available for download'
