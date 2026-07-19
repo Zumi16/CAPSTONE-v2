@@ -10,6 +10,40 @@ const router = express.Router();
 
 
 // ========================
+// DIAGNOSTIC ENDPOINT (for debugging)
+// ========================
+
+router.get('/status/:requestNumber', async (req, res) => {
+  try {
+    const { requestNumber } = req.params;
+    const query = `
+      SELECT
+        id, request_number, full_name, status,
+        certificate_file_path, certificate_issued_date,
+        generated_at, printed_at, released_at
+      FROM certificate_requests
+      WHERE request_number = $1
+    `;
+    const result = await pool.query(query, [requestNumber]);
+
+    if (result.rows.length === 0) {
+      return res.json({ error: 'Request not found', requestNumber });
+    }
+
+    const request = result.rows[0];
+    return res.json({
+      found: true,
+      request,
+      fileExists: request.certificate_file_path ? 'Check manually' : 'No path stored',
+      canDownload: request.certificate_file_path &&
+                   (request.status === 'generated' || request.status === 'printed' || request.status === 'released')
+    });
+  } catch (err) {
+    res.json({ error: err.message });
+  }
+});
+
+// ========================
 // PUBLIC ENDPOINTS
 // ========================
 
