@@ -23,6 +23,7 @@ function timeAgo(ts?: string): string {
 
 const ACTIVITY_META = {
   ojt: { icon: "fa-briefcase", color: "#3b82f6" },
+  internship: { icon: "fa-graduation-cap", color: "#f6ad55" },
   nstp: { icon: "fa-handshake-angle", color: "#10b981" },
   research: { icon: "fa-book", color: "#d97706" },
 } as const;
@@ -48,7 +49,7 @@ export function AveDashboardPage() {
   const now = useNow();
 
   const [counts, setCounts] = useState({ recentUploads: 0, ojt: 0, internship: 0, nstp: 0, research: 0, forms: 0 });
-  const [activity, setActivity] = useState<{ type: ActivityType; title: string; time?: string }[]>([]);
+  const [activity, setActivity] = useState<Array<{ type: ActivityType; title: string; time?: string }>>([]);
   const [loaded, setLoaded] = useState(false);
   const [showPostModal, setShowPostModal] = useState(false);
 
@@ -84,7 +85,7 @@ export function AveDashboardPage() {
           forms: forms.folders?.length ?? 0,
         });
 
-        const acts: { type: ActivityType; title: string; time?: string }[] = [
+        const acts = [
           ...ojtPosts.slice(0, 3).map((p) => ({ type: "ojt" as const, title: p.title || "Untitled OJT Post", time: p.created_at })),
           ...internshipPosts.slice(0, 3).map((p) => ({ type: "internship" as const, title: p.title || "Untitled Internship Post", time: p.created_at })),
           ...nstpPosts.slice(0, 3).map((p) => ({ type: "nstp" as const, title: p.title || "Untitled NSTP Post", time: p.created_at })),
