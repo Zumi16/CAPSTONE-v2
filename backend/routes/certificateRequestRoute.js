@@ -13,7 +13,7 @@ const router = express.Router();
 // DIAGNOSTIC ENDPOINT (for debugging)
 // ========================
 
-router.get('/status/:requestNumber', async (req, res) => {
+router.get('/debug-status/:requestNumber', async (req, res) => {
   try {
     const { requestNumber } = req.params;
     const query = `
