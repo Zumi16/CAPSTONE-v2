@@ -104,3 +104,4 @@ backend/database/migrations/
 - `zumi/forms-repository/` — last used: `007`
 - `zumi/alumni-employment/` — last used: `008`
 - `zumi/live-chat/` — last used: `003`
+- `zumi/ai-analysis/` — last used: `001`

@@ -8,6 +8,8 @@ import pool from '../db.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import { Type } from '@google/genai';
+import { generateStructuredJson } from '../services/geminiClient.js';
 
 const router = express.Router();
 
@@ -130,6 +132,203 @@ router.get('/faculty/deactivated', async (req, res) => {
   }
 });
 
+// ============================================
+// AI ANALYSIS: Faculty AI Insights Report
+// Real Gemini-generated report (replaces the old client-side heuristic).
+// Statistics are computed deterministically here in Node — only those
+// aggregate numbers (no individual faculty records) are sent to Gemini,
+// which writes the narrative parts. The result is persisted so it's
+// generated once per "Regenerate Report" click, not on every page view.
+// ============================================
+
+const AI_REPORT_PROGRAMS = ['BSIT', 'BSCpE', 'BSHM', 'BSOA'];
+
+function computeFacultyStats(faculty) {
+  const total = faculty.length;
+  const count = (pred) => faculty.filter(pred).length;
+  const pct = (n) => (total > 0 ? ((n / total) * 100).toFixed(1) : '0.0');
+
+  const regular = count((f) => f.employment_type === 'Regular');
+  const partTime = count((f) => f.employment_type === 'Part-Time');
+  const doctoral = count((f) => f.highest_degree === 'Doctorate');
+  const masters = count((f) => f.highest_degree === 'Master');
+  const bachelor = count((f) => f.highest_degree === 'Bachelor');
+
+  const programStats = AI_REPORT_PROGRAMS.map((program) => {
+    const pCount = count((f) => f.program === program);
+    const withDoc = count((f) => f.program === program && f.highest_degree === 'Doctorate');
+    const withMas = count((f) => f.program === program && f.highest_degree === 'Master');
+    return {
+      program,
+      count: pCount,
+      percent: pct(pCount),
+      advancedPercent: pCount > 0 ? (((withDoc + withMas) / pCount) * 100).toFixed(1) : '0.0',
+    };
+  });
+
+  return {
+    statistics: {
+      total,
+      regular,
+      partTime,
+      regularPercent: pct(regular),
+      partTimePercent: pct(partTime),
+      doctoral,
+      masters,
+      bachelor,
+      doctoralPercent: pct(doctoral),
+      mastersPercent: pct(masters),
+      bachelorPercent: pct(bachelor),
+    },
+    programStats,
+  };
+}
+
+const AI_REPORT_SCHEMA = {
+  type: Type.OBJECT,
+  properties: {
+    executiveSummary: { type: Type.STRING },
+    keyInsights: {
+      type: Type.ARRAY,
+      items: {
+        type: Type.OBJECT,
+        properties: {
+          type: {
+            type: Type.STRING,
+            enum: ['positive', 'concern', 'priority', 'critical', 'observation'],
+          },
+          text: { type: Type.STRING },
+        },
+        required: ['type', 'text'],
+      },
+    },
+    recommendations: {
+      type: Type.ARRAY,
+      items: {
+        type: Type.OBJECT,
+        properties: {
+          priority: { type: Type.STRING, enum: ['High', 'Medium', 'Low'] },
+          category: { type: Type.STRING },
+          recommendation: { type: Type.STRING },
+          expectedImpact: { type: Type.STRING },
+        },
+        required: ['priority', 'category', 'recommendation', 'expectedImpact'],
+      },
+    },
+  },
+  required: ['executiveSummary', 'keyInsights', 'recommendations'],
+};
+
+function buildFacultyPrompt(statistics, programStats) {
+  return `You are an academic affairs analyst for the Polytechnic University of the Philippines - Parañaque Campus (PUP Parañaque).
+
+Analyze this faculty roster data and produce a report for the Academic Affairs office (Head: Mr. Jefferson Serrano).
+
+STATISTICS:
+- Total active faculty: ${statistics.total}
+- Regular: ${statistics.regular} (${statistics.regularPercent}%)
+- Part-Time: ${statistics.partTime} (${statistics.partTimePercent}%)
+- Doctorate holders: ${statistics.doctoral} (${statistics.doctoralPercent}%)
+- Master's holders: ${statistics.masters} (${statistics.mastersPercent}%)
+- Bachelor's holders: ${statistics.bachelor} (${statistics.bachelorPercent}%)
+
+BY PROGRAM:
+${programStats.map((p) => `- ${p.program}: ${p.count} faculty (${p.percent}% of total), ${p.advancedPercent}% hold advanced (Master's/Doctorate) degrees`).join('\n')}
+
+Write:
+1. executiveSummary: a concise 2-4 sentence paragraph summarizing the faculty composition and qualification profile.
+2. keyInsights: 2-5 notable findings (positive, concern, priority, critical, or observation), each tied to a specific number above - e.g. flag if doctoral holders are 0 or low, if any program has a low advanced-degree rate, or note a genuinely strong result.
+3. recommendations: 2-4 concrete, actionable strategic recommendations for academic leadership, each with a priority, category, the recommendation itself, and its expected impact. Ground these in CHED/accreditation standards for Philippine higher education where relevant.
+
+Be specific to the numbers given - do not invent faculty counts or percentages not listed above. Write in a professional, analytical tone suitable for a university administrator.`;
+}
+
+router.get('/faculty/ai-report', async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT id, report, faculty_count, generated_by, generated_at FROM faculty_ai_reports ORDER BY generated_at DESC LIMIT 1'
+    );
+
+    if (result.rows.length === 0) {
+      return res.json({ success: true, report: null });
+    }
+
+    const row = result.rows[0];
+    res.json({
+      success: true,
+      report: {
+        ...row.report,
+        generatedAt: row.generated_at,
+        generatedBy: row.generated_by,
+        facultyCount: row.faculty_count,
+      },
+    });
+  } catch (error) {
+    console.error('❌ Error fetching faculty AI report:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch AI report',
+      message: error.message,
+    });
+  }
+});
+
+router.post('/faculty/ai-report/generate', async (req, res) => {
+  try {
+    const { adminid } = req.body;
+
+    const facultyResult = await pool.query(
+      `SELECT employment_type, highest_degree, program FROM faculty WHERE is_active = TRUE`
+    );
+    const faculty = facultyResult.rows;
+
+    if (faculty.length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'No active faculty data available to generate a report',
+      });
+    }
+
+    const { statistics, programStats } = computeFacultyStats(faculty);
+    const prompt = buildFacultyPrompt(statistics, programStats);
+
+    const aiPart = await generateStructuredJson(prompt, AI_REPORT_SCHEMA);
+
+    const report = {
+      executiveSummary: aiPart.executiveSummary,
+      statistics,
+      programStats,
+      keyInsights: aiPart.keyInsights || [],
+      recommendations: aiPart.recommendations || [],
+    };
+
+    const insertResult = await pool.query(
+      `INSERT INTO faculty_ai_reports (report, faculty_count, generated_by)
+       VALUES ($1, $2, $3)
+       RETURNING id, generated_at`,
+      [JSON.stringify(report), faculty.length, adminid || null]
+    );
+
+    console.log(`✅ Generated faculty AI report (id ${insertResult.rows[0].id}) for ${faculty.length} faculty`);
+
+    res.status(201).json({
+      success: true,
+      report: {
+        ...report,
+        generatedAt: insertResult.rows[0].generated_at,
+        generatedBy: adminid || null,
+        facultyCount: faculty.length,
+      },
+    });
+  } catch (error) {
+    console.error('❌ Error generating faculty AI report:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to generate AI report',
+      message: error.message,
+    });
+  }
+});
 // ============================================
 // GET SINGLE FACULTY BY ID (WITH COMPLETE INFO)
 // ============================================

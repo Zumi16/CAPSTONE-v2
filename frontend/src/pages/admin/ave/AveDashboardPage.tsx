@@ -22,9 +22,9 @@ function timeAgo(ts?: string): string {
 }
 
 const ACTIVITY_META = {
-  ojt: { icon: "fa-briefcase", color: "#667eea" },
-  nstp: { icon: "fa-handshake-angle", color: "#48bb78" },
-  research: { icon: "fa-book", color: "#ed8936" },
+  ojt: { icon: "fa-briefcase", color: "#3b82f6" },
+  nstp: { icon: "fa-handshake-angle", color: "#10b981" },
+  research: { icon: "fa-book", color: "#d97706" },
 } as const;
 type ActivityType = keyof typeof ACTIVITY_META;
 
@@ -138,7 +138,9 @@ export function AveDashboardPage() {
 
       {/* Quick actions */}
       <section className="quick-actions">
-        <h2>Quick Actions</h2>
+        <div className="section-header">
+          <h2><i className="fas fa-bolt" /> Quick Actions</h2>
+        </div>
         <div className="actions-grid">
           <button className="action-btn" onClick={() => setShowPostModal(true)}>
             <i className="fas fa-plus" /> <span>Add Post</span>
@@ -188,9 +190,9 @@ export function AveDashboardPage() {
           ) : (
             <>
               {([
-                ["OJT", counts.ojt, "#667eea", "fa-briefcase"],
-                ["NSTP", counts.nstp, "#48bb78", "fa-handshake-angle"],
-                ["Research & Extension", counts.research, "#ed8936", "fa-book"],
+                ["OJT", counts.ojt, "#3b82f6", "fa-briefcase"],
+                ["NSTP", counts.nstp, "#10b981", "fa-handshake-angle"],
+                ["Research & Extension", counts.research, "#d97706", "fa-book"],
               ] as const).map(([label, n, color, icon]) => (
                 <div className="breakdown-item" key={label}>
                   <div className="breakdown-info">
@@ -198,8 +200,8 @@ export function AveDashboardPage() {
                     <span className="breakdown-label">{label}</span>
                   </div>
                   <div className="breakdown-stats">
-                    <span>{n}</span>
-                    <span>{pct(n)}%</span>
+                    <span>{n} post{n === 1 ? "" : "s"}</span>
+                    <span>{pct(n)}% of total</span>
                   </div>
                   <div className="breakdown-bar">
                     <div className="breakdown-fill" style={{ width: `${pct(n)}%`, background: color }} />
