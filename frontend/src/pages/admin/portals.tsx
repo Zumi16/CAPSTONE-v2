@@ -56,6 +56,7 @@ export const PORTALS: Record<PortalKey, PortalConfig> = {
         title: "Management",
         items: [
           { label: "OJT", icon: "fa-solid fa-briefcase", to: PATHS.admin.ave.ojt },
+          { label: "Internship", icon: "fa-solid fa-graduation-cap", to: PATHS.admin.ave.internship },
           { label: "Research & Extension", icon: "fa-solid fa-book", to: PATHS.admin.ave.research },
           { label: "NSTP", icon: "fa-solid fa-handshake-angle", to: PATHS.admin.ave.nstp },
           { label: "Forms Repository", icon: "fa-brands fa-wpforms", to: PATHS.admin.ave.forms },

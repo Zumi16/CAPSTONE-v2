@@ -23,6 +23,7 @@ function timeAgo(ts?: string): string {
 
 const ACTIVITY_META = {
   ojt: { icon: "fa-briefcase", color: "#667eea" },
+  internship: { icon: "fa-graduation-cap", color: "#f6ad55" },
   nstp: { icon: "fa-handshake-angle", color: "#48bb78" },
   research: { icon: "fa-book", color: "#ed8936" },
 } as const;
@@ -47,7 +48,7 @@ export function AveDashboardPage() {
   const navigate = useNavigate();
   const now = useNow();
 
-  const [counts, setCounts] = useState({ recentUploads: 0, ojt: 0, nstp: 0, research: 0, forms: 0 });
+  const [counts, setCounts] = useState({ recentUploads: 0, ojt: 0, internship: 0, nstp: 0, research: 0, forms: 0 });
   const [activity, setActivity] = useState<{ type: ActivityType; title: string; time?: string }[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [showPostModal, setShowPostModal] = useState(false);
@@ -57,11 +58,12 @@ export function AveDashboardPage() {
       try {
         const getPosts = (path: string) =>
           api.get<{ posts?: Post[] }>(path).catch(() => ({ posts: [] as Post[] }));
-        const [recent, ojt, nstp, research, forms] = await Promise.all([
+        const [recent, ojt, internship, nstp, research, forms] = await Promise.all([
           api
             .get<{ totalRecentUploads?: number }>("/api/recent-uploads")
             .catch(() => ({ totalRecentUploads: 0 })),
           getPosts("/api/ojt/posts"),
+          getPosts("/api/internship/posts"),
           getPosts("/api/nstp/posts"),
           getPosts("/api/researchextension/posts"),
           api
@@ -70,12 +72,14 @@ export function AveDashboardPage() {
         ]);
 
         const ojtPosts = ojt.posts ?? [];
+        const internshipPosts = internship.posts ?? [];
         const nstpPosts = nstp.posts ?? [];
         const researchPosts = research.posts ?? [];
 
         setCounts({
           recentUploads: recent.totalRecentUploads ?? 0,
           ojt: ojtPosts.length,
+          internship: internshipPosts.length,
           nstp: nstpPosts.length,
           research: researchPosts.length,
           forms: forms.folders?.length ?? 0,
@@ -83,6 +87,7 @@ export function AveDashboardPage() {
 
         const acts: { type: ActivityType; title: string; time?: string }[] = [
           ...ojtPosts.slice(0, 3).map((p) => ({ type: "ojt" as const, title: p.title || "Untitled OJT Post", time: p.created_at })),
+          ...internshipPosts.slice(0, 3).map((p) => ({ type: "internship" as const, title: p.title || "Untitled Internship Post", time: p.created_at })),
           ...nstpPosts.slice(0, 3).map((p) => ({ type: "nstp" as const, title: p.title || "Untitled NSTP Post", time: p.created_at })),
           ...researchPosts.slice(0, 3).map((p) => ({ type: "research" as const, title: p.title || "Untitled Article", time: p.created_at })),
         ]
@@ -95,7 +100,7 @@ export function AveDashboardPage() {
     })();
   }, []);
 
-  const totalPosts = counts.ojt + counts.nstp + counts.research;
+  const totalPosts = counts.ojt + counts.internship + counts.nstp + counts.research;
   const breakdownTotal = totalPosts || 1;
   const pct = (n: number) => Math.round((n / breakdownTotal) * 100);
 
@@ -189,6 +194,7 @@ export function AveDashboardPage() {
             <>
               {([
                 ["OJT", counts.ojt, "#667eea", "fa-briefcase"],
+                ["Internship", counts.internship, "#f6ad55", "fa-graduation-cap"],
                 ["NSTP", counts.nstp, "#48bb78", "fa-handshake-angle"],
                 ["Research & Extension", counts.research, "#ed8936", "fa-book"],
               ] as const).map(([label, n, color, icon]) => (
@@ -238,6 +244,9 @@ export function AveDashboardPage() {
             <div className="post-type-options">
               <Link to={PATHS.admin.ave.ojt} className="post-type-card">
                 <i className="fas fa-briefcase" /> <span>OJT</span>
+              </Link>
+              <Link to={PATHS.admin.ave.internship} className="post-type-card">
+                <i className="fas fa-graduation-cap" /> <span>Internship</span>
               </Link>
               <Link to={PATHS.admin.ave.nstp} className="post-type-card">
                 <i className="fas fa-handshake-angle" /> <span>NSTP</span>

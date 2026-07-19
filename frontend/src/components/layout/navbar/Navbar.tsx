@@ -131,6 +131,9 @@ export function Navbar({ variant = "default" }: NavbarProps) {
               <Link to={PATHS.students.ojt} onClick={closeMenu}>
                 OJT Announcements
               </Link>
+              <Link to={PATHS.students.internship} onClick={closeMenu}>
+                Internship Announcements
+              </Link>
               <Link to={PATHS.students.feedback} onClick={closeMenu}>
                 Service Feedback
               </Link>

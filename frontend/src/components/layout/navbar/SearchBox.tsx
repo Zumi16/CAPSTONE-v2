@@ -22,6 +22,7 @@ const SUGGESTIONS: Suggestion[] = [
   { label: "Students", to: PATHS.students.index },
   { label: "NSTP Announcements", to: PATHS.students.nstp },
   { label: "OJT Announcements", to: PATHS.students.ojt },
+  { label: "Internship Announcements", to: PATHS.students.internship },
   { label: "Service Feedback", to: PATHS.students.feedback },
   { label: "Scholarship Opportunities", to: PATHS.students.scholarships },
   { label: "Career & Job Placement", to: PATHS.students.careers },

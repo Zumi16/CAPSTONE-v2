@@ -149,36 +149,6 @@ export function AnnouncementFeed({
             )}
           </div>
 
-          <div className="post-footer">
-            <div className="post-interactions">
-              <button className="interaction-btn like-btn" disabled>
-                <i className="far fa-thumbs-up" />
-                <span>Like</span>
-              </button>
-              <button className="interaction-btn comment-btn" disabled>
-                <i className="far fa-comment" />
-                <span>Comment</span>
-              </button>
-            </div>
-
-            <div className="comment-section">
-              <div className="comment-input-wrapper">
-                <div className="comment-avatar">
-                  <i className="fas fa-user-circle" />
-                </div>
-                <input
-                  type="text"
-                  className="comment-input"
-                  placeholder="Comments are currently disabled"
-                  disabled
-                />
-              </div>
-              <p className="comment-notice">
-                <i className="fas fa-info-circle" /> Interaction features coming
-                soon
-              </p>
-            </div>
-          </div>
         </article>
       ))}
     </>
