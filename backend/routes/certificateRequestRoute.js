@@ -2,19 +2,11 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import { Pool } from "pg";
+import pool from "../db.js";
 import { sendCertificateEmail } from "../services/emailService.js";
 import { generateCertificatePDF } from "../services/certificateGenerator.js";
 
 const router = express.Router();
-
-const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "capstone_db",
-  password: "Kisses123",
-  port: 5432,
-});
 
 
 // ========================
@@ -197,21 +189,29 @@ router.get('/download/:requestNumber', async (req, res) => {
       });
     }
 
-    // Build full file path
-    const filePath = path.join(__dirname, '../../backend', request.certificate_file_path);
+    // Build full file path - certificate_file_path is like "/public/uploads/certificates/CERT-xxx.pdf"
+    const filePath = path.join(__dirname, '../../', request.certificate_file_path.replace(/^\//, ''));
+
+    console.log('📥 Attempting to download certificate:');
+    console.log('  Stored path:', request.certificate_file_path);
+    console.log('  Full path:', filePath);
+    console.log('  File exists:', fs.existsSync(filePath));
 
     // Check if file exists
     if (!fs.existsSync(filePath)) {
       return res.status(404).json({
         success: false,
-        message: 'Certificate file not found'
+        message: 'Certificate file not found on disk',
+        debugInfo: { storedPath: request.certificate_file_path, fullPath: filePath }
       });
     }
 
     // Send file for download
     res.download(filePath, `Certificate-${request.request_number}.pdf`, (err) => {
       if (err) {
-        console.error('Error downloading certificate:', err);
+        console.error('❌ Error downloading certificate:', err);
+      } else {
+        console.log('✅ Certificate downloaded successfully');
       }
     });
 
