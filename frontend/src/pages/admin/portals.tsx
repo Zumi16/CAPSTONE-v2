@@ -18,7 +18,7 @@ import { buildPortalNav } from "./super/portalNav";
  */
 
 export type PortalKey =
-  | "super" | "secondary" | "ave" | "enierga" | "mila" | "llave" | "serrano" | "cmo"
+  | "super" | "secondary" | "ave" | "enierga" | "mila" | "llave" | "serrano" | "cmo" | "ly"
   | "areaHead" | "accreditor";
 
 type PortalConfig = {
@@ -130,6 +130,14 @@ export const PORTALS: Record<PortalKey, PortalConfig> = {
       { title: "Management", items: [{ label: "News & Updates", icon: "fa-solid fa-newspaper", to: PATHS.admin.cmo.news }] },
     ],
   },
+  ly: {
+    basePath: PATHS.admin.ly.dashboard,
+    userName: "Ms. Ly",
+    roleLabel: "Live Chat Support",
+    nav: [
+      { title: "Main", items: [{ label: "Live Chat", icon: "fas fa-comment-dots", to: PATHS.admin.ly.dashboard, end: true }] },
+    ],
+  },
   areaHead: {
     basePath: PATHS.admin.accreditation.areaHead.dashboard,
     userName: accName("Area Head"),
@@ -178,6 +186,7 @@ export function getCurrentPortalKey(): PortalKey | null {
     case "adminLlave": return "llave";
     case "adminSerrano": return "serrano";
     case "adminCMO": return "cmo";
+    case "adminLy": return "ly";
     default: return null;
   }
 }

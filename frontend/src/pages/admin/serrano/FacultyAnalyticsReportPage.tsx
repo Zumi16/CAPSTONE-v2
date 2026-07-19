@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Chart, { type ChartConfiguration } from "chart.js/auto";
 
-import { api } from "@/lib/api";
+import { api, ApiError } from "@/lib/api";
 import { cx } from "@/lib/cx";
+import { getStoredAdminId } from "@/lib/adminAuth";
 import "@/styles/pages/admin/faculty-analytics.css";
 
 /**
@@ -223,47 +224,8 @@ type Report = {
   keyInsights: Insight[];
   recommendations: Recommendation[];
   generatedAt: string;
+  generatedBy?: string | null;
 };
-
-function buildReport(faculty: Faculty[]): Report {
-  const total = faculty.length;
-  const regular = faculty.filter((f) => f.employment_type === "Regular").length;
-  const partTime = faculty.filter((f) => f.employment_type === "Part-Time").length;
-  const doctoral = faculty.filter((f) => f.highest_degree === "Doctorate").length;
-  const masters = faculty.filter((f) => f.highest_degree === "Master").length;
-  const bachelor = faculty.filter((f) => f.highest_degree === "Bachelor").length;
-  const pct = (n: number) => ((n / total) * 100).toFixed(1);
-
-  const programStats = PROGRAMS.map((program) => {
-    const count = faculty.filter((f) => f.program === program).length;
-    const withDoc = faculty.filter((f) => f.program === program && f.highest_degree === "Doctorate").length;
-    const withMas = faculty.filter((f) => f.program === program && f.highest_degree === "Master").length;
-    return { program, count, percent: pct(count), advancedPercent: count > 0 ? (((withDoc + withMas) / count) * 100).toFixed(1) : "0.0" };
-  });
-
-  const advancedPercent = ((doctoral + masters) / total) * 100;
-  const keyInsights: Insight[] = [];
-  if (advancedPercent >= 70) keyInsights.push({ type: "positive", text: `Strong Academic Profile: ${advancedPercent.toFixed(1)}% of faculty hold advanced degrees, exceeding accreditation standards.` });
-  else if (advancedPercent < 50) keyInsights.push({ type: "priority", text: `Qualification Enhancement Needed: Only ${advancedPercent.toFixed(1)}% hold advanced degrees. Faculty development programs recommended.` });
-  if (doctoral === 0) keyInsights.push({ type: "critical", text: "No Doctoral Faculty: Urgent need to recruit or develop doctoral-qualified faculty for research and accreditation." });
-  programStats.forEach((p) => {
-    if (parseFloat(p.advancedPercent) < 40 && p.count > 0) keyInsights.push({ type: "concern", text: `${p.program} has low advanced degree rate: ${p.advancedPercent}%. Targeted faculty development recommended.` });
-  });
-
-  const recommendations: Recommendation[] = [];
-  if (doctoral < 5) recommendations.push({ priority: "High", category: "Doctoral Faculty Recruitment", recommendation: "Implement aggressive recruitment strategy for doctoral-qualified faculty with competitive packages.", expectedImpact: "Strengthen research capabilities and institutional credibility." });
-  if (advancedPercent < 60) recommendations.push({ priority: "High", category: "Faculty Development", recommendation: "Establish scholarship program for master's and doctoral studies with financial support.", expectedImpact: "Meet accreditation standards and enhance academic quality." });
-  recommendations.push({ priority: "Medium", category: "Continuous Improvement", recommendation: "Develop three-year qualification enhancement roadmap aligned with CHED standards.", expectedImpact: "Systematic progress toward accreditation and competitive standing." });
-
-  return {
-    executiveSummary: `The Polytechnic University of the Philippines - Parañaque Campus employs ${total} active faculty members. The employment structure consists of ${regular} regular faculty (${pct(regular)}%) and ${partTime} part-time instructors (${pct(partTime)}%). Academic qualifications include ${doctoral} doctorate holders (${pct(doctoral)}%), ${masters} master's degree holders (${pct(masters)}%), and ${bachelor} bachelor's degree holders (${pct(bachelor)}%).`,
-    statistics: { total, regular, partTime, regularPercent: pct(regular), partTimePercent: pct(partTime), doctoral, masters, bachelor, doctoralPercent: pct(doctoral), mastersPercent: pct(masters), bachelorPercent: pct(bachelor) },
-    programStats,
-    keyInsights,
-    recommendations,
-    generatedAt: new Date().toLocaleString(),
-  };
-}
 
 const INSIGHT_ICON: Record<Insight["type"], string> = {
   positive: "fa-check-circle",
@@ -275,40 +237,76 @@ const INSIGHT_ICON: Record<Insight["type"], string> = {
 
 function AIReportTab({ faculty }: { faculty: Faculty[] }) {
   const [report, setReport] = useState<Report | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
+  const [generating, setGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  function generate() {
+  // Load whatever was last saved — free, no AI call. The report only
+  // changes when an admin explicitly clicks "Regenerate Report" below.
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await api.get<{ report: Report | null }>("/api/faculty/ai-report");
+        setReport(data.report);
+      } catch (err) {
+        console.error("Failed to load saved AI report:", err);
+      } finally {
+        setFetching(false);
+      }
+    })();
+  }, []);
+
+  async function generate() {
     if (faculty.length === 0) {
       window.alert("No faculty data available to generate report");
       return;
     }
-    setLoading(true);
-    setReport(null);
-    // Mirror the legacy 2s "AI processing" delay.
-    setTimeout(() => {
-      setReport(buildReport(faculty));
-      setLoading(false);
-    }, 1200);
+    setGenerating(true);
+    setError(null);
+    try {
+      const data = await api.post<{ report: Report }>("/api/faculty/ai-report/generate", {
+        adminid: getStoredAdminId(),
+      });
+      setReport(data.report);
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : "Failed to generate the AI report. Please try again.");
+    } finally {
+      setGenerating(false);
+    }
   }
 
   return (
     <>
       <div className="report-header">
         <h2><i className="fas fa-robot" /> AI Faculty Insights Report</h2>
-        <button className="btn-primary" onClick={generate}><i className="fas fa-sync-alt" /> Regenerate Report</button>
+        <button className="btn-primary" onClick={generate} disabled={generating || fetching}>
+          <i className={cx("fas", generating ? "fa-spinner fa-spin" : "fa-sync-alt")} />
+          {generating ? " Generating…" : report ? " Regenerate Report" : " Generate Report"}
+        </button>
       </div>
 
+      {error && (
+        <div className="report-error">
+          <i className="fas fa-triangle-exclamation" /> {error}
+        </div>
+      )}
+
       <div className="report-container">
-        {loading ? (
+        {fetching ? (
+          <div className="report-loading">
+            <i className="fas fa-spinner fa-spin" />
+            <p>Loading saved report…</p>
+          </div>
+        ) : generating ? (
           <div className="report-loading">
             <i className="fas fa-spinner fa-spin" />
             <p>Generating comprehensive AI insights report...</p>
-            <p style={{ fontSize: "0.9rem", color: "#94a3b8", marginTop: 10 }}>Analyzing {faculty.length} faculty records...</p>
+            <p style={{ fontSize: "0.9rem", color: "#94a3b8", marginTop: 10 }}>Analyzing {faculty.length} faculty records with Gemini...</p>
           </div>
         ) : !report ? (
           <div className="report-loading">
-            <i className="fas fa-spinner fa-spin" />
-            <p>Click "Regenerate Report" to generate AI insights...</p>
+            <i className="fas fa-robot" />
+            <p>No AI report has been generated yet. Click "Generate Report" above to create one.</p>
           </div>
         ) : (
           <>
@@ -370,8 +368,11 @@ function AIReportTab({ faculty }: { faculty: Faculty[] }) {
             </div>
 
             <div className="report-footer">
-              <p><strong>Report Generated:</strong> {report.generatedAt}</p>
-              <p><em>AI-powered insights for academic planning and strategic decision-making.</em></p>
+              <p>
+                <strong>Report Generated:</strong> {new Date(report.generatedAt).toLocaleString()}
+                {report.generatedBy ? ` by ${report.generatedBy}` : ""}
+              </p>
+              <p><em>Generated by Gemini AI and saved — click "Regenerate Report" to refresh it with the latest faculty data.</em></p>
             </div>
           </>
         )}

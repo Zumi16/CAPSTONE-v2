@@ -28,6 +28,7 @@ import activityLogsRoute from "./routes/activityLogsRoute.js";
 import roleManagementRoute from './routes/roleManagementRoute.js';
 import userManagementRoute from './routes/userManagementRoute.js'
 import chatbotRoute from './routes/chatbotRoute.js'
+import liveChatRoute from './routes/liveChatRoute.js'
 import feedbackRoute from "./routes/feedbackRoute.js";
 import trashRoute from './routes/trashRoute.js'; // NEW: Unified trash route
 import accreditationRoute from './routes/accreditationRoute.js';
@@ -57,6 +58,7 @@ app.use('/public', express.static(path.join(__dirname, '../public')));
 // routes
 app.use('/api/login', loginRoute);
 app.use('/api/chatbot', chatbotRoute);
+app.use('/api/live-chat', liveChatRoute);
 app.use('/api/ojt', ojtRoute);
 app.use('/api/internship', internshipRoute);
 app.use('/api/researchextension', researchextensionRoute);

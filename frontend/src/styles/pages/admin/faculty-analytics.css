@@ -24,74 +24,77 @@
 .faculty-analytics-page .chart-card canvas { max-height: 350px; width: 100% !important; }
 
 /* Report header */
-.faculty-analytics-page .report-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px 35px; border-radius: 16px; color: white; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3); }
-.faculty-analytics-page .report-header h2 { font-size: 2rem; margin: 0; display: flex; align-items: center; gap: 15px; font-weight: 700; color: white; }
-.faculty-analytics-page .report-header h2 i { font-size: 2.2rem; color: white; }
-.faculty-analytics-page .report-header .btn-primary { background: rgba(255, 255, 255, 0.2); border: 3px solid rgba(255, 255, 255, 0.3); color: white; padding: 14px 28px; font-size: 1.05rem; box-shadow: none; }
-.faculty-analytics-page .report-header .btn-primary:hover { background: rgba(255, 255, 255, 0.3); border-color: rgba(255, 255, 255, 0.5); box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2); }
+.faculty-analytics-page .report-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; background: #a91c1c; padding: 26px 32px; border-radius: 14px; color: white; box-shadow: 0 4px 14px rgba(169, 28, 28, 0.25); }
+.faculty-analytics-page .report-header h2 { font-size: 1.6rem; margin: 0; display: flex; align-items: center; gap: 12px; font-weight: 700; color: white; }
+.faculty-analytics-page .report-header h2 i { font-size: 1.6rem; color: white; }
+.faculty-analytics-page .report-header .btn-primary { background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.35); color: white; padding: 11px 22px; font-size: 0.98rem; box-shadow: none; }
+.faculty-analytics-page .report-header .btn-primary:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-1px); }
+.faculty-analytics-page .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+
+.faculty-analytics-page .report-error { display: flex; align-items: center; gap: 10px; background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; padding: 14px 20px; border-radius: 10px; margin-bottom: 20px; font-weight: 600; font-size: 0.95rem; }
 
 /* Report container */
-.faculty-analytics-page .report-container { background: white; padding: 45px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); min-height: 600px; }
-.faculty-analytics-page .report-loading { text-align: center; padding: 120px 30px; color: #64748b; }
-.faculty-analytics-page .report-loading i { font-size: 5rem; color: #a91c1c; margin-bottom: 30px; display: block; }
-.faculty-analytics-page .report-loading p { font-size: 1.25rem; margin: 10px 0; font-weight: 600; }
+.faculty-analytics-page .report-container { background: white; padding: 40px; border-radius: 16px; border: 1px solid #d6dae1; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); min-height: 600px; }
+.faculty-analytics-page .report-loading { text-align: center; padding: 110px 30px; color: #64748b; }
+.faculty-analytics-page .report-loading i { font-size: 3.25rem; color: #a91c1c; margin-bottom: 22px; display: block; }
+.faculty-analytics-page .report-loading p { font-size: 1.1rem; margin: 8px 0; font-weight: 500; }
 
 /* Report sections */
-.faculty-analytics-page .report-section { margin-bottom: 45px; padding-bottom: 35px; border-bottom: 3px solid #e2e8f0; }
-.faculty-analytics-page .report-section:last-child { border-bottom: none; }
-.faculty-analytics-page .report-section h3 { font-size: 1.6rem; color: #1e293b; margin: 0 0 25px; padding-bottom: 18px; border-bottom: 4px solid #a91c1c; display: flex; align-items: center; gap: 15px; font-weight: 700; }
-.faculty-analytics-page .report-section h3 i { color: #a91c1c; font-size: 1.8rem; }
-.faculty-analytics-page .report-content { line-height: 1.9; color: #475569; font-size: 1.08rem; text-align: justify; }
-.faculty-analytics-page .report-content p { margin: 18px 0; }
+.faculty-analytics-page .report-section { margin-bottom: 36px; padding-bottom: 32px; border-bottom: 1px solid #eef1f5; }
+.faculty-analytics-page .report-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.faculty-analytics-page .report-section h3 { font-size: 1.35rem; color: #1e293b; margin: 0 0 20px; display: flex; align-items: center; gap: 12px; font-weight: 700; }
+.faculty-analytics-page .report-section h3 i { color: #a91c1c; font-size: 1.15rem; width: 36px; height: 36px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; background: #fdf1f1; border-radius: 10px; }
+.faculty-analytics-page .report-content { line-height: 1.8; color: #475569; font-size: 1.05rem; }
+.faculty-analytics-page .report-content p { margin: 14px 0; }
 
 /* Stat boxes */
-.faculty-analytics-page .report-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; margin: 30px 0; }
-.faculty-analytics-page .stat-box { background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%); padding: 30px 25px; border-radius: 14px; border-left: 6px solid #a91c1c; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); }
-.faculty-analytics-page .stat-box:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 12px 28px rgba(169, 28, 28, 0.2); }
-.faculty-analytics-page .stat-box h4 { font-size: 0.9rem; color: #64748b; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-.faculty-analytics-page .stat-box > p { font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 0; }
+.faculty-analytics-page .report-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin: 22px 0; }
+.faculty-analytics-page .stat-box { background: #fafbfc; padding: 22px 24px; border-radius: 12px; border: 1px solid #d6dae1; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.faculty-analytics-page .stat-box:hover { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08); }
+.faculty-analytics-page .stat-box h4 { font-size: 0.8rem; color: #64748b; margin: 0 0 10px; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; }
+.faculty-analytics-page .stat-box > p { font-size: 1.6rem; font-weight: 700; color: #1e293b; margin: 0; }
 
 /* Insights */
-.faculty-analytics-page .insights-list { list-style: none; padding: 0; margin: 25px 0; display: flex; flex-direction: column; gap: 18px; }
-.faculty-analytics-page .insights-list li { padding: 22px 25px; border-radius: 12px; display: flex; align-items: start; gap: 18px; font-weight: 600; line-height: 1.7; transition: all 0.3s ease; font-size: 1.05rem; }
-.faculty-analytics-page .insights-list li:hover { transform: translateX(12px); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1); }
-.faculty-analytics-page .insights-list li i { font-size: 1.5rem; margin-top: 3px; flex-shrink: 0; }
-.faculty-analytics-page .insights-list li.positive { background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-left: 6px solid #10b981; color: #065f46; }
+.faculty-analytics-page .insights-list { list-style: none; padding: 0; margin: 20px 0; display: flex; flex-direction: column; gap: 10px; }
+.faculty-analytics-page .insights-list li { padding: 16px 18px; border-radius: 10px; display: flex; align-items: start; gap: 14px; font-weight: 500; line-height: 1.65; font-size: 1rem; border: 1px solid #d6dae1; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.faculty-analytics-page .insights-list li:hover { transform: translateX(3px); box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06); }
+.faculty-analytics-page .insights-list li i { font-size: 1.2rem; margin-top: 2px; flex-shrink: 0; }
+.faculty-analytics-page .insights-list li.positive { background: #f0fdf7; color: #065f46; }
 .faculty-analytics-page .insights-list li.positive i { color: #10b981; }
-.faculty-analytics-page .insights-list li.concern { background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%); border-left: 6px solid #f59e0b; color: #92400e; }
+.faculty-analytics-page .insights-list li.concern { background: #fffaf0; color: #92400e; }
 .faculty-analytics-page .insights-list li.concern i { color: #f59e0b; }
-.faculty-analytics-page .insights-list li.priority { background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%); border-left: 6px solid #ef4444; color: #991b1b; }
+.faculty-analytics-page .insights-list li.priority { background: #fef5f5; color: #991b1b; }
 .faculty-analytics-page .insights-list li.priority i { color: #ef4444; }
-.faculty-analytics-page .insights-list li.critical { background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); border-left: 6px solid #dc2626; color: #7f1d1d; font-weight: 700; }
-.faculty-analytics-page .insights-list li.critical i { color: #dc2626; }
-.faculty-analytics-page .insights-list li.observation { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-left: 6px solid #3b82f6; color: #1e3a8a; }
+.faculty-analytics-page .insights-list li.critical { background: #fdf1f1; color: #7f1d1d; font-weight: 600; }
+.faculty-analytics-page .insights-list li.critical i { color: #a91c1c; }
+.faculty-analytics-page .insights-list li.observation { background: #f0f6ff; color: #1e3a8a; }
 .faculty-analytics-page .insights-list li.observation i { color: #3b82f6; }
 
 /* Recommendations */
-.faculty-analytics-page .recommendations-list { display: flex; flex-direction: column; gap: 30px; margin-top: 30px; }
-.faculty-analytics-page .recommendation-card { background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%); padding: 30px; border-radius: 14px; border-left: 6px solid #a91c1c; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); }
-.faculty-analytics-page .recommendation-card:hover { transform: translateY(-8px); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15); }
-.faculty-analytics-page .rec-header { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; flex-wrap: wrap; }
-.faculty-analytics-page .priority-badge { padding: 8px 18px; border-radius: 25px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; }
-.faculty-analytics-page .priority-badge.badge-high { background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); color: #991b1b; border: 3px solid #dc2626; }
-.faculty-analytics-page .priority-badge.badge-medium { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); color: #78350f; border: 3px solid #f59e0b; }
-.faculty-analytics-page .priority-badge.badge-low { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); color: #1e40af; border: 3px solid #3b82f6; }
-.faculty-analytics-page .rec-header strong { font-size: 1.2rem; color: #1e293b; font-weight: 700; }
-.faculty-analytics-page .rec-recommendation { margin: 15px 0; font-weight: 600; color: #334155; line-height: 1.8; font-size: 1.05rem; }
-.faculty-analytics-page .rec-impact { margin: 15px 0; color: #475569; font-size: 1rem; line-height: 1.7; padding: 18px 22px; background: white; border-radius: 10px; border-left: 4px solid #667eea; }
-.faculty-analytics-page .rec-impact strong { color: #1e293b; display: block; margin-bottom: 8px; font-size: 1.05rem; }
+.faculty-analytics-page .recommendations-list { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; }
+.faculty-analytics-page .recommendation-card { background: #fafbfc; padding: 24px; border-radius: 12px; border: 1px solid #d6dae1; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.faculty-analytics-page .recommendation-card:hover { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08); }
+.faculty-analytics-page .rec-header { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; flex-wrap: wrap; }
+.faculty-analytics-page .priority-badge { padding: 5px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
+.faculty-analytics-page .priority-badge.badge-high { background: #fee2e2; color: #991b1b; }
+.faculty-analytics-page .priority-badge.badge-medium { background: #fef3c7; color: #78350f; }
+.faculty-analytics-page .priority-badge.badge-low { background: #dbeafe; color: #1e40af; }
+.faculty-analytics-page .rec-header strong { font-size: 1.1rem; color: #1e293b; font-weight: 700; }
+.faculty-analytics-page .rec-recommendation { margin: 10px 0; font-weight: 500; color: #334155; line-height: 1.7; font-size: 1rem; }
+.faculty-analytics-page .rec-impact { margin: 10px 0 0; color: #475569; font-size: 0.95rem; line-height: 1.65; padding: 14px 18px; background: white; border-radius: 8px; border: 1px solid #d6dae1; }
+.faculty-analytics-page .rec-impact strong { color: #1e293b; display: block; margin-bottom: 5px; font-size: 0.95rem; }
 
 /* Footer + empty + buttons */
-.faculty-analytics-page .report-footer { margin-top: 60px; padding-top: 35px; border-top: 4px solid #e2e8f0; text-align: center; color: #64748b; }
-.faculty-analytics-page .report-footer p { margin: 12px 0; font-size: 1rem; }
+.faculty-analytics-page .report-footer { margin-top: 44px; padding-top: 26px; border-top: 1px solid #eef1f5; text-align: center; color: #64748b; }
+.faculty-analytics-page .report-footer p { margin: 8px 0; font-size: 0.95rem; }
 .faculty-analytics-page .report-footer strong { color: #1e293b; font-weight: 700; }
-.faculty-analytics-page .report-footer em { font-size: 0.95rem; color: #94a3b8; }
-.faculty-analytics-page .empty-state { text-align: center; padding: 80px 30px; background: white; border-radius: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); }
-.faculty-analytics-page .empty-state i { font-size: 5rem; color: #cbd5e0; margin-bottom: 25px; display: block; }
-.faculty-analytics-page .empty-state h4 { font-size: 1.5rem; color: #475569; margin: 0 0 15px; }
-.faculty-analytics-page .empty-state p { font-size: 1.05rem; color: #94a3b8; margin: 0 0 25px; }
-.faculty-analytics-page .btn-primary { background: linear-gradient(135deg, #a91c1c 0%, #dc2626 100%); color: white; border: none; padding: 14px 32px; border-radius: 10px; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(169, 28, 28, 0.3); }
-.faculty-analytics-page .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(169, 28, 28, 0.4); }
+.faculty-analytics-page .report-footer em { font-size: 0.9rem; color: #94a3b8; }
+.faculty-analytics-page .empty-state { text-align: center; padding: 70px 30px; background: white; border-radius: 16px; border: 1px solid #d6dae1; }
+.faculty-analytics-page .empty-state i { font-size: 3.75rem; color: #cbd5e0; margin-bottom: 20px; display: block; }
+.faculty-analytics-page .empty-state h4 { font-size: 1.3rem; color: #475569; margin: 0 0 10px; }
+.faculty-analytics-page .empty-state p { font-size: 1rem; color: #94a3b8; margin: 0 0 20px; }
+.faculty-analytics-page .btn-primary { background: #a91c1c; color: white; border: none; padding: 12px 26px; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 2px 8px rgba(169, 28, 28, 0.25); }
+.faculty-analytics-page .btn-primary:hover { background: #8f1717; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(169, 28, 28, 0.3); }
 
 /* Responsive */
 @media (max-width: 1200px) {
@@ -103,11 +106,9 @@
   .faculty-analytics-page .tab-btn::after { display: none; }
   .faculty-analytics-page .tab-btn.active { border-left-color: #a91c1c; border-bottom-color: #e2e8f0; }
   .faculty-analytics-page .analytics-grid { grid-template-columns: 1fr; }
-  .faculty-analytics-page .report-header { flex-direction: column; align-items: flex-start; gap: 20px; }
-  .faculty-analytics-page .report-header h2 { font-size: 1.6rem; }
-  .faculty-analytics-page .report-container { padding: 30px 25px; }
+  .faculty-analytics-page .report-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .faculty-analytics-page .report-container { padding: 24px 20px; }
   .faculty-analytics-page .report-stats { grid-template-columns: 1fr; }
   .faculty-analytics-page .rec-header { flex-direction: column; align-items: flex-start; }
   .faculty-analytics-page .chart-card { padding: 25px 20px; }
-  .faculty-analytics-page .report-section h3 { font-size: 1.4rem; }
 }

@@ -25,6 +25,19 @@ export const chatbotClasses = {
   questionButton: "question-button",
   materialIcons: "material-icons",
   materialIconsOutlined: "material-icons-outlined",
+  notice: "chatbot-notice",
+  agentBar: "chatbot-agent-bar",
+  agentButton: "chatbot-agent-btn",
+  agentForm: "chatbot-agent-form",
+  agentStatus: "chatbot-agent-status",
+  agentBack: "chatbot-agent-back",
+  agentEnded: "chatbot-agent-ended",
+  feedback: "chatbot-feedback",
+  feedbackPrompt: "chatbot-feedback-prompt",
+  feedbackStars: "chatbot-feedback-stars",
+  feedbackStar: "chatbot-feedback-star",
+  feedbackComment: "chatbot-feedback-comment",
+  feedbackThanks: "chatbot-feedback-thanks",
 } as const;
 
 /** The "Common questions" shown under the chat window. */
@@ -35,3 +48,9 @@ export const COMMON_QUESTIONS = [
   "Where is the campus located?",
   "What are the requirements for enrollment?",
 ] as const;
+
+/** Direct PUP iApply application link, always surfaced by the chatbot. */
+export const IAPPLY_URL = "https://iapply.pup.edu.ph/signin";
+
+/** Shown prominently in the chat window at all times. */
+export const NO_FACE_TO_FACE_NOTICE = "Strictly No Face-to-Face Application.";

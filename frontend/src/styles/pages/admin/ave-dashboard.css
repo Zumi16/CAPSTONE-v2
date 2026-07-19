@@ -1,57 +1,58 @@
 /* adminAve dashboard. Scoped under `.ave-dashboard`. */
 .ave-dashboard > h1 {
   margin: 20px 0 0;
+  font-size: 1.6rem;
+  color: #1e293b;
 }
 .ave-dashboard .datetime {
-  font-size: 16px;
-  color: #666;
-  margin: 5px 0 0;
+  font-size: 0.95rem;
+  color: #64748b;
+  margin: 4px 0 0;
 }
 
 /* Summary cards */
 .ave-dashboard .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 25px;
-  margin: 25px 0 40px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 24px 0 28px;
 }
 .ave-dashboard .summary-card {
   background: #fff;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 20px 22px;
+  border-radius: 12px;
+  border: 1px solid #d6dae1;
   display: flex;
   align-items: center;
-  gap: 20px;
-  border: 1px solid #e0e0e0;
-  border-left: 4px solid transparent;
-  height: 120px;
+  gap: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.ave-dashboard .summary-card.faculty { border-left-color: #007bff; }
-.ave-dashboard .summary-card.alumni { border-left-color: #6f42c1; }
-.ave-dashboard .summary-card.research { border-left-color: #17a2b8; }
+.ave-dashboard .summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+}
 .ave-dashboard .card-icon {
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  color: #fff;
+  font-size: 20px;
+  flex-shrink: 0;
 }
-.ave-dashboard .card-icon.faculty { background: linear-gradient(135deg, #007bff, #007bffcc); }
-.ave-dashboard .card-icon.alumni { background: linear-gradient(135deg, #6f42c1, #6f42c1cc); }
-.ave-dashboard .card-icon.research { background: linear-gradient(135deg, #17a2b8, #17a2b8cc); }
+.ave-dashboard .card-icon.faculty { background: #eff6ff; color: #3b82f6; }
+.ave-dashboard .card-icon.alumni { background: #fdf1f1; color: #a91c1c; }
+.ave-dashboard .card-icon.research { background: #fffaf0; color: #d97706; }
 .ave-dashboard .card-number {
-  font-size: 32px;
-  font-weight: bold;
-  color: #333;
-  margin: 0 0 4px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 2px;
 }
 .ave-dashboard .card-label {
-  color: #555;
-  font-size: 16px;
+  color: #64748b;
+  font-size: 0.9rem;
   font-weight: 600;
 }
 
@@ -60,16 +61,31 @@
 .ave-dashboard .recent-activity,
 .ave-dashboard .notifications-panel {
   background: #fff;
-  border: 1px solid #e5e5e5;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 25px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #d6dae1;
+  border-radius: 12px;
+  padding: 22px;
+  margin-bottom: 20px;
 }
 .ave-dashboard h2 {
-  font-size: 1.3rem;
-  color: #333;
-  margin: 0 0 18px;
+  font-size: 1.05rem;
+  color: #1e293b;
+  margin: 0 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+.ave-dashboard h2 i {
+  color: #a91c1c;
+  font-size: 0.95rem;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fdf1f1;
+  border-radius: 8px;
 }
 .ave-dashboard .section-header {
   display: flex;
@@ -83,60 +99,62 @@
 .ave-dashboard .actions-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 15px;
+  gap: 12px;
 }
 .ave-dashboard .action-btn {
-  background: #f9f9f9;
-  border: 1px solid #e0e0e0;
+  background: #fafbfc;
+  border: 1px solid #d6dae1;
   border-radius: 10px;
-  padding: 25px 10px;
+  padding: 20px 10px;
   text-align: center;
   cursor: pointer;
-  transition: all 0.2s ease;
-  color: #333;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: #334155;
+  font-weight: 600;
+  font-size: 0.92rem;
 }
 .ave-dashboard .action-btn i {
-  font-size: 24px;
+  font-size: 1.3rem;
   color: #a91c1c;
   margin-bottom: 8px;
   display: block;
 }
 .ave-dashboard .action-btn:hover {
-  background: #fff4f4;
-  border-color: #a91c1c;
   transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
 }
 
 /* Activity feed */
 .ave-dashboard .activity-item {
   display: flex;
-  gap: 15px;
+  gap: 14px;
   padding: 12px 0;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid #eef1f5;
 }
 .ave-dashboard .activity-item:last-child { border-bottom: none; }
 .ave-dashboard .activity-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
   flex-shrink: 0;
+  font-size: 0.9rem;
 }
-.ave-dashboard .activity-title { font-weight: 600; color: #222; }
+.ave-dashboard .activity-title { font-weight: 600; color: #1e293b; font-size: 0.95rem; }
 .ave-dashboard .activity-meta {
   display: flex;
   gap: 16px;
   font-size: 0.8rem;
-  color: #888;
+  color: #94a3b8;
   margin-top: 4px;
 }
 .ave-dashboard .empty-activity,
 .ave-dashboard .empty-breakdown {
   text-align: center;
-  color: #888;
+  color: #94a3b8;
   padding: 30px 0;
 }
 
@@ -144,7 +162,7 @@
 .ave-dashboard .two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 25px;
+  gap: 20px;
 }
 @media (max-width: 900px) {
   .ave-dashboard .two-col { grid-template-columns: 1fr; }
@@ -152,23 +170,24 @@
 
 /* Content breakdown */
 .ave-dashboard .breakdown-item { margin-bottom: 16px; }
+.ave-dashboard .breakdown-item:last-child { margin-bottom: 0; }
 .ave-dashboard .breakdown-info {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 6px;
 }
-.ave-dashboard .breakdown-label { font-weight: 600; color: #333; }
+.ave-dashboard .breakdown-label { font-weight: 600; color: #334155; font-size: 0.92rem; }
 .ave-dashboard .breakdown-stats {
   display: flex;
   justify-content: space-between;
   font-size: 0.85rem;
-  color: #718096;
+  color: #94a3b8;
   margin-bottom: 4px;
 }
 .ave-dashboard .breakdown-bar {
-  height: 8px;
-  background: #edf2f7;
+  height: 7px;
+  background: #eef1f5;
   border-radius: 4px;
   overflow: hidden;
 }
@@ -176,44 +195,39 @@
 
 /* Notifications */
 .ave-dashboard .notification-badge {
-  background: #f44336;
+  background: #a91c1c;
   color: #fff;
-  font-weight: bold;
+  font-weight: 700;
   border-radius: 50%;
-  width: 25px;
-  height: 25px;
+  width: 22px;
+  height: 22px;
   text-align: center;
-  line-height: 25px;
-  font-size: 0.85rem;
+  line-height: 22px;
+  font-size: 0.78rem;
 }
 .ave-dashboard .notification-item {
   display: flex;
-  gap: 15px;
+  gap: 14px;
   padding: 14px 0;
-  border-bottom: 1px solid #eee;
-  border-left: 3px solid transparent;
-  padding-left: 12px;
+  border-bottom: 1px solid #eef1f5;
 }
 .ave-dashboard .notification-item:last-child { border-bottom: none; }
 .ave-dashboard .notification-icon {
-  width: 35px;
-  height: 35px;
-  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
   flex-shrink: 0;
+  font-size: 0.85rem;
 }
-.ave-dashboard .notification-item.high { border-left-color: #e53935; }
-.ave-dashboard .notification-item.high .notification-icon { background: #e53935; }
-.ave-dashboard .notification-item.medium { border-left-color: #fbc02d; }
-.ave-dashboard .notification-item.medium .notification-icon { background: #fbc02d; }
-.ave-dashboard .notification-item.low { border-left-color: #1e88e5; }
-.ave-dashboard .notification-item.low .notification-icon { background: #1e88e5; }
-.ave-dashboard .notification-content h4 { margin: 0 0 4px; font-size: 1rem; }
-.ave-dashboard .notification-content p { margin: 0 0 4px; font-size: 0.85rem; color: #555; }
-.ave-dashboard .notification-time { font-size: 0.75rem; color: #888; }
+.ave-dashboard .notification-item.high .notification-icon { background: #fdf1f1; color: #a91c1c; }
+.ave-dashboard .notification-item.medium .notification-icon { background: #fffaf0; color: #d97706; }
+.ave-dashboard .notification-item.low .notification-icon { background: #eff6ff; color: #3b82f6; }
+.ave-dashboard .notification-content h4 { margin: 0 0 4px; font-size: 0.95rem; color: #1e293b; font-weight: 700; }
+.ave-dashboard .notification-content p { margin: 0 0 4px; font-size: 0.85rem; color: #64748b; }
+.ave-dashboard .notification-time { font-size: 0.75rem; color: #94a3b8; }
 
 /* Post-type modal */
 .ave-dashboard .post-modal-overlay {
@@ -232,28 +246,39 @@
   width: 90%;
   max-width: 520px;
 }
+.ave-dashboard .post-modal h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #1e293b;
+}
 .ave-dashboard .post-type-options {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  gap: 12px;
   margin: 20px 0;
 }
 .ave-dashboard .post-type-card {
-  border: 1px solid #e5e7eb;
+  border: 1px solid #d6dae1;
   border-radius: 10px;
-  padding: 22px 10px;
+  padding: 20px 10px;
   text-align: center;
-  color: #333;
+  color: #334155;
   text-decoration: none;
   cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.ave-dashboard .post-type-card:hover { border-color: #a91c1c; background: #fff4f4; }
-.ave-dashboard .post-type-card i { font-size: 26px; color: #a91c1c; display: block; margin-bottom: 8px; }
+.ave-dashboard .post-type-card:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06); }
+.ave-dashboard .post-type-card i { font-size: 1.4rem; color: #a91c1c; display: block; margin-bottom: 8px; }
 .ave-dashboard .modal-close-btn {
   background: #a91c1c;
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 10px 18px;
+  padding: 10px 20px;
   cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
 }
+.ave-dashboard .modal-close-btn:hover { background: #8f1717; }

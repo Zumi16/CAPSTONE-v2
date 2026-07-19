@@ -60,6 +60,7 @@ import { ReviewMonitoringPage } from "./pages/admin/llave/ReviewMonitoringPage";
 import { ReportsLogsPage } from "./pages/admin/llave/ReportsLogsPage";
 import { CmoDashboardPage } from "./pages/admin/cmo/CmoDashboardPage";
 import { NewsManagementPage } from "./pages/admin/cmo/NewsManagementPage";
+import { LiveChatPage } from "./pages/admin/ly/LiveChatPage";
 import { DashboardPage as AreaHeadDashboardPage } from "./pages/admin/accreditation/areaHead/DashboardPage";
 import { ActivityLogPage as AreaHeadActivityLogPage } from "./pages/admin/accreditation/areaHead/ActivityLogPage";
 import { ReportsPage as AreaHeadReportsPage } from "./pages/admin/accreditation/areaHead/ReportsPage";
@@ -180,6 +181,10 @@ export function App() {
       <Route path={PATHS.admin.cmo.dashboard} element={<PortalRoute portal="cmo" />}>
         <Route index element={<CmoDashboardPage />} />
         <Route path="news" element={<NewsManagementPage />} />
+      </Route>
+      {/* adminLy portal (Live Chat Support): handles "Chat with an Agent". */}
+      <Route path={PATHS.admin.ly.dashboard} element={<PortalRoute portal="ly" />}>
+        <Route index element={<LiveChatPage />} />
       </Route>
       {/* Accreditation Area Head portal. */}
       <Route path={ACCREDITATION.areaHead.dashboard} element={<PortalRoute portal="areaHead" />}>
