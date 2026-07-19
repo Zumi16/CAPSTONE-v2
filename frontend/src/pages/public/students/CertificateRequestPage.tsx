@@ -83,6 +83,9 @@ type RequestRecord = {
   certificate_type: string;
   status: string;
   reason: string;
+  certificate_file_path?: string | null;
+  control_number?: string;
+  certificate_purpose?: string;
   admin_remarks?: string | null;
 };
 
@@ -492,15 +495,42 @@ export function CertificateRequestPage() {
 
                   {(result.request.status === 'generated' || result.request.status === 'released') &&
                     result.request.certificate_file_path && (
-                    <div style={{ marginTop: 20 }}>
+                    <div style={{ marginTop: 25, padding: '20px', backgroundColor: '#e8f5e9', borderRadius: '8px', border: '2px solid #4caf50' }}>
+                      <p style={{ marginBottom: '15px', color: '#2e7d32', fontSize: '14px', fontWeight: '500' }}>
+                        <i className="fa-solid fa-circle-check" style={{ marginRight: '8px' }} />
+                        Your certificate is ready! Download it below.
+                      </p>
                       <a
                         href={result.request.certificate_file_path}
                         download
                         className="btn btn-primary"
-                        style={{ textDecoration: 'none', display: 'inline-block' }}
+                        style={{
+                          textDecoration: 'none',
+                          display: 'inline-block',
+                          backgroundColor: '#4caf50',
+                          color: 'white',
+                          padding: '12px 30px',
+                          borderRadius: '6px',
+                          fontSize: '16px',
+                          fontWeight: '600',
+                          transition: 'all 0.3s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = '#45a049';
+                          e.currentTarget.style.transform = 'scale(1.05)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = '#4caf50';
+                          e.currentTarget.style.transform = 'scale(1)';
+                        }}
                       >
-                        <i className="fa-solid fa-download" /> Download Certificate
+                        <i className="fa-solid fa-download" style={{ marginRight: '8px' }} /> Download Certificate
                       </a>
+                      {result.request.control_number && (
+                        <p style={{ marginTop: '15px', fontSize: '12px', color: '#666' }}>
+                          Control Number: <strong>{result.request.control_number}</strong>
+                        </p>
+                      )}
                     </div>
                   )}
                 </div>
